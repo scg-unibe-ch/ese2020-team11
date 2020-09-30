@@ -1,0 +1,29 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span>ESE-2020 Frontend Scaffolding</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-divider></mat-divider>
+
+<mat-tab-group animationDuration="800ms">
+  <mat-tab label="Todo List Example">
+    <mat-card>
+      <mat-form-field>
+        <input matInput placeholder="List Name" [(ngModel)]="newTodoListName" name="name">
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="onListCreate()" [disabled]="newTodoListName === ''">Create new list</button>
+    </mat-card>
+
+    <app-todo-list
+      *ngFor="let todoList of todoLists" [todoList]="todoList"
+      (update)="onListUpdate($event)"
+      (delete)="onListDelete($event)"
+    ></app-todo-list>
+  </mat-tab>
+
+
+  <mat-tab label="User Login Example">
+    <app-user-login></app-user-login>
+  </mat-tab>
+</mat-tab-group>
