@@ -16,3 +16,8 @@ button, input {
 .mat-form-field-wrapper {
   margin-right: 25px !important;
 }
+
+.material-icons {
+  display: inline-flex;
+  vertical-align: middle;
+}

@@ -1,0 +1,26 @@
+<mat-card>
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="E-mail" [(ngModel)]="eMail" name="eMail">
+      </mat-form-field><br/>
+
+      <mat-form-field>
+        <input matInput placeholder="User Name" [(ngModel)]="userName" name="userName">
+      </mat-form-field><br/>
+
+      <mat-form-field>
+        <input matInput placeholder="First Name" [(ngModel)]="firstName" name="firstName">
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="Last Name" [(ngModel)]="lastName" name="lastName">
+      </mat-form-field><br/>
+
+      <mat-form-field>
+        <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password">
+      </mat-form-field><br/>
+    
+      <button mat-flat-button color="primary" (click)="regist()">Registration</button>
+
+    </div> 
+  </mat-card>
