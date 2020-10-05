@@ -15,6 +15,12 @@ export class UserRegistrationComponent implements OnInit {
   lastName = '';
   password = '';
 
+	//optional registration fields
+	street = '';
+	number = '';
+	zip = '';
+	city = '';
+
   userToken: string;
   loggedIn = false;  
 
@@ -43,7 +49,13 @@ export class UserRegistrationComponent implements OnInit {
       fisrtName: this.firstName,
       lastName: this.lastName,
       userName: this.userName,
-      password: this.password
+      password: this.password,
+		//optional registration fields
+		street: this.street,
+		number: this.number,
+		zip: this.zip,
+		city: this.city
+		
     }).subscribe((res: any) => {
       // Set user data in local storage
       localStorage.setItem('userToken', res.token);

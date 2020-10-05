@@ -39,9 +39,9 @@
                 Must contain at least 1 in Capital Case!
               </label>
               <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasSmallCase')  ? 'text-danger' : 'text-success'">
-                <i class="material-icons">{{ frmSignup.controls['password'].hasError('required') ||
+                <!--<i class="material-icons">{{ frmSignup.controls['password'].hasError('required') ||
                   frmSignup.controls['password'].hasError('hasSmallCase') ? 'cancel' :
-                  'check_circle' }}</i>
+                  'check_circle' }}</i>-->
                 Must contain at least 1 Letter in Small Case!
               </label>
               <label class="col" [ngClass]="frmSignup.controls['password'].hasError('required') || frmSignup.controls['password'].hasError('hasSpecialCharacters') ? 'text-danger' : 'text-success'">
