@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\backend",
+    "\\backend\\src",
+    "\\backend\\src\\controllers",
+    "\\backend\\src\\middlewares",
+    "\\backend\\src\\models",
+    "\\backend\\src\\services",
+    "\\frontend\\src",
+    "\\frontend\\src\\app",
+    "\\frontend\\src\\app\\user-registration"
+  ],
+  "SelectedNode": "\\backend\\tsconfig.json",
+  "PreviewInSolutionExplorer": false
+}

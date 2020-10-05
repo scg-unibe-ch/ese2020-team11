@@ -3,16 +3,36 @@ import { Optional, Model, Sequelize, DataTypes } from 'sequelize';
 
 export interface UserAttributes {
     userId: number;
+    userMail: string;
     userName: string;
     password: string;
+    userFirstName: string;
+    userLastName: string;
+    userGender: string;
+    userTelephone: string;
+    userStreet: string;
+    userStreetNumber: string;
+    userPinCode: number;
+    userCity: string;
+    userCountry: string;
 }
 
 export interface UserCreationAttributes extends Optional<UserAttributes, 'userId'> { }
 
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
     userId!: number;
+    userMail!: string;
     userName!: string;
     password!: string;
+    userFirstName!: string;
+    userLastName!: string;
+    userGender!: string;
+    userTelephone!: string;
+    userStreet!: string;
+    userStreetNumber!: string;
+    userPinCode!: number;
+    userCity!: string;
+    userCountry!: string;
 
     public static initialize(sequelize: Sequelize) {
         User.init({
@@ -21,6 +41,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
                 autoIncrement: true,
                 primaryKey: true
             },
+            userMail: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
             userName: {
                 type: DataTypes.STRING,
                 allowNull: false
@@ -28,12 +52,43 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
             password: {
                 type: DataTypes.STRING,
                 allowNull: false
-            }
+            },
+            userFirstName: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            userLastName: {
+                type: DataTypes.STRING,
+                allowNull: false
+            },
+            userGender: {
+                type: DataTypes.STRING
+            },
+            userTelephone: {
+                type: DataTypes.STRING
+            },
+            userStreet: {
+                type: DataTypes.STRING
+            },
+            userStreetNumber: {
+                type: DataTypes.STRING
+            },
+            userPinCode: {
+                type: DataTypes.INTEGER
+            },
+            userCity: {
+                type: DataTypes.STRING
+            },
+            userCountry: {
+                type: DataTypes.STRING
+            },
         },
             {
                 sequelize,
                 tableName: 'users'
             }
         );
+        console.log(User === sequelize.models.User);
     }
+
 }

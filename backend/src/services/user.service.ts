@@ -32,4 +32,58 @@ export class UserService {
     public getAll(): Promise<User[]> {
         return User.findAll();
     }
+
+
+    public passwordRequiermentCheck(password: string): boolean {
+        if (password.length < 7) {
+            alert('Password shorter than 7 characters');
+            return false;
+        }
+
+        else if (isNaN(+password)) {
+            alert('Only numbers in password, please use letters and special characters as well');
+            return false;
+        }
+
+        else if (!this.hasNumber(password)) {
+            alert('No number in password');
+            return false;
+        }
+
+        else if (!this.hasSpecialChar(password)) {
+            alert('No special characters in password');
+            return false
+        }
+
+        else if (password == password.toLowerCase()) {
+            alert('Only small letters in password');
+            return false;
+        }
+
+        else if (password == password.toUpperCase()) {
+            alert('Only capital letters in password');
+            return false;
+        }
+
+        else {
+            return true;
+        }
+
+    }
+
+    //check if the string contains a number
+    private hasNumber(myString: string) {
+        return /\d/.test(myString);
+    }
+
+    //checks if the string as a special char
+    private hasSpecialChar(myString: string) {
+        var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+
+        if (format.test(myString)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
