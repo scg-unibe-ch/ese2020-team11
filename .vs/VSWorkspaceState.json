@@ -3,14 +3,14 @@
     "",
     "\\backend",
     "\\backend\\src",
-    "\\backend\\src\\controllers",
-    "\\backend\\src\\middlewares",
     "\\backend\\src\\models",
     "\\backend\\src\\services",
+    "\\frontend",
     "\\frontend\\src",
     "\\frontend\\src\\app",
+    "\\frontend\\src\\app\\user-login",
     "\\frontend\\src\\app\\user-registration"
   ],
-  "SelectedNode": "\\backend\\tsconfig.json",
+  "SelectedNode": "\\backend\\src\\services\\user.service.ts",
   "PreviewInSolutionExplorer": false
 }

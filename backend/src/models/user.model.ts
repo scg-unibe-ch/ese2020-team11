@@ -26,13 +26,13 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     password!: string;
     userFirstName!: string;
     userLastName!: string;
-    userGender!: string;
-    userTelephone!: string;
-    userStreet!: string;
-    userStreetNumber!: string;
-    userPinCode!: number;
-    userCity!: string;
-    userCountry!: string;
+    userGender: string;
+    userTelephone: string;
+    userStreet: string;
+    userStreetNumber: string;
+    userPinCode: number;
+    userCity: string;
+    userCountry: string;
 
     public static initialize(sequelize: Sequelize) {
         User.init({
@@ -88,7 +88,6 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
                 tableName: 'users'
             }
         );
-        console.log(User === sequelize.models.User);
     }
 
 }
