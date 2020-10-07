@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class UserRegistrationComponent implements OnInit {
 
-  eMail = '';  
+  eMail = '';
   userName = '';
   firstName = '';
   lastName = '';
@@ -18,13 +18,13 @@ export class UserRegistrationComponent implements OnInit {
 	//optional registration fields
 	street = '';
 	number = '';
-	zip = '';
+	zip = 0;
 	city = '';
 
   userToken: string;
-  loggedIn = false;  
+  loggedIn = false;
 
-  
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -44,24 +44,27 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   regist(): void {
-    this.httpClient.post(environment.endpointURL + 'user/registre', {
-      eMail: this.eMail,
-      fisrtName: this.firstName,
-      lastName: this.lastName,
-      userName: this.userName,
-      password: this.password,
-		//optional registration fields
-		street: this.street,
-		number: this.number,
-		zip: this.zip,
-		city: this.city
-		
+    this.httpClient.post(environment.endpointURL + 'user/register', {
+      //user: {
+        userMail: this.eMail,
+        userFirstName: this.firstName,
+        userLastName: this.lastName,
+        userName: this.userName,
+        password: this.password,
+        //optional registration fields
+        userStreet: this.street,
+        userStreetNumber: this.number,
+        userPinCode: this.zip,
+        userCity: this.city,
+        userGender: "string",
+        userTelephone: "string",
+        userCountry: "string",
+      //}
     }).subscribe((res: any) => {
       // Set user data in local storage
       localStorage.setItem('userToken', res.token);
-      localStorage.setItem('eMail', res.user.eMail);
+      localStorage.setItem('eMail', res.user.userMail);
       localStorage.setItem('userName', res.user.userName);
-
       this.checkUserStatus();
     });
   }
