@@ -17,7 +17,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
-import { SignupFormComponent } from './signup-form/signup-form.component';
 
 
 @NgModule({
@@ -27,7 +26,6 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
     TodoItemComponent,
     UserLoginComponent,
     UserRegistrationComponent,
-    SignupFormComponent
   ],
   imports: [
     BrowserModule,
