@@ -60,21 +60,8 @@ export class UserRegistrationComponent implements OnInit {
         userTelephone: "string",
         userCountry: "string",
       //}
-    }).subscribe((res: any) => {
-      // Set user data in local storage
-      localStorage.setItem('userToken', res.token);
-      localStorage.setItem('eMail', res.user.userMail);
-      localStorage.setItem('userName', res.user.userName);
-      this.checkUserStatus();
+    }) .subscribe((res: any) => { 
+      window.alert('You are now registered. Please go to the login section to log in');
     });
-  }
-
-  logout(): void {
-    // Remove user data from local storage
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('eMail');
-    localStorage.removeItem('userName');
-
-    this.checkUserStatus();
   }
 }

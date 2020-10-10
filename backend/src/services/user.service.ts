@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import { checkRegistration } from '../middlewares/checkRegistration';
 import { registerVerification } from '../middlewares/checkLogin';
 import { verifyToken } from '../middlewares/checkAuth';
+import {Op} from 'sequelize';
 
 export class UserService {
 
