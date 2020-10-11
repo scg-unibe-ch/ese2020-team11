@@ -33,5 +33,9 @@
   <mat-tab label="User Registration">
     <app-user-registration></app-user-registration>
   </mat-tab>
-  
+
+  <mat-tab *ngIf="isAdmin" label="Admin Approval">
+    <app-admin-approval></app-admin-approval>
+  </mat-tab>
+
 </mat-tab-group>

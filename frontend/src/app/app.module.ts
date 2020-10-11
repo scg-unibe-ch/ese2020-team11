@@ -18,6 +18,7 @@ import { AuthInterceptor } from './auth/auth.interceptor';
 import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
+import { AdminApprovalComponent } from './admin-approval/admin-approval.component';
 
 
 
@@ -29,6 +30,7 @@ import { MarketPlaceComponent } from './market-place/market-place.component';
     UserLoginComponent,
     UserRegistrationComponent,
     MarketPlaceComponent,
+    AdminApprovalComponent,
   ],
   imports: [
     BrowserModule,

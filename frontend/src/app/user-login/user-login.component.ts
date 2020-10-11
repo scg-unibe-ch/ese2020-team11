@@ -36,10 +36,13 @@ export class UserLoginComponent implements OnInit {
     this.httpClient.post(environment.endpointURL + 'user/login', {
       userName: this.userName,
       password: this.password
+      //userRole: this.userRole
     }).subscribe((res: any) => {
+     
       // Set user data in local storage
       localStorage.setItem('userToken', res.token);
       localStorage.setItem('userName', res.user.userName);
+      //localStorage.setItme('userRole', res.user.userRole);
 
       this.checkUserStatus();
     });
@@ -49,7 +52,8 @@ export class UserLoginComponent implements OnInit {
     // Remove user data from local storage
     localStorage.removeItem('userToken');
     localStorage.removeItem('userName');
-
+    //localStorage.reomveItem('userRole');
+    
     this.checkUserStatus();
   }
 
