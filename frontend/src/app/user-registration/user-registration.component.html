@@ -1,51 +1,60 @@
 <mat-card>
-    <div>
-      <mat-form-field>
-        <input matInput placeholder="E-mail" [(ngModel)]="eMail" name="eMail" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
-      </mat-form-field><br/>
+  <div>
+    <mat-form-field>
+      <input matInput placeholder="E-mail" [(ngModel)]="eMail" name="eMail" pattern="[a-zA-Z0-9.-_]{1,}@[a-zA-Z.-]{2,}[.]{1}[a-zA-Z]{2,}" required>
+    </mat-form-field><br />
 
-      <mat-form-field>
-        <input matInput placeholder="User Name" [(ngModel)]="userName" name="userName"  required>
-      </mat-form-field><br/>
+    <mat-form-field>
+      <input matInput placeholder="User Name" [(ngModel)]="userName" name="userName" required>
+    </mat-form-field><br />
 
-      <mat-form-field>
-        <input matInput placeholder="First Name" [(ngModel)]="firstName" name="firstName" pattern="[a-zA-Z]{1,}" required>
-      </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="First Name" [(ngModel)]="firstName" name="firstName" pattern="[a-zA-Z]{1,}" required>
+    </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Last Name" [(ngModel)]="lastName" name="lastName" pattern="[a-zA-Z]{1,}" required>
-      </mat-form-field><br/>
+    <mat-form-field>
+      <input matInput placeholder="Last Name" [(ngModel)]="lastName" name="lastName" pattern="[a-zA-Z]{1,}" required>
+    </mat-form-field><br />
 
-	
-		<!--optional registration fields-->
-		<mat-form-field>
-      	<input matInput placeholder="Street" [(ngModel)]="street" name="street">
-      	</mat-form-field>
 
-		<mat-form-field>
-      	<input matInput placeholder="Number" [(ngModel)]="number" name="number">
-      	</mat-form-field><br/>
+    <!--optional registration fields-->
+     <!--Gender and phone number-->
+  <mat-form-field>
+    <input matInput placeholder="Gender" [(ngModel)]="gender" name="gender">
+  </mat-form-field>
 
-		<mat-form-field>
-      	<input matInput placeholder="Zip-code" [(ngModel)]="zip" name="zip">
-      	</mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Telephone" [(ngModel)]="telephone" name="telephone">
+  </mat-form-field><br/>
+    <!-- end gender and phone-->
+    <mat-form-field>
+      <input matInput placeholder="Street" [(ngModel)]="street" name="street">
+    </mat-form-field>
 
-		<mat-form-field>
-      	<input matInput placeholder="City" [(ngModel)]="city" name="city">
-      	</mat-form-field><br/>
+    <mat-form-field>
+      <input matInput placeholder="Number" [(ngModel)]="number" name="number">
+    </mat-form-field><br />
 
-		
-	
+    <mat-form-field>
+      <input matInput placeholder="Zip-code" [(ngModel)]="zip" name="zip">
+    </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password" 
-			pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./=?:;@\^_`{|}~]).{7,}" required>
-		<mat-hint align="end">Combination of capital and small letters, numbers, and special characters, at least 7 characters</mat-hint>
-      </mat-form-field><br/>
-    
-			<br/><br/>
-			
-      <button mat-flat-button color="primary" (click)="regist()">Registration</button>
+    <mat-form-field>
+      <input matInput placeholder="City" [(ngModel)]="city" name="city">
+    </mat-form-field><br />
 
-    </div> 
+
+
+
+    <mat-form-field>
+      <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password"
+             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./=?:;@\^_`{|}~]).{7,}" required>
+      <mat-hint align="end">Combination of capital and small letters, numbers, and special characters, at least 7 characters</mat-hint>
+    </mat-form-field><br />
+
+    <br /><br />
+
+    <button mat-flat-button color="primary" (click)="regist()">Registration</button>
+
+  </div> 
   </mat-card>

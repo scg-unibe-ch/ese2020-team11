@@ -16,6 +16,10 @@ export class UserRegistrationComponent implements OnInit {
   password = '';
 
 	//optional registration fields
+  // and phone number of user
+  gender = '';
+  telephone = '';
+   
 	street = '';
 	number = '';
 	zip = 0;
@@ -52,12 +56,13 @@ export class UserRegistrationComponent implements OnInit {
         userName: this.userName,
         password: this.password,
         //optional registration fields
+        userGender: this.gender,
+        userTelephone: this.telephone,
         userStreet: this.street,
         userStreetNumber: this.number,
         userPinCode: this.zip,
         userCity: this.city,
-        userGender: "string",
-        userTelephone: "string",
+       
         userCountry: "string",
       //}
     }) .subscribe((res: any) => { 

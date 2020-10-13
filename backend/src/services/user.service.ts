@@ -84,18 +84,18 @@ export class UserService {
 }
 
 
-export function buy() {
+export function noBuyWLogin() {
     if (verifyToken) {
 
     } else {
-        return Promise.reject({ message: 'must be loged in to buy goods' });
+        return Promise.reject({ message: 'must be logged in to buy goods' });
     }
 }
 
-export function sell() {
+export function noSellWLogin() {
     if (verifyToken) {
 
     } else {
-        return Promise.reject({ message: 'must be loged in to sell goods' });
+        return Promise.reject({ message: 'must be logged in to sell goods' });
     }
 }
