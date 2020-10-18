@@ -18,6 +18,12 @@ userController.post('/login',
     }
 );
 
+userController.get('/username::userName', verifyToken,
+  (req: Request, res: Response) => {
+    userService.getUserByName(req.params.userName).then(user => res.send(user)).catch(err => res.status(500).send(err));
+  }
+);
+
 userController.get('/', verifyToken, // you can add middleware on specific requests like that
     (req: Request, res: Response) => {
         userService.getAll().then(users => res.send(users)).catch(err => res.status(500).send(err));

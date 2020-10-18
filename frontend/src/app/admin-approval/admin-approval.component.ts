@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
-// Should only be visible if logged in and admin 
+import { UserDataService } from '../user-data.service';
+import { UserModel } from '../models/user.model';
+import { Observable } from 'rxjs';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-admin-approval',
@@ -9,11 +11,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminApprovalComponent implements OnInit {
 
-  isAdmin = false;
+  information: Observable<UserModel>;
+  isAdmin = true;
+  clearInfo = '';
   
-  constructor() { }
+  constructor(private userDataService: UserDataService) { }
 
+  // To Do: Should show the list of Product/Services like in Marketplace, but only those with 
+  // a not approved flag, so the admin aproves it and sets the flag to aproved
   ngOnInit(): void {
+    this.information = this.userDataService.userObservable;
+    this.clearInfo = JSON.stringify(this.information);   //Outpur not correctly? Shows "scalar: falese, ..."
+
   }
 
 }

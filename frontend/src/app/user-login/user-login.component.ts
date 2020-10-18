@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+
 @Component({
   selector: 'app-user-login',
   templateUrl: './user-login.component.html',
@@ -11,7 +12,7 @@ export class UserLoginComponent implements OnInit {
 
   userName = '';
   password = '';
-
+  
   userToken: string;
   loggedIn = false;
 
@@ -35,15 +36,12 @@ export class UserLoginComponent implements OnInit {
   login(): void {
     this.httpClient.post(environment.endpointURL + 'user/login', {
       userName: this.userName,
-      password: this.password
-      //userRole: this.userRole
+      password: this.password, 
     }).subscribe((res: any) => {
      
       // Set user data in local storage
       localStorage.setItem('userToken', res.token);
       localStorage.setItem('userName', res.user.userName);
-      //localStorage.setItme('userRole', res.user.userRole);
-
       this.checkUserStatus();
     });
   }

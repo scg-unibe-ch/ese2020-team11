@@ -40,6 +40,13 @@ export class UserService {
         return User.findAll();
     }
 
+    public getUserByName(username: string): Promise<User> {
+        return User.findOne({
+          where: {
+            userName: username
+          }
+        });
+      }
 
     public passwordRequiermentCheck(password: string): boolean {
         if (password.length < 7) {

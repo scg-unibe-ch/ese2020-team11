@@ -48,8 +48,13 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   regist(): void {
+    if((this.userName === '') || (this.password === '') || (this.eMail === '')) {
+      window.alert('Please fill in all the required Information');
+    }
+    else {
     this.httpClient.post(environment.endpointURL + 'user/register', {
       //user: {
+        //maybe an if statment, if pw empty dont do anything and show a window allert
         userMail: this.eMail,
         userFirstName: this.firstName,
         userLastName: this.lastName,
@@ -69,4 +74,5 @@ export class UserRegistrationComponent implements OnInit {
       window.alert('You are now registered. Please go to the login section to log in');
     });
   }
+}
 }
