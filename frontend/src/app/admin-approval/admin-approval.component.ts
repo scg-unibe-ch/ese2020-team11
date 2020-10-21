@@ -12,6 +12,7 @@ import { ResourceLoader } from '@angular/compiler';
 export class AdminApprovalComponent implements OnInit {
 
   //information: Observable<UserModel>;
+  // Maybe error in observable
   information: any;
   isAdmin = true;
  
