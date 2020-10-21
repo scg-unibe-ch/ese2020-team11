@@ -18,7 +18,7 @@ userController.post('/login',
     }
 );
 
-userController.get('/username::userName', verifyToken,
+userController.get('/username/:userName',
   (req: Request, res: Response) => {
     userService.getUserByName(req.params.userName).then(user => res.send(user)).catch(err => res.status(500).send(err));
   }

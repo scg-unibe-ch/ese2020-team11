@@ -11,9 +11,10 @@ import { ResourceLoader } from '@angular/compiler';
 })
 export class AdminApprovalComponent implements OnInit {
 
-  information: Observable<UserModel>;
+  //information: Observable<UserModel>;
+  information: any;
   isAdmin = true;
-  clearInfo = '';
+ 
   
   constructor(private userDataService: UserDataService) { }
 
@@ -21,8 +22,6 @@ export class AdminApprovalComponent implements OnInit {
   // a not approved flag, so the admin aproves it and sets the flag to aproved
   ngOnInit(): void {
     this.information = this.userDataService.userObservable;
-    this.clearInfo = JSON.stringify(this.information);   //Outpur not correctly? Shows "scalar: falese, ..."
-
   }
 
 }

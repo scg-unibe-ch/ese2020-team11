@@ -10,7 +10,7 @@ import { share } from 'rxjs/operators';
 
 export class UserDataService {
   
-  public userObservable: Observable<UserModel>;
+  public userObservable: any;
 
   constructor(private httpClient: HttpClient) {this.getUserFromLocalStorage()}
 

@@ -38,12 +38,15 @@ export class UserLoginComponent implements OnInit {
       userName: this.userName,
       password: this.password, 
     }).subscribe((res: any) => {
-     
       // Set user data in local storage
       localStorage.setItem('userToken', res.token);
       localStorage.setItem('userName', res.user.userName);
       this.checkUserStatus();
-    });
+    },
+      err => {
+          window.alert('Wrong username or password'); 
+      }
+    );
   }
 
   logout(): void {
