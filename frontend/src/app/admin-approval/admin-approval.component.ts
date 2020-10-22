@@ -21,7 +21,7 @@ export class AdminApprovalComponent implements OnInit {
   // To Do: Should show the list of Product/Services like in Marketplace, but only those with 
   // a not approved flag, so the admin aproves it and sets the flag to aproved
   ngOnInit(): void {
-    this.information = this.userDataService.userObservable;
+    this.information = JSON.stringify(this.userDataService.userObservable);
   }
 
 }
