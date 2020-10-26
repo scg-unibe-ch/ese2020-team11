@@ -1,6 +1,16 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\backend",
+    "\\deliverables\\UI-Mockups",
+    "\\frontend",
+    "\\frontend\\src",
+    "\\frontend\\src\\app",
+    "\\frontend\\src\\app\\market-place",
+    "\\frontend\\src\\app\\models",
+    "\\frontend\\src\\app\\user-registration",
+    "\\frontend\\src\\assets"
   ],
+  "SelectedNode": "\\frontend\\src\\app\\user-registration\\user-registration.component.html",
   "PreviewInSolutionExplorer": false
 }

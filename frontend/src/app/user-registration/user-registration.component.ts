@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ReactiveFormsModule, FormsModule, } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-registration',
@@ -18,8 +20,10 @@ export class UserRegistrationComponent implements OnInit {
 	//optional registration fields
   // and phone number of user
   gender = '';
+  /*favoriteGender: string;
+  genders: string[] = ['male', 'female', '*'];
+ */
   telephone = '';
-   
 	street = '';
 	number = '';
 	zip = 0;
