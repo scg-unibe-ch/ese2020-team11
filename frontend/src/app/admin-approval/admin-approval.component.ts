@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserDataService } from '../user-data.service';
-import { UserModel } from '../models/user.model';
-import { Observable } from 'rxjs';
-import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-admin-approval',
@@ -11,9 +8,10 @@ import { ResourceLoader } from '@angular/compiler';
 })
 export class AdminApprovalComponent implements OnInit {
 
-  //information: Observable<UserModel>;
-  information: any;
-  isAdmin = true;
+  //information= '';
+
+  //Set isAdmin to the value which is obtained from this.userDataService.userInformation.isAdmin
+  isAdmin = false;
  
   
   constructor(private userDataService: UserDataService) { }
@@ -21,7 +19,12 @@ export class AdminApprovalComponent implements OnInit {
   // To Do: Should show the list of Product/Services like in Marketplace, but only those with 
   // a not approved flag, so the admin aproves it and sets the flag to aproved
   ngOnInit(): void {
-    this.information = JSON.stringify(this.userDataService.userObservable);
+    this.callUserStatus();
   }
 
+  //Only works if reloading the page after log in or log out.
+  callUserStatus(): void {
+    //this.information = JSON.stringify(this.userInformation.isAdmin);
+    this.isAdmin = this.userDataService.userInformation.isAdmin;
+  }
 }
