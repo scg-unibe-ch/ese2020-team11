@@ -40,7 +40,6 @@ export class UserRegistrationComponent implements OnInit {
     this.checkUserStatus();
   }
 
-  // Needs to change
   checkUserStatus(): void {
     // Get user data from local storage
     this.userToken = localStorage.getItem('userToken');
@@ -55,10 +54,15 @@ export class UserRegistrationComponent implements OnInit {
     if((this.userName === '') || (this.password === '') || (this.eMail === '')) {
       window.alert('Please fill in all the required Information');
     }
+
+    //Not working   (What happens if the userName does not exist -> checkUserName is empty)
+    // else if((JSON.stringify(this.checkUserName) === '') || (JSON.stringify(this.checkUserName.userName) === this.userName)){
+    //   window.alert('Username already taken');
+    //}
+
+
     else {
     this.httpClient.post(environment.endpointURL + 'user/register', {
-      //user: {
-        //maybe an if statment, if pw empty dont do anything and show a window allert
         userMail: this.eMail,
         userFirstName: this.firstName,
         userLastName: this.lastName,
@@ -71,9 +75,7 @@ export class UserRegistrationComponent implements OnInit {
         userStreetNumber: this.number,
         userPinCode: this.zip,
         userCity: this.city,
-       
         userCountry: "string",
-      //}
     }) .subscribe((res: any) => { 
       window.alert('You are now registered. Please go to the login section to log in');
     });

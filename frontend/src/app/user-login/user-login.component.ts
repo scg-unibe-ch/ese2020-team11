@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { UserDataService } from '../user-data.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class UserLoginComponent implements OnInit {
 
   secureEndpointResponse = '';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService) { }
 
   ngOnInit(): void {
     this.checkUserStatus();
@@ -56,6 +57,9 @@ export class UserLoginComponent implements OnInit {
     //localStorage.reomveItem('userRole');
     
     this.checkUserStatus();
+
+    // When logout, also clear user-data.sevice.ts
+    this.userDataService.userInformation = null; //Not sure about null.
   }
 
   /**

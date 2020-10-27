@@ -1,28 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
-import { Observable } from 'rxjs';
 import { UserModel } from './models/user.model';
-import { share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'})
 
 export class UserDataService {
   
-  public userObservable: any;
+  public userInformation: UserModel;
 
   constructor(private httpClient: HttpClient) {this.getUserFromLocalStorage()}
 
-  // Not sure if this works/does the correct thing, since I get some strange result like: isScalar
-  getUserByName(userName: string): Observable<UserModel> {
-    return this.httpClient.get<UserModel>(environment.endpointURL + 'user/username' + userName).pipe(share())
+  getUserByName(userName: string): void {
+    this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + userName).subscribe((userData: any) => {
+      // The 'userData' variable contains alll the data returned from the backend in JSON format
+      console.log(userData);
+
+      // Save the 'userData' in a Variable
+      this.userInformation = userData; 
+    }
+    )
   }
   
   private getUserFromLocalStorage(): void {
     let userName = localStorage.getItem('userName');
     if (userName) {
-      this.userObservable = this.getUserByName(userName);
+      this.getUserByName(userName);
     }
   }
 }

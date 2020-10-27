@@ -12,22 +12,6 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit {
   title = 'frontend';
 
-  //--------------------------------------------------------------------------------------------------
-  // Admin role, should somehow be changed if a user is an admin
-  isAdmin = false;
-  //isAdmin = true;
-  //Maybe a checkUserStatus, which reads the localStorage, where it is stored if a user is an admin?
-
- // ngOnInit(): void {
- //   this.checkUserStatus();
- // }
-
- // checkUserStatus(): void {
-    // Get user data from local storage
-  //  this.isAdmin = localStorage.getItem('userRole');
-  //}
-//---------------------------------------------------------------------------------------------------
-
   newTodoListName = '';
   todoLists: TodoList[] = [];
 
