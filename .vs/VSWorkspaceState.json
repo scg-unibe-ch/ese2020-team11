@@ -2,15 +2,13 @@
   "ExpandedNodes": [
     "",
     "\\backend",
-    "\\deliverables\\UI-Mockups",
-    "\\frontend",
-    "\\frontend\\src",
-    "\\frontend\\src\\app",
-    "\\frontend\\src\\app\\market-place",
-    "\\frontend\\src\\app\\models",
-    "\\frontend\\src\\app\\user-registration",
-    "\\frontend\\src\\assets"
+    "\\backend\\src",
+    "\\backend\\src\\controllers",
+    "\\backend\\src\\middlewares",
+    "\\backend\\src\\models",
+    "\\deliverables",
+    "\\deliverables\\UI-Mockups"
   ],
-  "SelectedNode": "\\frontend\\src\\app\\user-registration\\user-registration.component.html",
+  "SelectedNode": "\\backend\\src\\models\\todolist.model.ts",
   "PreviewInSolutionExplorer": false
 }
