@@ -1,5 +1,5 @@
 import express, { Router, Request, Response } from 'express';
-import { login } from '../services/admin.service';
+import { adminLogin } from '../services/admin.service';
 import { verifyToken } from '../middlewares/checkAuth';
 import { Product } from '../models/product.model';
 import { Op } from 'sequelize';
@@ -9,7 +9,7 @@ const adminController: Router = express.Router();
 
 adminController.post('/login',
     (req: Request, res: Response) => {
-        login(req.body).then(login => res.send(login)).catch(err => res.status(500).send(err));
+        adminLogin(req.body).then(login => res.send(login)).catch(err => res.status(500).send(err));
     }
 );
 

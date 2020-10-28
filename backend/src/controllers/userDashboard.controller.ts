@@ -1,7 +1,6 @@
 import express from 'express';
 import { Router, Request, Response } from 'express';
 import { Product } from '../models/product.model';
-import { UserService } from '../services/user.service';
 import { verifyToken } from '../middlewares/checkAuth';
 
 const dashboardController: Router = express.Router();

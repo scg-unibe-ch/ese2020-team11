@@ -2,16 +2,12 @@ import { UserAttributes, User } from '../models/user.model';
 import { LoginResponse, LoginRequest } from '../models/login.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { checkRegistration } from '../middlewares/checkRegistration';
-import { registerVerification } from '../middlewares/checkLogin';
-import { verifyToken } from '../middlewares/checkAuth';
 import { Op } from 'sequelize';
 
 
 
-export function login(loginRequestee: LoginRequest): Promise < User | LoginResponse > {
+export function adminLogin(loginRequestee: LoginRequest): Promise < User | LoginResponse > {
     const secret = process.env.JWT_SECRET;
-    registerVerification(loginRequestee);
         return User.findOne({
             where: {
                 [Op.and]: [{ userName: loginRequestee.userName }, { isAdmin: 1 }]

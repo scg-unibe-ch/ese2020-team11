@@ -6,9 +6,10 @@
     "\\backend\\src\\controllers",
     "\\backend\\src\\middlewares",
     "\\backend\\src\\models",
+    "\\backend\\src\\services",
     "\\deliverables",
     "\\deliverables\\UI-Mockups"
   ],
-  "SelectedNode": "\\backend\\src\\models\\todolist.model.ts",
+  "SelectedNode": "\\backend\\src\\controllers\\userDashboard.controller.ts",
   "PreviewInSolutionExplorer": false
 }
