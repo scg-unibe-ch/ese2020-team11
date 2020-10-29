@@ -1,0 +1,34 @@
+<mat-card>
+  <!-- Input field with listing name -->
+  <mat-form-field>
+    <input matInput placeholder="Listing Name" name="name" [(ngModel)]="listings.name" (ngModelChange)="onListingUpdate()">
+  </mat-form-field>
+  <!-- Button to delete listings -->
+
+  <button mat-flat-button color="warn" (click)="onListingDelete()" [disabled]="listings.publications.length != 0">
+    Delete listing
+  </button>
+
+  <br>
+
+  <!-- Input field for new publication name -->
+  <mat-form-field>
+    <input matInput placeholder="Publication Name" [(ngModel)]="newPublicationName" name="name">
+  </mat-form-field>
+  <!-- Button to create publication -->
+  <button mat-flat-button color="primary" (click)="onPublicationCreate()" [disabled]="newPublicationName === ''">Create new publication</button>
+
+  <hr>
+
+  <!-- List of TodoPublicationComponents displaying all items of list -->
+  <mat-list>
+    <mat-list-publication *ngFor="let publication of listings.publications">
+      <app-todo-publication
+        [publication]="publication"
+        (update)="onPublicationUpdate($event)"
+        (delete)="onPublicationelete($event)"
+      ></app-todo-publication>
+    </mat-list-publication>
+  </mat-list>
+  <div *ngIf="listings.publications.length === 0">No publications available.</div>
+</mat-card>
