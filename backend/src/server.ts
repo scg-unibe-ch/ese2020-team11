@@ -8,6 +8,10 @@ import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
+import { Listings } from './models/listings.model';
+import { Publication } from './models/publication.model';
+import { PublicationController } from './controllers/publication.controller';
+import { ListingsController } from './controllers/listings.controller';
 
 import cors from 'cors';
 
@@ -24,6 +28,10 @@ export class Server {
         TodoList.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
+        Listings.initialize(this.sequelize);
+        Publication.initialize(this.sequelize);
+        Listings.createAssociations();
+        Publication.createAssociations();
         User.initialize(this.sequelize);
 
         this.sequelize.sync().then(() => {                           // create connection to the database
