@@ -2,26 +2,47 @@
 
     <mat-tab-group animationDuration="1ms" staticHeight>
       <mat-tab label="Products">
-        <mat-tab label="Listings Example">
+        <div *ngFor="let product of prod">
           <mat-card>
-            <mat-form-field>
-              <input matInput placeholder="Listing Name" [(ngModel)]="newListingsName" name="name">
-            </mat-form-field>
-            <button mat-flat-button color="primary" (click)="onListingCreate()" [disabled]="newListingsName === ''">Create new listing</button>
+            <h2>
+                {{ product.productType }}: {{ product.productTitle }}
+            </h2>
+            <h2>
+              Price: {{ product.productPrice | number: '1.2-2'}}CHF
+            </h2>
+        
+            <p *ngIf="product.productDescription">
+              Description: {{ product.productDescription }}
+            </p>
+            <p *ngIf="product.productLocation">
+              Location: {{ product.productLocation }}
+            </p>
           </mat-card>
-
-          <app-todo-list
-            *ngFor="let listing of listings" [listing]="listing"
-            (update)="onListingsUpdate($event)"
-            (delete)="onListingsDelete($event)"
-          ></app-todo-list>
-        </mat-tab>
+        </div>
+        <div *ngIf="prod.length === 0">No Products to be reviewed.</div>
       </mat-tab>
-
+  
       <mat-tab label="Services">
-
+        <div *ngFor="let product of prod">
+          <mat-card>
+            <h2>
+                {{ product.productType }}: {{ product.productTitle }}
+            </h2>
+            <h2>
+              Price: {{ product.productPrice | number: '1.2-2'}}CHF
+            </h2>
+        
+            <p *ngIf="product.productDescription">
+              Description: {{ product.productDescription }}
+            </p>
+            <p *ngIf="product.productLocation">
+              Location: {{ product.productLocation }}
+            </p>
+          </mat-card>
+        </div>
+        <div *ngIf="prod.length === 0">No Products to be reviewed.</div>
       </mat-tab>
-
+  
     </mat-tab-group>
-
+  
   </mat-card>

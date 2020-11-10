@@ -12,8 +12,6 @@ import { MatCardModule } from '@angular/material/card';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TodoListComponent } from './todo-list/todo-list.component';
 import { TodoItemComponent } from './todo-list/todo-item/todo-item.component';
-import { ListingsComponent } from './listings/listings.component';
-import { PublicationComponent } from './listings/publication/publication.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { AuthInterceptor } from './auth/auth.interceptor';
@@ -29,8 +27,6 @@ import { AdminApprovalComponent } from './admin-approval/admin-approval.componen
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
-    ListingsComponent,
-    PublicationComponent,
     UserLoginComponent,
     UserRegistrationComponent,
     MarketPlaceComponent,

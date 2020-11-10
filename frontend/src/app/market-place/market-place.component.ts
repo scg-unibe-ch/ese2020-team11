@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Listings } from '../models/listings.model';
-import { Publication } from '../models/publication.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { ProductModel } from '../models/product.model'
 
 @Component({
   selector: 'app-market-place',
@@ -10,43 +9,31 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./market-place.component.css']
 })
 export class MarketPlaceComponent implements OnInit {
-  newListingsName = '';
-  listings: Listings[] = [];
-  constructor(private httpClient: HttpClient) {}
+
+  productsData: ProductModel[] = [];
+  servicesData: ProductModel[] = [];  
+
+  public prod: ProductModel[] = [
+    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "AUT", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false},
+     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "USA", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false} 
+    ];
+    
+  constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
-    // TodoListing - READ
-    this.httpClient.get(environment.endpointURL + 'listings').subscribe((instances: any) => {
-      this.listings = instances.map((instance: any) => {
-        const publications = instance.publications.map((item: any) => new Publication(item.publicationId, item.listingsId, item.name, item.done));
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'market/Product/').subscribe((productData: any) => {
+      console.log(productData);
+      this.productsData = productData;
+    });
 
-        return new Listings(instance.listingId, instance.name, publications);
-      });
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'market/Services/').subscribe((serviceData: any) => {
+      console.log(serviceData);
+      this.servicesData = serviceData;
     });
   }
 
-  // TodoListing - CREATE
-  onListingCreate(): void {
-    this.httpClient.post(environment.endpointURL + 'listings', {
-      name: this.newListingsName
-    }).subscribe((instance: any) => {
-      this.listings.push(new Listings(instance.listingsId, instance.name, []));
-      this.newListingsName = '';
-    });
-  }
-
-  // TodoListing - UPDATE
-  onListingUpdate(listings: Listings): void {
-    this.httpClient.put(environment.endpointURL + 'listings/' + listings.listingId, {
-      name: listings.name,
-    }).subscribe();
-  }
-
-  // TodoListing - DELETE
-  onListingDelete(listings: Listings): void {
-    this.httpClient.delete(environment.endpointURL + 'listings/' + listings.listingId).subscribe(() => {
-      this.listings.splice(this.listings.indexOf(listings), 1);
-    });
+  buyProd(prouct: ProductModel): void{
+    
   }
 
 }

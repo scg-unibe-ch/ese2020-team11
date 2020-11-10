@@ -8,12 +8,9 @@ import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
-import { Listings } from './models/listings.model';
-import { Publication } from './models/publication.model';
-import { PublicationController } from './controllers/publication.controller';
-import { ListingsController } from './controllers/listings.controller';
 
 import cors from 'cors';
+import { AdminController } from './controllers/admin.controller';
 
 export class Server {
     private server: Application;
@@ -28,10 +25,6 @@ export class Server {
         TodoList.initialize(this.sequelize);
         TodoItem.createAssociations();
         TodoList.createAssociations();
-        Listings.initialize(this.sequelize);
-        Publication.initialize(this.sequelize);
-        Listings.createAssociations();
-        Publication.createAssociations();
         User.initialize(this.sequelize);
 
         this.sequelize.sync().then(() => {                           // create connection to the database
@@ -65,6 +58,7 @@ export class Server {
             .use('/todolist', TodoListController)
             .use('/user', UserController)
             .use('/secured', SecuredController)
+            .use('/admin', AdminController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running
