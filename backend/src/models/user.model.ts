@@ -15,6 +15,7 @@ export interface UserAttributes {
     userPinCode: number;
     userCity: string;
     userCountry: string;
+    userBoolcoins: number;
     isAdmin: boolean;
 }
 
@@ -34,6 +35,7 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
     userPinCode: number;
     userCity: string;
     userCountry: string;
+    userBoolcoins: number;
     isAdmin!: boolean;
 
     public static initialize(sequelize: Sequelize) {
@@ -83,6 +85,10 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
             },
             userCountry: {
                 type: DataTypes.STRING
+            },
+            userBoolcoins: {
+                type: DataTypes.DOUBLE,
+                defaultValue: 5000
             },
             isAdmin: {
                 type: DataTypes.BOOLEAN,
