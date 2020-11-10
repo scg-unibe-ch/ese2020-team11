@@ -15,15 +15,17 @@
       <button mat-flat-button color="primary" (click)="onListCreate()" [disabled]="newTodoListName === ''">Create new list</button>
     </mat-card>
 
-    <app-todo-list
-      *ngFor="let todoList of todoLists" [todoList]="todoList"
-      (update)="onListUpdate($event)"
-      (delete)="onListDelete($event)"
-    ></app-todo-list>
+    <app-todo-list *ngFor="let todoList of todoLists" [todoList]="todoList"
+                   (update)="onListUpdate($event)"
+                   (delete)="onListDelete($event)"></app-todo-list>
   </mat-tab>
 
   <mat-tab label="Market Place">
     <app-market-place></app-market-place>
+  </mat-tab>
+
+  <mat-tab label="User Dashboard">
+    <app-userDashboard></app-userDashboard>
   </mat-tab>
 
   <mat-tab label="User Login">
