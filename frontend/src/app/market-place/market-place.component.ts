@@ -13,6 +13,10 @@ export class MarketPlaceComponent implements OnInit {
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
 
+	search = '';
+	location = '';
+	price = 0;
+
   public prod: ProductModel[] = [
     {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "AUT", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false},
      {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "USA", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false} 
