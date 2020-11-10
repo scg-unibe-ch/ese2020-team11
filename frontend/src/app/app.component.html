@@ -7,25 +7,8 @@
 <mat-divider></mat-divider>
 
 <mat-tab-group animationDuration="800ms">
-  <mat-tab label="Todo List Example">
-    <mat-card>
-      <mat-form-field>
-        <input matInput placeholder="List Name" [(ngModel)]="newTodoListName" name="name">
-      </mat-form-field>
-      <button mat-flat-button color="primary" (click)="onListCreate()" [disabled]="newTodoListName === ''">Create new list</button>
-    </mat-card>
-
-    <app-todo-list *ngFor="let todoList of todoLists" [todoList]="todoList"
-                   (update)="onListUpdate($event)"
-                   (delete)="onListDelete($event)"></app-todo-list>
-  </mat-tab>
-
   <mat-tab label="Market Place">
     <app-market-place></app-market-place>
-  </mat-tab>
-
-  <mat-tab label="User Dashboard">
-    <app-userDashboard></app-userDashboard>
   </mat-tab>
 
   <mat-tab label="User Login">
@@ -36,7 +19,22 @@
     <app-user-registration></app-user-registration>
   </mat-tab>
 
-  <mat-tab label="Admin Approval">
+  <mat-tab label="Todo List Example">
+    <mat-card>
+      <mat-form-field>
+        <input matInput placeholder="List Name" [(ngModel)]="newTodoListName" name="name">
+      </mat-form-field>
+      <button mat-flat-button color="primary" (click)="onListCreate()" [disabled]="newTodoListName === ''">Create new list</button>
+    </mat-card>
+
+    <app-todo-list
+      *ngFor="let todoList of todoLists" [todoList]="todoList"
+      (update)="onListUpdate($event)"
+      (delete)="onListDelete($event)"
+    ></app-todo-list>
+  </mat-tab>
+
+  <mat-tab *ngIf='isAdmin' label="Admin Approval">
     <app-admin-approval></app-admin-approval>
   </mat-tab>
 

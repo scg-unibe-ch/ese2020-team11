@@ -15,6 +15,7 @@ import { Product } from './models/product.model';
 
 
 import cors from 'cors';
+import { AdminController } from './controllers/admin.controller';
 
 export class Server {
     private server: Application;
@@ -66,6 +67,7 @@ export class Server {
             .use('/admin', AdminController)
             .use('/dashboard', DashboardController)
             .use('/secured', SecuredController)
+            .use('/admin', AdminController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running

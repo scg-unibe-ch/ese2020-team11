@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TodoList } from './models/todo-list.model';
 import { TodoItem } from './models/todo-item.model';
 import { environment } from '../environments/environment';
+import { UserDataService } from './user-data.service';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,13 @@ export class AppComponent implements OnInit {
   newTodoListName = '';
   todoLists: TodoList[] = [];
 
-  constructor(private httpClient: HttpClient) {}
+  isAdmin = false;
+
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService) {
+    this.isAdmin = userDataService.getIsAdmin();
+
+    userDataService.isAdmin$.subscribe(res => this.isAdmin = res);
+  }
 
   // TodoList - CREATE
   onListCreate(): void {

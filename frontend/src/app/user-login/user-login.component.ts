@@ -43,6 +43,8 @@ export class UserLoginComponent implements OnInit {
       localStorage.setItem('userToken', res.token);
       localStorage.setItem('userName', res.user.userName);
       this.checkUserStatus();
+
+      this.userDataService.setIsAdmin(res.user.isAdmin);
     },
       err => {
           window.alert('Wrong username or password'); 
@@ -59,7 +61,10 @@ export class UserLoginComponent implements OnInit {
     this.checkUserStatus();
 
     // When logout, also clear user-data.sevice.ts
-    this.userDataService.userInformation = null; //Not sure about null.
+    this.userDataService.userInformation = null; 
+
+    // Logging out definitely means that no admin is present, so set 'isAdmin' to FALSE
+    this.userDataService.setIsAdmin(false);
   }
 
   /**

@@ -1,4 +1,25 @@
-<mat-card>
-   <button mat-flat-button color="primary" (click)="callUserStatus()">Access</button>
-   {{ isAdmin }}
-</mat-card>>
+<div>
+  <h1>List of unapproved Products/Service:</h1>
+</div>
+<div *ngFor="let product of prod">
+  <mat-card>
+    <h2>
+        {{ product.productType }}: {{ product.productTitle }}
+    </h2>
+    <h2>
+      Price: {{ product.productPrice | number: '1.2-2'}}CHF
+    </h2>
+
+    <p *ngIf="product.productDescription">
+      Description: {{ product.productDescription }}
+    </p>
+    <p *ngIf="product.productLocation">
+      Location: {{ product.productLocation }}
+    </p>
+    
+
+    <button mat-flat-button color="primary" (click)="approveProdServ(product)">Approve</button>
+    <button mat-flat-button color="warn" (click)="deleteProdServ(product)">Delete</button>
+  </mat-card>
+</div>
+<div *ngIf="prod.length === 0">No Products to be reviewed.</div>
