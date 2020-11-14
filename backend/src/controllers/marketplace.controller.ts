@@ -1,8 +1,11 @@
 import express from 'express';
 import { Router, Request, Response } from 'express';
 import { Product } from '../models/product.model';
+import { User } from '../models/user.model';
+import { ProductService } from '../services/product.service';
 
 const productController: Router = express.Router();
+const productService = new ProductService();
 const { Op } = require('sequelize');
 
 
@@ -18,11 +21,12 @@ productController.get('/:productTypeRequested', (req: Request, res: Response) =>
 });
 
 
-// returns all products from the wanted location
-productController.get('/:productLocationRequested', (req: Request, res: Response) => {
+
+// returns all products/services from the wanted location
+productController.get('/wantedLocation/:productLocationRequested/:productType', (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productLocation: req.params.productLocationRequested }, { productType: 'product' }]
+            [Op.and]: [{ productLocation: req.params.productLocationRequested }, { productType: req.params.productType }]
         }
     })
         .then(list => res.status(200).send(list))
@@ -30,11 +34,21 @@ productController.get('/:productLocationRequested', (req: Request, res: Response
 });
 
 
-// returns all services from the wanted location
-productController.get('/:serviceLocationRequested', (req: Request, res: Response) => {
+
+// returns all products/services within the range of min and max given prices
+productController.get('/wantedPriceRange/:productMinPriceRequested/:productMaxPriceRequested/:productType',
+    (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productLocation: req.params.serviceLocationRequested }, { productType: 'service' }]
+            [Op.and]:
+                [{
+                    productPrice:
+                    {
+                        [Op.lte]: req.params.productMinPriceRequested,
+                        [Op.gte]: req.params.productMaxPriceRequested
+                    }
+                },
+                    { productType: req.params.productType }]
         }
     })
         .then(list => res.status(200).send(list))
@@ -42,11 +56,12 @@ productController.get('/:serviceLocationRequested', (req: Request, res: Response
 });
 
 
-// returns all products with the wanted price
-productController.get('/:productPriceRequested', (req: Request, res: Response) => {
+
+// returns all products/services with the wanted delivery option
+productController.get('/wantedDelivery/:productDelivery/:productType', (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productPrice: req.params.productPriceRequested }, { productType: 'products' }]
+            [Op.and]: [{ deliveryPossible: req.params.productDelivery }, { productType: req.params.productType }]
         }
     })
         .then(list => res.status(200).send(list))
@@ -54,39 +69,25 @@ productController.get('/:productPriceRequested', (req: Request, res: Response) =
 });
 
 
-// returns all services with the wanted price
-productController.get('/:servicePriceRequested', (req: Request, res: Response) => {
-    Product.findAll({
-        where: {
-            [Op.and]: [{ productPrice: req.params.servicePriceRequested }, { productType: 'products' }]
-        }
-    })
-        .then(list => res.status(200).send(list))
-        .catch(err => res.status(500).send(err));
-});
+// buy a product
+productController.get('/buy/:productId/:buyerId', (req: Request, res: Response) => {
+
+    // update status of the product
+    productService.updateAvailability(req.params.productId);
+
+    // does the payement
+    productService.productPayement(req.params.buyerId, req.params.productId);
+
+    // notify seller
 
 
-// returns all products with the wanted delivery option
-productController.get('/:productDelivery', (req: Request, res: Response) => {
-    Product.findAll({
-        where: {
-            [Op.and]: [{ deliveryPossible: req.params.productDelivery }, { productType: 'products' }]
-        }
-    })
-        .then(list => res.status(200).send(list))
-        .catch(err => res.status(500).send(err));
-});
+    // request shipping address
 
 
-// returns all services with the wanted delivery option
-productController.get('/:serviceDelivery', (req: Request, res: Response) => {
-    Product.findAll({
-        where: {
-            [Op.and]: [{ deliveryPossible: req.params.serviceDelivery }, { productType: 'service' }]
-        }
-    })
-        .then(list => res.status(200).send(list))
-        .catch(err => res.status(500).send(err));
+
+
+
+
 });
 
 
