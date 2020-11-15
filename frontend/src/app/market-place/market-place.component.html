@@ -2,7 +2,7 @@
 
     <mat-tab-group animationDuration="1ms" staticHeight>
       <mat-tab label="Products">
-        <div *ngFor="let product of prodPro">
+        <div *ngFor="let product of productsData">
           <mat-card> 
             <h2>
                {{ product.productTitle }}
@@ -33,11 +33,11 @@
 
           </mat-card>
         </div>
-        <div *ngIf="prodPro.length === 0">No Products to be reviewed.</div>
+        <div *ngIf="productsData.length === 0">No Products available.</div>
       </mat-tab>
   
       <mat-tab label="Services">
-        <div *ngFor="let product of prodServ">
+        <div *ngFor="let product of servicesData">
           <mat-card>
             <h2>
                 {{ product.productTitle }}
@@ -68,7 +68,7 @@
 
           </mat-card>
         </div>
-        <div *ngIf="prodServ.length === 0">No Products to be reviewed.</div>
+        <div *ngIf="servicesData.length === 0">No Service available.</div>
       </mat-tab>
 
 	<mat-tab label="Search">

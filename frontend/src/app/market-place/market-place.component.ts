@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ProductModel } from '../models/product.model'
+import { UserDataService } from '../user-data.service';
 
 @Component({
   selector: 'app-market-place',
@@ -14,6 +15,8 @@ export class MarketPlaceComponent implements OnInit {
 	location = '';
 	price = 0;
 
+
+  buyerId: number;
 
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
@@ -28,22 +31,24 @@ export class MarketPlaceComponent implements OnInit {
      {productId: 2, userId: 2, productType: "Service", productTitle: "Pumkin", productPrice: 12.40, productDescription: "Just a Pumkin", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
     ];
     
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService) { }
 
   ngOnInit(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'market/Product/').subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/Product/').subscribe((productData: any) => {
       console.log(productData);
       this.productsData = productData;
     });
 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'market/Services/').subscribe((serviceData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/Service/').subscribe((serviceData: any) => {
       console.log(serviceData);
       this.servicesData = serviceData;
     });
+
+    this.buyerId = this.userDataService.userInformation.userId;
   }
 
-  buyProd(prouct: ProductModel): void{
-    
+  buyProd(product: ProductModel): void{
+    this.httpClient.get(environment.endpointURL + 'product/buy/' + product.productId + '/' + this.buyerId).subscribe();
   }
 
   searchProd(): void {

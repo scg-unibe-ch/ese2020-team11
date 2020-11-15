@@ -17,7 +17,7 @@ adminController.post('/login',
 adminController.get('/:productTypeRequested', (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 1 }]
+            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 0 }]
         }
     })
         .then(list => res.status(200).send(list))

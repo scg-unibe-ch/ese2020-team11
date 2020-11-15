@@ -1,25 +1,54 @@
 <div>
   <h1>List of unapproved Products/Service:</h1>
 </div>
-<div *ngFor="let product of prod">
-  <mat-card>
-    <h2>
-        {{ product.productType }}: {{ product.productTitle }}
-    </h2>
-    <h2>
-      Price: {{ product.productPrice | number: '1.2-2'}}CHF
-    </h2>
+<mat-tab-group animationDuration="1ms" staticHeight>
+  <mat-tab label="Products">
+    <div *ngFor="let product of productsData">
+      <mat-card>
+       <h2>
+          {{ product.productType }}: {{ product.productTitle }}
+       </h2>
+       <h2>
+         Price: {{ product.productPrice | number: '1.2-2'}}CHF
+       </h2>
 
-    <p *ngIf="product.productDescription">
-      Description: {{ product.productDescription }}
-    </p>
-    <p *ngIf="product.productLocation">
-      Location: {{ product.productLocation }}
-    </p>
+     <p *ngIf="product.productDescription">
+       Description: {{ product.productDescription }}
+      </p>
+     <p *ngIf="product.productLocation">
+       Location: {{ product.productLocation }}
+     </p>
     
 
-    <button mat-flat-button color="primary" (click)="approveProdServ(product)">Approve</button>
-    <button mat-flat-button color="warn" (click)="deleteProdServ(product)">Delete</button>
-  </mat-card>
-</div>
-<div *ngIf="prod.length === 0">No Products to be reviewed.</div>
+     <button mat-flat-button color="primary" (click)="approveProdServ(product)">Approve</button>
+     <button mat-flat-button color="warn" (click)="deleteProdServ(product)">Delete</button>
+     </mat-card>
+    </div>
+    <div *ngIf="productsData.length === 0">No Products to be reviewed.</div>
+  </mat-tab>
+
+    <mat-tab label="Service">
+      <div *ngFor="let product of servicesData">
+        <mat-card>
+         <h2>
+            {{ product.productType }}: {{ product.productTitle }}
+         </h2>
+         <h2>
+           Price: {{ product.productPrice | number: '1.2-2'}}CHF
+         </h2>
+  
+       <p *ngIf="product.productDescription">
+         Description: {{ product.productDescription }}
+        </p>
+       <p *ngIf="product.productLocation">
+         Location: {{ product.productLocation }}
+       </p>
+      
+  
+       <button mat-flat-button color="primary" (click)="approveProdServ(product)">Approve</button>
+       <button mat-flat-button color="warn" (click)="deleteProdServ(product)">Delete</button>
+       </mat-card>
+      </div>
+      <div *ngIf="servicesData.length === 0">No Products to be reviewed.</div>
+    </mat-tab>
+</mat-tab-group>
