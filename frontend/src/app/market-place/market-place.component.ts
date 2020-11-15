@@ -13,9 +13,14 @@ export class MarketPlaceComponent implements OnInit {
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
 
-  public prod: ProductModel[] = [
-    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "AUT", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false},
-     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "USA", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false} 
+  public prodPro: ProductModel[] = [
+    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
+     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
+    ];
+
+  public prodServ: ProductModel[] = [
+    {productId: 1, userId: 1, productType: "Product", productTitle: "Melon", productPrice: 3.10, productDescription: "Just a Melon", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
+     {productId: 2, userId: 2, productType: "Service", productTitle: "Pumkin", productPrice: 12.40, productDescription: "Just a Pumkin", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
     ];
     
   constructor(private httpClient: HttpClient) { }

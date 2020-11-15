@@ -1,8 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { ReactiveFormsModule, FormsModule, } from '@angular/forms';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-registration',
@@ -33,7 +31,6 @@ export class UserRegistrationComponent implements OnInit {
   loggedIn = false;
 
 
-
   constructor(private httpClient: HttpClient) { }
 
   ngOnInit(): void {
@@ -54,12 +51,6 @@ export class UserRegistrationComponent implements OnInit {
     if((this.userName === '') || (this.password === '') || (this.eMail === '')) {
       window.alert('Please fill in all the required Information');
     }
-
-    //Not working   (What happens if the userName does not exist -> checkUserName is empty)
-    // else if((JSON.stringify(this.checkUserName) === '') || (JSON.stringify(this.checkUserName.userName) === this.userName)){
-    //   window.alert('Username already taken');
-    //}
-
 
     else {
     this.httpClient.post(environment.endpointURL + 'user/register', {

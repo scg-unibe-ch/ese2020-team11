@@ -12,5 +12,6 @@ export interface UserModel {
     userPinCode: number;
     userCity: string;
     userCountry: string;
+    userBoolcoins: number;
     isAdmin: boolean;
 }

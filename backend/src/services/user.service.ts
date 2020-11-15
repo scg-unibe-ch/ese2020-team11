@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 import { checkRegistration } from '../middlewares/checkRegistration';
 import { registerVerification } from '../middlewares/checkLogin';
 import { verifyToken } from '../middlewares/checkAuth';
-import {Op} from 'sequelize';
 
 export class UserService {
 
@@ -46,7 +45,7 @@ export class UserService {
             userName: username
           }
         });
-      }
+    }
 
     public passwordRequiermentCheck(password: string): boolean {
         if (password.length < 7) {
