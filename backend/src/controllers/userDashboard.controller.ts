@@ -7,7 +7,7 @@ const dashboardController: Router = express.Router();
 
 
 // returns the dashboard of a given user
-dashboardController.get('/:logedUserId', verifyToken,
+dashboardController.get('/getDashboard/:logedUserId', verifyToken,
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
@@ -20,7 +20,7 @@ dashboardController.get('/:logedUserId', verifyToken,
 
 
 // add a product
-dashboardController.post('/:userId', verifyToken, (req: Request, res: Response) => {
+dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Response) => {
     Product.create(req.body)
         .then(inserted => res.send(inserted))
         .catch(err => res.status(500).send(err));
@@ -28,7 +28,7 @@ dashboardController.post('/:userId', verifyToken, (req: Request, res: Response) 
 
 
 // deletes a given post of a user
-dashboardController.delete('/:itemId', verifyToken, (req: Request, res: Response) => {
+dashboardController.delete('/delete/:itemId', verifyToken, (req: Request, res: Response) => {
     Product.findByPk(req.params.itemId)
         .then(found => {
             if (found != null) {
@@ -42,7 +42,7 @@ dashboardController.delete('/:itemId', verifyToken, (req: Request, res: Response
 
 
 // updates a given post of a user
-dashboardController.put('/:itemId', verifyToken, (req: Request, res: Response) => {
+dashboardController.put('/update/:itemId', verifyToken, (req: Request, res: Response) => {
     Product.findByPk(req.params.itemId)
         .then(found => {
             if (found != null) {
