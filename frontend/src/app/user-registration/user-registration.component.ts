@@ -18,9 +18,6 @@ export class UserRegistrationComponent implements OnInit {
 	//optional registration fields
   // and phone number of user
   gender = '';
-  /*favoriteGender: string;
-  genders: string[] = ['male', 'female', '*'];
- */
   telephone = '';
 	street = '';
 	number = '';

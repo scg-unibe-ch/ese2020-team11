@@ -19,26 +19,20 @@
 
     <!--optional registration fields-->
     <!--Gender and phone number-->
-    <mat-form-field>
-      <input matInput placeholder="Gender" [(ngModel)]="gender" name="gender">
-    </mat-form-field>
-    <!--<label id="example-radio-group-label"> Choose Gender</label>
-    <br />
-    <mat-radio-group aria-label="example-radio-group-label"
-                  class="radio-group"
-                  [(ngModel)]="favoriteGender">
-      <mat-radio-button class="radio-button" *ngFor="let gender of genders"
-                        [value]="gender">
-        {{ gender }}
-      </mat-radio-button>
-    </mat-radio-group>
-    -->
+    <label>Gender </label>
+    <div class="custom-control custom-radio" >
+      <input id="male" type="radio" class="custom-control-input" value="male" name="gender" [(ngModel)]="gender">
+    <label class="custom-control-label" for="male">Male </label></div>
+    <div class= "custom-control custom-radio" >
+      <input id="female" type="radio" class="custom-control-input" value="female" name="gender" [(ngModel)]="gender">
+      <label class="custom-control-label" for="female">Female </label>
+    </div>
 
     <mat-form-field>
       <input matInput placeholder="Telephone" [(ngModel)]="telephone" name="telephone">
     </mat-form-field><br />
-
     <!-- end gender and phone-->
+
     <mat-form-field>
       <input matInput placeholder="Street" [(ngModel)]="street" name="street">
     </mat-form-field>
@@ -51,17 +45,17 @@
       <input matInput placeholder="Zip-code" [(ngModel)]="zip" name="zip">
     </mat-form-field>
 
-    <mat-form-field>
-      <input matInput placeholder="City" [(ngModel)]="city" name="city">
-    </mat-form-field><br />
-    <mat-form-field>
-      <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password"
-             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./=?:;@\^_`{|}~]).{7,}" required>
-      <mat-hint align="end">Combination of capital and small letters, numbers, and special characters, at least 7 characters</mat-hint>
-    </mat-form-field><br />
+      <mat-form-field>
+        <input matInput placeholder="City" [(ngModel)]="city" name="city">
+      </mat-form-field><br />
+      <mat-form-field>
+          <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password"
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./=?:;@\^_`{|}~]).{7,}" required>
+          <mat-hint align="end">Combination of capital and small letters, numbers, and special characters, at least 7 characters</mat-hint>
+      </mat-form-field><br />
 
-    <br /><br />
+      <br /><br />
 
-    <button mat-flat-button color="primary" (click)="regist()">Registration</button>
-  </div> 
+          <button mat-flat-button color="primary" (click)="regist()">Registration</button>
+</div> 
   </mat-card>

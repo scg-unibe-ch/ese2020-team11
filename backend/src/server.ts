@@ -4,13 +4,16 @@ import { TodoItemController } from './controllers/todoitem.controller';
 import { TodoListController } from './controllers/todolist.controller';
 import { UserController } from './controllers/user.controller';
 import { SecuredController } from './controllers/secured.controller';
+import { AdminController } from './controllers/admin.controller';
+import { ProductController } from './controllers/marketplace.controller';
+import { DashboardController } from './controllers/userDashboard.controller';
 import { Sequelize } from 'sequelize';
 import { TodoList } from './models/todolist.model';
 import { TodoItem } from './models/todoitem.model';
 import { User } from './models/user.model';
-
+import { Product } from './models/product.model';
 import cors from 'cors';
-import { AdminController } from './controllers/admin.controller';
+
 
 export class Server {
     private server: Application;
@@ -26,6 +29,7 @@ export class Server {
         TodoItem.createAssociations();
         TodoList.createAssociations();
         User.initialize(this.sequelize);
+        Product.initialize(this.sequelize);
 
         this.sequelize.sync().then(() => {                           // create connection to the database
             this.server.listen(this.port, () => {                                   // start server on specified port
@@ -57,8 +61,10 @@ export class Server {
             .use('/todoitem', TodoItemController)   // any request on this path is forwarded to the TodoItemController
             .use('/todolist', TodoListController)
             .use('/user', UserController)
-            .use('/secured', SecuredController)
+            .use('/product', ProductController)
             .use('/admin', AdminController)
+            .use('/dashboard', DashboardController)
+            .use('/secured', SecuredController)
             .options('*', cors(options))
             .use(express.static('./src/public'))
             // this is the message you get if you open http://localhost:3000/ when the server is running
