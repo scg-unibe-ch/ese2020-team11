@@ -10,6 +10,11 @@ import { ProductModel } from '../models/product.model'
 })
 export class MarketPlaceComponent implements OnInit {
 
+  search = '';
+	location = '';
+	price = 0;
+
+
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
 
@@ -41,4 +46,7 @@ export class MarketPlaceComponent implements OnInit {
     
   }
 
+  searchProd(): void {
+    
+  }
 }
