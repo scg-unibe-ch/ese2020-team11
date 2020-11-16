@@ -7,6 +7,22 @@ import { Op } from 'sequelize';
 
 export class ProductService {
 
+    //checks if the buyer has enough boolcoins
+    hasBuyerEnoughBoolcoins(buyerId: string, productId: string) {
+        var isBuyAuthorized: boolean = false;
+
+        User.findByPk(buyerId)
+            .then(found => {
+
+                if (found.userBoolcoins >= this.costOfProduct(productId)) {
+                    isBuyAuthorized = true;
+                }
+            })
+
+        return isBuyAuthorized;
+    }
+
+
     // update status to not available (sold/lend)
     public updateAvailability(productId: string) {
         // var id: number = +productId;

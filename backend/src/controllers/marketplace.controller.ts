@@ -72,25 +72,24 @@ productController.get('/wantedDelivery/:productDelivery/:productType', (req: Req
 // buy a product
 productController.get('/buy/:productId/:buyerId', (req: Request, res: Response) => {
 
-    // update status of the product
-    productService.updateAvailability(req.params.productId);
+    //if the buyer has enough bool coins, the transaction will occur
+    if (productService.hasBuyerEnoughBoolcoins(req.params.buyerId, req.params.productId)) {
 
-    // Copies the data of the product into boughtProduct
-    productService.copyData(req.params.productId, req.params.buyerId);
+        // update status of the product
+        productService.updateAvailability(req.params.productId);
 
-    // does the payement
-    productService.productPayement(req.params.buyerId, req.params.productId);
+        // Copies the data of the product into boughtProduct
+        productService.copyData(req.params.productId, req.params.buyerId);
 
-    // notify seller
+        // does the payement
+        productService.productPayement(req.params.buyerId, req.params.productId);
 
-
-    // request shipping address
-
-
+        // notify seller
 
 
+        // request shipping address
 
-
+    }
 });
 
 
