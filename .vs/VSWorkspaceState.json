@@ -3,13 +3,14 @@
     "",
     "\\backend",
     "\\backend\\src",
-    "\\backend\\src\\controllers",
-    "\\backend\\src\\middlewares",
     "\\backend\\src\\models",
-    "\\backend\\src\\services",
-    "\\deliverables",
-    "\\deliverables\\UI-Mockups"
+    "\\frontend",
+    "\\frontend\\src",
+    "\\frontend\\src\\app",
+    "\\frontend\\src\\app\\admin-approval",
+    "\\frontend\\src\\app\\auth",
+    "\\frontend\\src\\app\\models"
   ],
-  "SelectedNode": "\\backend\\src\\controllers\\marketplace.controller.ts",
+  "SelectedNode": "\\backend\\src\\models\\user.model.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -19,6 +19,8 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { UserRegistrationComponent } from './user-registration/user-registration.component';
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { AdminApprovalComponent } from './admin-approval/admin-approval.component';
+import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { from } from 'rxjs';
 
 
 
@@ -27,10 +29,12 @@ import { AdminApprovalComponent } from './admin-approval/admin-approval.componen
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
+    UserDashboardComponent,
     UserLoginComponent,
     UserRegistrationComponent,
     MarketPlaceComponent,
     AdminApprovalComponent,
+    UserDashboardComponent,
   ],
   imports: [
     BrowserModule,
