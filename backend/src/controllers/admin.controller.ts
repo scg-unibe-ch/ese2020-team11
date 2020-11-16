@@ -14,10 +14,10 @@ adminController.post('/login',
 );
 
 // gets all yet not approved or disapproved products
-adminController.get('/:productTypeRequested', (req: Request, res: Response) => {
+adminController.get('/getProducts/:productTypeRequested', (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 1 }]
+            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 0 }]
         }
     })
         .then(list => res.status(200).send(list))
@@ -25,7 +25,7 @@ adminController.get('/:productTypeRequested', (req: Request, res: Response) => {
 });
 
 // updates an approved product
-adminController.put('/:itemId', async (req: Request, res: Response) => {
+adminController.put('/approve/:itemId', async (req: Request, res: Response) => {
     Product.findByPk(req.params.id)
         .then(found => {
             if (found != null) {
@@ -41,7 +41,7 @@ adminController.put('/:itemId', async (req: Request, res: Response) => {
 });
 
 // deletes a disapproved product
-adminController.delete('/:itemId', (req: Request, res: Response) => {
+adminController.delete('/delete/:itemId', (req: Request, res: Response) => {
 
     Product.findByPk(req.params.itemId)
         .then(found => {

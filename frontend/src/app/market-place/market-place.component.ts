@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ProductModel } from '../models/product.model'
+import { UserDataService } from '../user-data.service';
 
 @Component({
   selector: 'app-market-place',
@@ -10,34 +11,47 @@ import { ProductModel } from '../models/product.model'
 })
 export class MarketPlaceComponent implements OnInit {
 
-  productsData: ProductModel[] = [];
-  servicesData: ProductModel[] = [];  
-
-	search = '';
+  search = '';
 	location = '';
 	price = 0;
 
-  public prod: ProductModel[] = [
-    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "AUT", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false},
-     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "USA", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false} 
+
+  buyerId: number;
+
+  productsData: ProductModel[] = [];
+  servicesData: ProductModel[] = [];  
+
+  public prodPro: ProductModel[] = [
+    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
+     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
+    ];
+
+  public prodServ: ProductModel[] = [
+    {productId: 1, userId: 1, productType: "Product", productTitle: "Melon", productPrice: 3.10, productDescription: "Just a Melon", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
+     {productId: 2, userId: 2, productType: "Service", productTitle: "Pumkin", productPrice: 12.40, productDescription: "Just a Pumkin", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
     ];
     
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService) { }
 
   ngOnInit(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'market/Product/').subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/Product/').subscribe((productData: any) => {
       console.log(productData);
       this.productsData = productData;
     });
 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'market/Services/').subscribe((serviceData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/Service/').subscribe((serviceData: any) => {
       console.log(serviceData);
       this.servicesData = serviceData;
     });
+
+    this.buyerId = this.userDataService.userInformation.userId;
   }
 
-  buyProd(prouct: ProductModel): void{
+  buyProd(product: ProductModel): void{
+    this.httpClient.get(environment.endpointURL + 'product/buy/' + product.productId + '/' + this.buyerId).subscribe();
+  }
+
+  searchProd(): void {
     
   }
-
 }

@@ -4,7 +4,6 @@ import { UserService } from '../services/user.service';
 import { Sequelize } from 'sequelize';
 
 export function checkRegistration(user: UserAttributes): Promise<UserAttributes> {
-
     if (user.userName == null || User.findOne({
         where: {
             userName: user.userName

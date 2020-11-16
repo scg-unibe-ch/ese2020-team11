@@ -13,7 +13,7 @@ const { Op } = require('sequelize');
 productController.get('/:productTypeRequested', (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 1 }]
+            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 1 }, {productAvailable: true}]
         }
     })
         .then(list => res.status(200).send(list))
@@ -74,6 +74,9 @@ productController.get('/buy/:productId/:buyerId', (req: Request, res: Response) 
 
     // update status of the product
     productService.updateAvailability(req.params.productId);
+
+    // Copies the data of the product into boughtProduct
+    productService.copyData(req.params.productId, req.params.buyerId);
 
     // does the payement
     productService.productPayement(req.params.buyerId, req.params.productId);

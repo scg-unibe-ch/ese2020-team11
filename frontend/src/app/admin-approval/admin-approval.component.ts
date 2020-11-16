@@ -29,19 +29,19 @@ export class AdminApprovalComponent implements OnInit {
       this.productsData = productData;
     });
 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'admin/Services/').subscribe((serviceData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'admin/Service/').subscribe((serviceData: any) => {
       console.log(serviceData);
       this.servicesData = serviceData;
     });
   }
   
   deleteProdServ(product: ProductModel): void {
-    this.httpClient.delete(environment.endpointURL + 'addmin/' + product.productId, {
+    this.httpClient.delete(environment.endpointURL + 'admin/' + product.productId, {
     }).subscribe();
   }
 
   approveProdServ(product: ProductModel): void {
-    this.httpClient.put(environment.endpointURL + 'addmin/' + product.productId, {
+    this.httpClient.put(environment.endpointURL + 'admin/' + product.productId, {
     }).subscribe();
   }
 }
