@@ -75,6 +75,9 @@ productController.get('/buy/:productId/:buyerId', (req: Request, res: Response) 
     // update status of the product
     productService.updateAvailability(req.params.productId);
 
+    // Copies the data of the product into boughtProduct
+    productService.copyData(req.params.productId, req.params.buyerId);
+
     // does the payement
     productService.productPayement(req.params.buyerId, req.params.productId);
 

@@ -1,5 +1,6 @@
 import { UserAttributes, User } from '../models/user.model';
 import { Product } from '../models/product.model';
+import { BoughtProduct } from '../models/boughtProduct.model';
 import { verifyToken } from '../middlewares/checkAuth';
 import { Op } from 'sequelize';
 
@@ -26,6 +27,35 @@ export class ProductService {
         this.addMoneyToSeller(this.getSeller(productId), this.costOfProduct(productId));
     }
 
+
+    // Copies the data of the product into boughtProduct
+    public copyData(productId: string, buyerId: string) {
+        const buyerIdNum: number = +buyerId;
+
+        Product.findByPk(productId)
+            .then(found => {
+                if (found != null) {
+                    BoughtProduct.create();
+
+                    BoughtProduct.count().then(i => {
+                        BoughtProduct.findByPk(i)
+                            .then(foundProd => {
+                                foundProd.userId = buyerIdNum;
+                                foundProd.productType = found.productType;
+                                foundProd.productTitle = found.productTitle;
+                                foundProd.productPrice = found.productPrice;
+                                foundProd.productDescription = found.productDescription;
+                                foundProd.productLocation = found.productLocation;
+                                foundProd.productToLend = found.productToLend;
+                                foundProd.deliveryPossible = found.deliveryPossible;
+                            });
+                    });
+                }
+            });
+    }
+
+
+    // helper methods
 
     // returns the amount of boolcoins of a product
     public costOfProduct(productId: string) {
