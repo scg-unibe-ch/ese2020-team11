@@ -19,6 +19,10 @@
     <app-user-registration></app-user-registration>
   </mat-tab>
 
+  <mat-tab label="User Dashboard">
+    <app-user-dashboard></app-user-dashboard>
+  </mat-tab>
+
   <mat-tab label="Todo List Example">
     <mat-card>
       <mat-form-field>
@@ -27,11 +31,9 @@
       <button mat-flat-button color="primary" (click)="onListCreate()" [disabled]="newTodoListName === ''">Create new list</button>
     </mat-card>
 
-    <app-todo-list
-      *ngFor="let todoList of todoLists" [todoList]="todoList"
-      (update)="onListUpdate($event)"
-      (delete)="onListDelete($event)"
-    ></app-todo-list>
+    <app-todo-list *ngFor="let todoList of todoLists" [todoList]="todoList"
+                   (update)="onListUpdate($event)"
+                   (delete)="onListDelete($event)"></app-todo-list>
   </mat-tab>
 
   <mat-tab *ngIf='isAdmin' label="Admin Approval">
