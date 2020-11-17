@@ -7,9 +7,9 @@ import { Op } from 'sequelize';
 
 export class ProductService {
 
-    //checks if the buyer has enough boolcoins
+    // checks if the buyer has enough boolcoins
     hasBuyerEnoughBoolcoins(buyerId: string, productId: string) {
-        var isBuyAuthorized: boolean = false;
+        let isBuyAuthorized = false;
 
         User.findByPk(buyerId)
             .then(found => {
@@ -17,7 +17,7 @@ export class ProductService {
                 if (found.userBoolcoins >= this.costOfProduct(productId)) {
                     isBuyAuthorized = true;
                 }
-            })
+            });
 
         return isBuyAuthorized;
     }

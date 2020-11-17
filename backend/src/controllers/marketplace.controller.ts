@@ -3,6 +3,7 @@ import { Router, Request, Response } from 'express';
 import { Product } from '../models/product.model';
 import { User } from '../models/user.model';
 import { ProductService } from '../services/product.service';
+import { verifyToken } from '../middlewares/checkAuth';
 
 const productController: Router = express.Router();
 const productService = new ProductService();
@@ -70,9 +71,9 @@ productController.get('/wantedDelivery/:productDelivery/:productType', (req: Req
 
 
 // buy a product
-productController.get('/buy/:productId/:buyerId', (req: Request, res: Response) => {
+productController.get('/buy/:productId/:buyerId', verifyToken, (req: Request, res: Response) => {
 
-    //if the buyer has enough bool coins, the transaction will occur
+    // if the buyer has enough bool coins, the transaction will occur
     if (productService.hasBuyerEnoughBoolcoins(req.params.buyerId, req.params.productId)) {
 
         // update status of the product
