@@ -6,7 +6,6 @@ import { Op } from 'sequelize';
 
 
 export class ProductService {
-
     // checks if the buyer has enough boolcoins
     hasBuyerEnoughBoolcoins(buyerId: string, productId: string) {
         let isBuyAuthorized = false;
@@ -14,13 +13,33 @@ export class ProductService {
         User.findByPk(buyerId)
             .then(found => {
 
-                if (found.userBoolcoins >= this.costOfProduct(productId)) {
+                if (this.getUserBoolcoinAmout(buyerId) >= this.costOfProduct(productId)) {
                     isBuyAuthorized = true;
                 }
             });
 
         return isBuyAuthorized;
     }
+
+    private getUserBoolcoinAmout(buyerId: string) {
+        let coins = 0;
+        User.findByPk(buyerId)
+            .then(found => {
+
+                if (found != null) {
+
+                    coins = found.userBoolcoins;
+                }
+            });
+        return coins;
+    }
+
+    /*
+     models.User.findAll({
+        attributes: ['id', 'name'],
+        raw: true
+    }).then(function (results) {
+    */
 
 
     // update status to not available (sold/lend)

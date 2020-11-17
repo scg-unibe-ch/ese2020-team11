@@ -9,7 +9,6 @@ export interface BoughtProductAttributes {
     productDescription: string;
     productLocation: string;
     productToLend: boolean;
-    productAvailable: boolean;
     deliveryPossible: boolean;
 }
 
@@ -25,7 +24,6 @@ export class BoughtProduct extends Model<BoughtProductAttributes, UserCreationAt
     productLocation!: string;
     productToLend!: boolean;
     deliveryPossible!: boolean;
-    productAvailable: boolean;
 
 
     public static initialize(sequelize: Sequelize) {
@@ -74,12 +72,6 @@ export class BoughtProduct extends Model<BoughtProductAttributes, UserCreationAt
                 deliveryPossible:
                 {
                     type: DataTypes.BOOLEAN,
-                },
-
-                productAvailable:
-                {
-                    type: DataTypes.BOOLEAN,
-                    defaultValue: 0
                 },
             },
             {

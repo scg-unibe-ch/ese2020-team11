@@ -57,9 +57,9 @@ dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Respo
 
 
 // deletes a given post of a user
-dashboardController.delete('/delete/:logedUserId/:itemId', verifyToken, (req: Request, res: Response) => {
+dashboardController.delete('/delete/:logedUserId/:productId', verifyToken, (req: Request, res: Response) => {
     const id: number = +req.params.logedUserId;
-    Product.findByPk(req.params.itemId)
+    Product.findByPk(req.params.productId)
         .then(found => {
             if (found != null) {
                 if (found.userId === id) {
@@ -74,9 +74,9 @@ dashboardController.delete('/delete/:logedUserId/:itemId', verifyToken, (req: Re
 
 
 // updates a given post of a user
-dashboardController.put('/update/:logedUserId/:itemId', verifyToken, (req: Request, res: Response) => {
+dashboardController.put('/update/:logedUserId/:productId', verifyToken, (req: Request, res: Response) => {
     const id: number = +req.params.logedUserId;
-    Product.findByPk(req.params.itemId)
+    Product.findByPk(req.params.productId)
         .then(found => {
             if (found != null) {
                 if (found.userId === id) {

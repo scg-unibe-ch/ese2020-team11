@@ -29,7 +29,7 @@ adminController.put('/approve/:itemId', async (req: Request, res: Response) => {
     Product.findByPk(req.params.itemId)
         .then(found => {
             if (found != null) {
-                found.update(req.body).then(updated => {
+                found.update(req.body).then(updated => {        // replace req.body with { isApproved: true } to automate it
                     res.status(200).send(updated);
                 });
             } else {

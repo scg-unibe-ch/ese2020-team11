@@ -1,6 +1,7 @@
 import express from 'express';
 import { Router, Request, Response } from 'express';
 import { Product } from '../models/product.model';
+import { BoughtProduct } from '../models/boughtProduct.model';
 import { User } from '../models/user.model';
 import { ProductService } from '../services/product.service';
 import { verifyToken } from '../middlewares/checkAuth';
@@ -70,9 +71,99 @@ productController.get('/wantedDelivery/:productDelivery/:productType', (req: Req
 });
 
 
+
+// Buy methods
+
+// returns the wanted product
+productController.get('/buy/product/:productId', (req: Request, res: Response) => {
+    Product.findByPk(req.params.productId)
+        .then(found => {
+            if (found != null) {
+                res.status(200).send(found);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+});
+
+
+// returns the user
+productController.get('/buy/user/:userId', (req: Request, res: Response) => {
+    User.findByPk(req.params.userId)
+        .then(found => {
+            if (found != null) {
+                res.status(200).send(found);
+            } else {
+                res.sendStatus(404);
+            }
+        });
+});
+
+
+// update the product status
+productController.put('/buy/productStatusUpdate/:productId', (req: Request, res: Response) => {
+    Product.findByPk(req.params.productId)
+        .then(found => {
+            if (found != null) {
+                found.update({ productAvailable: false }).then(updated => {
+                    res.status(200).send(updated);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        }).catch(err => res.status(500).send(err));
+});
+
+
+// not working yet
+// copies the db products entries into boughtProducts
+productController.post('/buy/saveProduct/:buyerId/:productId', (req: Request, res: Response) => {
+    const idNum: number = +req.params.buyerId;
+    Product.findByPk(req.params.productId)
+        .then(found => {
+            if (found != null) {
+                BoughtProduct.create({
+                    userId: idNum,
+                    productType: found.productType,
+                    productTitle: found.productTitle,
+                    productPrice: found.productPrice,
+                    productDescription: found.productDescription,
+                    productLocation: found.productLocation,
+                    productToLend: found.productToLend,
+                    deliveryPossible: found.deliveryPossible
+                });
+                res.status(200).send(found);
+            } else {
+                res.sendStatus(404);
+            }
+        }).catch(err => res.status(500).send(err));
+});
+
+
+// updates the boolcoins of a user
+productController.put('/buy/boolcoinUpdate/:userId/:newBoolcoinAmout', (req: Request, res: Response) => {
+    User.findByPk(req.params.userId)
+        .then(found => {
+            if (found != null) {
+                found.update({ userBoolcoins: req.params.newBoolcoinAmout }).then(updated => {
+                    res.status(200).send(updated);
+                });
+            } else {
+                res.sendStatus(404);
+            }
+        }).catch(err => res.status(500).send(err));
+});
+
+
+
+
+
+
+
 // not working yet
 // buy a product
-productController.get('/buy/:productId/:buyerId', /*verifyToken,*/ (req: Request, res: Response) => {
+/*
+productController.get('/buy/:productId/:buyerId', verifyToken, (req: Request, res: Response) => {
 
     // if the buyer has enough bool coins, the transaction will occur
     if (productService.hasBuyerEnoughBoolcoins(req.params.buyerId, req.params.productId)) {
@@ -92,8 +183,9 @@ productController.get('/buy/:productId/:buyerId', /*verifyToken,*/ (req: Request
         // request shipping address
 
     }
-});
 
+});
+*/
 
 
 export const ProductController: Router = productController;
