@@ -17,7 +17,7 @@ adminController.post('/login',
 adminController.get('/getProducts/:productTypeRequested', (req: Request, res: Response) => {
     Product.findAll({
         where: {
-            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: 0 }]
+            [Op.and]: [{ productType: req.params.productTypeRequested }, { isApproved: false }]
         }
     })
         .then(list => res.status(200).send(list))
@@ -26,7 +26,7 @@ adminController.get('/getProducts/:productTypeRequested', (req: Request, res: Re
 
 // updates an approved product
 adminController.put('/approve/:itemId', async (req: Request, res: Response) => {
-    Product.findByPk(req.params.id)
+    Product.findByPk(req.params.itemId)
         .then(found => {
             if (found != null) {
                 found.update(req.body).then(updated => {
@@ -35,10 +35,10 @@ adminController.put('/approve/:itemId', async (req: Request, res: Response) => {
             } else {
                 res.sendStatus(404);
             }
-
         })
         .catch(err => res.status(500).send(err));
 });
+
 
 // deletes a disapproved product
 adminController.delete('/delete/:itemId', (req: Request, res: Response) => {
@@ -48,12 +48,12 @@ adminController.delete('/delete/:itemId', (req: Request, res: Response) => {
             if (found != null) {
                 found.destroy()
                     .then(item => res.status(200).send({ deleted: item }))
-                    .catch(err => res.status(500).send(err));
-            } else {
-                res.sendStatus(404);
-            }
-        })
-        .catch(err => res.status(500).send(err));
+                        .catch(err => res.status(500).send(err));
+                } else {
+                    res.sendStatus(404);
+                }
+            })
+            .catch(err => res.status(500).send(err));
 });
 
 

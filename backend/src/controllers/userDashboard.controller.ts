@@ -26,7 +26,7 @@ dashboardController.get('/getDashboard/sold/:logedUserId', verifyToken,
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
-                [Op.and]: [{ userId: req.params.logedUserId }, { productAvailable: true }]
+                [Op.and]: [{ userId: req.params.logedUserId }, { productAvailable: false }]
             }
         })
             .then(list => res.status(200).send(list))
@@ -48,8 +48,9 @@ dashboardController.get('/getDashboard/bought/:logedUserId', verifyToken,
 
 
 
+// not working yet
 // add a product
-dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Response) => {
+dashboardController.post('/post/:userId', /*verifyToken,*/ (req: Request, res: Response) => {
     Product.create(req.body)
         .then(inserted => res.send(inserted))
         .catch(err => res.status(500).send(err));
@@ -57,11 +58,14 @@ dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Respo
 
 
 // deletes a given post of a user
-dashboardController.delete('/delete/:itemId', verifyToken, (req: Request, res: Response) => {
+dashboardController.delete('/delete/:logedUserId/:itemId', verifyToken, (req: Request, res: Response) => {
+    const id: number = +req.params.logedUserId;
     Product.findByPk(req.params.itemId)
         .then(found => {
             if (found != null) {
-                found.destroy().then(() => res.status(200).send());
+                if (found.userId === id) {
+                    found.destroy().then(() => res.status(200).send());
+                }
             } else {
                 res.sendStatus(404);
             }
@@ -71,13 +75,16 @@ dashboardController.delete('/delete/:itemId', verifyToken, (req: Request, res: R
 
 
 // updates a given post of a user
-dashboardController.put('/update/:itemId', verifyToken, (req: Request, res: Response) => {
+dashboardController.put('/update/:logedUserId/:itemId', verifyToken, (req: Request, res: Response) => {
+    const id: number = +req.params.logedUserId;
     Product.findByPk(req.params.itemId)
         .then(found => {
             if (found != null) {
-                found.update(req.body).then(updated => {
-                    res.status(200).send(updated);
-                });
+                if (found.userId === id) {
+                    found.update(req.body).then(updated => {
+                        res.status(200).send(updated);
+                    });
+                }
             } else {
                 res.sendStatus(404);
             }

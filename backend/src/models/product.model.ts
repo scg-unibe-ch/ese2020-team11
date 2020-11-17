@@ -25,7 +25,7 @@ export class Product extends Model<ProductAttributes, UserCreationAttributes> im
     productDescription!: string;
     productLocation!: string;
     productToLend!: boolean;
-    productAvailable!: boolean;
+    productAvailable: boolean;
     deliveryPossible!: boolean;
     isApproved: boolean;
 
@@ -76,21 +76,23 @@ export class Product extends Model<ProductAttributes, UserCreationAttributes> im
 
             productToLend:
             {
-               type: DataTypes.BOOLEAN,
-               defaultValue: 0
+                type: DataTypes.BOOLEAN,
+                allowNull : false,
+               // defaultValue: 0
                     },
 
             productAvailable:
             {
                type: DataTypes.BOOLEAN,
-               defaultValue: 0
-                    },
+               defaultValue: 1
+             },
 
             deliveryPossible:
             {
-               type: DataTypes.BOOLEAN,
-               defaultValue: 0
-                 },
+                type: DataTypes.BOOLEAN,
+                allowNull : false,
+               // defaultValue: 0
+            },
             isApproved:
             {
                 type: DataTypes.BOOLEAN,
