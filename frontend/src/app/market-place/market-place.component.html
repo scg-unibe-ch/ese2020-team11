@@ -79,12 +79,37 @@
 		<br />
 		<p>Filters</p>
 		<mat-form-field>
-			<input matInput placeholder="Location" [(ngModel)]="location" name="location">
+			<input matInput placeholder="Location" [(ngModel)]="wantedLocation" name="location">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput placeholder="Price" [(ngModel)]="price" name="price">
+			<input matInput placeholder="Price from" [(ngModel)]="price_min" name="price_min">
 		</mat-form-field>
+		<mat-form-field>
+			<input matInput placeholder="to" [(ngModel)]="price_max" name="price_max">
+		</mat-form-field>
+	    <div class="custom-control custom-radio" >
+	      <input id="product" type="radio" class="custom-control-input" value="product" name="wantedType" [(ngModel)]="wantedType">
+	    <label class="custom-control-label" for="product">product </label></div>
+	    <div class= "custom-control custom-radio" >
+	      <input id="service" type="radio" class="custom-control-input" value="service" name="wantedType" [(ngModel)]="wantedType">
+	      <label class="custom-control-label" for="service">service </label>
+	    </div>
 		<br />
+		<div *ngFor="let product of searchData">
+			<mat-card>
+				<h2>
+	                {{ product.productTitle }}
+	            </h2>
+	            
+	            <p *ngIf="product.productDescription">
+	              Description: {{ product.productDescription }}
+	            </p>
+	            <p *ngIf="product.productLocation">
+	              Address: {{ product.productLocation }}
+	            </p>
+			</mat-card>
+		</div>
+		<div *ngIf="searchData.length === 0">No matching product found</div>
 		
 	</mat-tab>
   

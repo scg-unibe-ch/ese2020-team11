@@ -11,15 +11,18 @@ import { UserDataService } from '../user-data.service';
 })
 export class MarketPlaceComponent implements OnInit {
 
-  search = '';
-	location = '';
-	price = 0;
-
+  	search = '';
+	wantedLocation = '';
+	price_min = 0;
+	price_max = "";
+	wantedType = '';
 
   buyerId: number;
 
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
+
+	searchData: ProductModel[] = [];  
 
   public prodPro: ProductModel[] = [
     {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
@@ -45,6 +48,19 @@ export class MarketPlaceComponent implements OnInit {
     });
 
     this.buyerId = this.userDataService.userInformation.userId;
+
+	if(this.wantedLocation != ''){
+		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedLocation/' + this.wantedLocation + '/' + this.wantedType).subscribe((searchData: any) => {
+		console.log(searchData);
+		this.searchData = searchData;
+		})
+	}
+	if(this.price_max != ''){
+		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedPriceRange/' + this.price_min + '/' + this.price_max + '/' + this.wantedType).subscribe((searchData: any) => {
+		console.log(searchData);
+		this.searchData = searchData;
+		})
+	}
   }
 
   buyProd(product: ProductModel): void{
