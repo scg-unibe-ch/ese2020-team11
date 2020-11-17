@@ -45,8 +45,8 @@ productController.get('/wantedPriceRange/:productMinPriceRequested/:productMaxPr
                 [{
                     productPrice:
                     {
-                        [Op.lte]: req.params.productMinPriceRequested,
-                        [Op.gte]: req.params.productMaxPriceRequested
+                        [Op.gte]: req.params.productMinPriceRequested,
+                        [Op.lte]: req.params.productMaxPriceRequested
                     }
                 },
                     { productType: req.params.productType }]
@@ -70,8 +70,9 @@ productController.get('/wantedDelivery/:productDelivery/:productType', (req: Req
 });
 
 
+// not working yet
 // buy a product
-productController.get('/buy/:productId/:buyerId', verifyToken, (req: Request, res: Response) => {
+productController.get('/buy/:productId/:buyerId', /*verifyToken,*/ (req: Request, res: Response) => {
 
     // if the buyer has enough bool coins, the transaction will occur
     if (productService.hasBuyerEnoughBoolcoins(req.params.buyerId, req.params.productId)) {
