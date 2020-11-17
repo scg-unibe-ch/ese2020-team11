@@ -48,9 +48,8 @@ dashboardController.get('/getDashboard/bought/:logedUserId', verifyToken,
 
 
 
-// not working yet
 // add a product
-dashboardController.post('/post/:userId', /*verifyToken,*/ (req: Request, res: Response) => {
+dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Response) => {
     Product.create(req.body)
         .then(inserted => res.send(inserted))
         .catch(err => res.status(500).send(err));
