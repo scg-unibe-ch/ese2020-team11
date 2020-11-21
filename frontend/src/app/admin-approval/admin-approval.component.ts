@@ -1,8 +1,7 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { ProductsDataService } from '../prdouct-data.service'
+import { ProductsDataService } from '../product-data.service'
 
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 import { ProductModel } from '../models/product.model'
 
 
@@ -17,31 +16,25 @@ export class AdminApprovalComponent implements OnInit {
 
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
-  public prod: ProductModel[] = [
-    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "AUT", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false},
-     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "USA", productToLend: false, productAvailable: true, deliveryPossible: false, isApproved: false} ]
   
-  constructor(private productsDataService: ProductsDataService, private httpClient: HttpClient) { }
+  constructor(private productsDataService: ProductsDataService, private httpClient: HttpClient) {
+    this.productsData = productsDataService.getApproveProducts();
+
+    productsDataService.ApproveProducts$.subscribe(res => this.productsData = res);
+    productsDataService.ApproveServices$.subscribe(res => this.servicesData = res);
+   }
 
   ngOnInit(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'admin/Product/').subscribe((productData: any) => {
-      console.log(productData);
-      this.productsData = productData;
-    });
 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'admin/Service/').subscribe((serviceData: any) => {
-      console.log(serviceData);
-      this.servicesData = serviceData;
-    });
   }
   
+  // Call the delete method in proudct-data Service
   deleteProdServ(product: ProductModel): void {
-    this.httpClient.delete(environment.endpointURL + 'admin/' + product.productId, {
-    }).subscribe();
+    this.productsDataService.deleteUnapprovedProdServ(product);
   }
 
+  // Call the approve method in product-data Service
   approveProdServ(product: ProductModel): void {
-    this.httpClient.put(environment.endpointURL + 'admin/' + product.productId, {
-    }).subscribe();
+    this.productsDataService.approveProdServ(product);
   }
 }
