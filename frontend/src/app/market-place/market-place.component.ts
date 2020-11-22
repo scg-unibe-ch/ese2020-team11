@@ -19,6 +19,10 @@ export class MarketPlaceComponent implements OnInit {
 	wantedType = '';
 
   buyerId: number;
+  // Für vergleich ob genug geld vorhanden ist
+  buyerMoney: number;
+
+  isLogged = false;
 
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
@@ -29,13 +33,18 @@ export class MarketPlaceComponent implements OnInit {
     this.productsData = productsDataService.getMProducts();
     this.servicesData = productsDataService.getMServices();
 
+    this.isLogged = userDataService.getIsLogged();
+
     productsDataService.MProducts$.subscribe(res => this.productsData = res);
     productsDataService.MServices$.subscribe(res => this.servicesData = res);
+
+    userDataService.isLogged$.subscribe(res => this.isLogged = res);
   }
 
   ngOnInit(): void {
 
   this.buyerId = this.userDataService.userInformation.userId;
+  this.buyerMoney = this.userDataService.userInformation.userBoolcoins;
 
 	if(this.wantedLocation != ''){
 		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedLocation/' + this.wantedLocation + '/' + this.wantedType).subscribe((searchData: any) => {
@@ -51,8 +60,20 @@ export class MarketPlaceComponent implements OnInit {
 	}
   }
 
-  buyProd(product: ProductModel): void{
-    this.productsDataService.buyPord(product, this.buyerId);
+  buyProdServ(product: ProductModel): void{
+   if (!(this.isLogged)) {
+     window.alert('Please Login or Register in order to buy something');
+   }
+
+   else {
+    if (this.productsDataService.buyProdServ(product, this.buyerId, this.buyerMoney)) {
+      window.alert('Successfully bought');
+    }
+
+    else {
+      window.alert('Not enough Money to buy');
+    }
+   }
   }
 
   searchProd(): void {

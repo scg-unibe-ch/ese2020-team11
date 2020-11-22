@@ -17,11 +17,14 @@ export class AppComponent implements OnInit {
   todoLists: TodoList[] = [];
 
   isAdmin = false;
+  isLogged = false;
 
   constructor(private httpClient: HttpClient, private userDataService: UserDataService) {
     this.isAdmin = userDataService.getIsAdmin();
+    this.isLogged = userDataService.getIsLogged();
 
     userDataService.isAdmin$.subscribe(res => this.isAdmin = res);
+    userDataService.isLogged$.subscribe(res => this.isLogged = res);
   }
 
   // TodoList - CREATE

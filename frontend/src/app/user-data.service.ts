@@ -12,22 +12,36 @@ export class UserDataService {
   public userInformation: UserModel;
   
   private isAdmin: boolean;
+  private isLogged: boolean;
 
   private isAdminSource = new Subject<boolean>();
   isAdmin$ = this.isAdminSource.asObservable();
 
+  private isLoggedSource = new Subject<boolean>();
+  isLogged$ = this.isLoggedSource.asObservable();
+
   getIsAdmin(): boolean {
     return this.isAdmin;
+  }
+
+  getIsLogged(): boolean {
+    return this.isLogged;
   }
 
   setIsAdmin(isAdmin: boolean): void {
     this.isAdminSource.next(isAdmin);
   } 
 
+  setIsLogged(isLogged: boolean): void {
+    this.isLoggedSource.next(isLogged);
+  }
+
   constructor(private httpClient: HttpClient) {
     this.isAdmin$.subscribe(res => this.isAdmin = res);
+    this.isLogged$.subscribe(res => this.isLogged = res);
 
     this.setIsAdmin(false);
+    this.setIsLogged(false);
 
     this.getUserFromLocalStorage();
   }

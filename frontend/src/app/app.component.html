@@ -15,7 +15,7 @@
     <app-user-login></app-user-login>
   </mat-tab>
 
-  <mat-tab label="User Registration">
+  <mat-tab *ngIf= '!isLogged' label="User Registration">
     <app-user-registration></app-user-registration>
   </mat-tab>
 
