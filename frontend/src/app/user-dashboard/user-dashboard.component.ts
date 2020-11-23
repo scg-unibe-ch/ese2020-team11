@@ -50,8 +50,6 @@ export class UserDashboardComponent implements OnInit {
     //sets currentUsername to the name of current user
     this.currentUserName = this.currentUser.userName;
 
-    this.currentUser.userId
-
     //does only work with a given username, not able to retrieve any username
     //this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
     //  console.log(userData);
