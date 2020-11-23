@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { ProductModel } from '../models/product.model'
 import { UserDataService } from '../user-data.service';
+import { ProductsDataService } from '../product-data.service';
 
 @Component({
   selector: 'app-market-place',
@@ -18,36 +19,32 @@ export class MarketPlaceComponent implements OnInit {
 	wantedType = '';
 
   buyerId: number;
+  // Für vergleich ob genug geld vorhanden ist
+  buyerMoney: number;
+
+  isLogged = false;
 
   productsData: ProductModel[] = [];
   servicesData: ProductModel[] = [];  
 
 	searchData: ProductModel[] = [];  
+  
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService, private productsDataService: ProductsDataService) { 
+    this.productsData = productsDataService.getMProducts();
+    this.servicesData = productsDataService.getMServices();
 
-  public prodPro: ProductModel[] = [
-    {productId: 1, userId: 1, productType: "Product", productTitle: "Apple", productPrice: 2.90, productDescription: "Just an apple", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
-     {productId: 2, userId: 2, productType: "Service", productTitle: "Banana", productPrice: 8.90, productDescription: "Just a banana", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
-    ];
+    this.isLogged = userDataService.getIsLogged();
 
-  public prodServ: ProductModel[] = [
-    {productId: 1, userId: 1, productType: "Product", productTitle: "Melon", productPrice: 3.10, productDescription: "Just a Melon", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: false, productAvailable: true, deliveryPossible: true, isApproved: false},
-     {productId: 2, userId: 2, productType: "Service", productTitle: "Pumkin", productPrice: 12.40, productDescription: "Just a Pumkin", productLocation: "Switzerland, Hochschulstrasse 6, 3012 Bern", productToLend: true, productAvailable: true, deliveryPossible: false, isApproved: false} 
-    ];
-    
-  constructor(private httpClient: HttpClient, private userDataService: UserDataService) { }
+    productsDataService.MProducts$.subscribe(res => this.productsData = res);
+    productsDataService.MServices$.subscribe(res => this.servicesData = res);
+
+    userDataService.isLogged$.subscribe(res => this.isLogged = res);
+  }
 
   ngOnInit(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/Product/').subscribe((productData: any) => {
-      console.log(productData);
-      this.productsData = productData;
-    });
 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/Service/').subscribe((serviceData: any) => {
-      console.log(serviceData);
-      this.servicesData = serviceData;
-    });
-
-    this.buyerId = this.userDataService.userInformation.userId;
+  this.buyerId = this.userDataService.userInformation.userId;
+  this.buyerMoney = this.userDataService.userInformation.userBoolcoins;
 
 	if(this.wantedLocation != ''){
 		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedLocation/' + this.wantedLocation + '/' + this.wantedType).subscribe((searchData: any) => {
@@ -63,8 +60,20 @@ export class MarketPlaceComponent implements OnInit {
 	}
   }
 
-  buyProd(product: ProductModel): void{
-    this.httpClient.get(environment.endpointURL + 'product/buy/' + product.productId + '/' + this.buyerId).subscribe();
+  buyProdServ(product: ProductModel): void{
+   if (!(this.isLogged)) {
+     window.alert('Please Login or Register in order to buy something');
+   }
+
+   else {
+    if (this.productsDataService.buyProdServ(product, this.buyerId, this.buyerMoney)) {
+      window.alert('Successfully bought');
+    }
+
+    else {
+      window.alert('Not enough Money to buy');
+    }
+   }
   }
 
   searchProd(): void {
