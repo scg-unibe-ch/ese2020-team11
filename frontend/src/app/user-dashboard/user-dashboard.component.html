@@ -1,8 +1,84 @@
-<p>user-dashboard works!</p>
+
 <mat-card>
   <mat-tab-group animationDuration="1ms" staticHeight>
-    <mat-tab label="Products">
-     
+    <mat-tab label="User Data">
+      <div>
+        <div >
+          <h2>Username:</h2>
+        </div>
+        <div>
+          Email: {{currentUser.userMail}} Password:
+        </div><br />
+        <div>
+          Firstname:{{currentUser.userFirstName}} , Lastname: {{currentUser.userLastName}}
+        </div><br />
+        <div>
+          <h3>Adress</h3>
+          <p>Street:{{currentUser.userStreet}} Number:{{currentUser.userStreetNumber}}</p>
+          <p>City:{{currentUser.userCity}} Zip Code:{{currentUser.userPinCode}}</p>
+          <p>Country:{{currentUser.userCountry}}</p>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Products to sell">
+      <div>
+        <mat-form-field>
+          <input matInput placeholder="Product Name" name="productTitle">
+        </mat-form-field>
+        <div>
+          <label>Product Type </label>
+          <div class="custom-control custom-radio">
+            <input id="Prosuct" type="radio" class="custom-control-input" value="male" name="productType">
+            <label class="custom-control-label" for="product">Product </label>
+          </div>
+        </div>
+        <div class="custom-control custom-radio">
+          <input id="Service" type="radio" class="custom-control-input" value="service" name="productType">
+          <label class="custom-control-label" for="service">Service </label>
+        </div>
+        <mat-form-field>
+          <input matInput placeholder="Product Description" name="productDescription">
+        </mat-form-field><br />
+        <mat-form-field>
+          <input matInput placeholder="Product Price" name="productPrice">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput placeholder="Product Location" name="productLocation">
+        </mat-form-field>
+        <button mat-flat-button color="primary" (click)="addProductToUser()">New product to share</button>
+      </div>
+      <div *ngFor="let product of currentProducts">
+        <h2>
+          {{product.productTitle}}
+        </h2>
+        <p>
+          Description: {{product.productDescription}}
+        </p>
+      </div>
+</mat-tab>
+    <mat-tab label="Bought products">
+      <div *ngFor="let product of boughtProducts">
+        <h2>
+          {{product.productTitle}}
+        </h2>
+        <p>
+          <p>
+          Description: {{product.productDescription}}
+        </p>
+        <p>
+          Address: {{product.productLocation}}
+        </p>
+      </div>
+    </mat-tab>
+    <mat-tab label="Sold products">
+      <div *ngFor="let product of soldProducts">
+        <h2>
+          {{product.productTitle}}
+        </h2>
+        <p>
+          Description: {{product.productDescription}}
+        </p>
+      </div>
     </mat-tab>
   </mat-tab-group>
 </mat-card>

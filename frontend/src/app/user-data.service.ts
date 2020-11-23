@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { UserModel } from './models/user.model';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'})
@@ -44,7 +44,7 @@ export class UserDataService {
     }
   }
 
-  getUserByName(userName: string): void {
+  getUserByName(userName: string): void{
     this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + userName).subscribe((userData: any) => {
       // The 'userData' variable contains alll the data returned from the backend in JSON format
       console.log(userData);

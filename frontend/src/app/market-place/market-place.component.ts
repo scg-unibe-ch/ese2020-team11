@@ -11,7 +11,7 @@ import { UserDataService } from '../user-data.service';
 })
 export class MarketPlaceComponent implements OnInit {
 
-  	search = '';
+  search = '';
 	wantedLocation = '';
 	price_min = 0;
 	price_max = "";
