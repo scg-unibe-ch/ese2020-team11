@@ -50,21 +50,28 @@ export class UserDashboardComponent implements OnInit {
     //sets currentUsername to the name of current user
     this.currentUserName = this.currentUser.userName;
 
+    this.currentUser.userId
+
     //does only work with a given username, not able to retrieve any username
-    this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
-      console.log(userData);
-      this.currentUser = userData;
-    });
+    //this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
+    //  console.log(userData);
+    //  this.currentUser = userData;
+    //});
+
+
+    // In order for the methods to work, looking in the backend, you also need to deliver the verifytoken
+    // Which you porbably can get from the localstorage (see user-login)
+
     /* methods do not work because username not being retrievable
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + '/getDashboard/forSell/' + 1 /*logedUserId + '/' + 0, ).subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' +  this.currentUser.userId + '/' + 0, ).subscribe((productData: any) => {
       console.log(productData);
       this.currentProducts = productData;
     });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + '/getDashboard/bought/' + 1).subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this. boughtProducts= productData;
     });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + '/getDashboard/sold/'+ 1).subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this.soldProducts = productData;
     });*/
