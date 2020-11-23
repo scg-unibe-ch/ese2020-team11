@@ -24,7 +24,9 @@ export class UserDashboardComponent implements OnInit {
   currentProducts: ProductModel[] = [];
   boughtProducts: ProductModel[] = [];
   soldProducts: ProductModel[] = [];
-  currentUserName = 'BoolMaster';
+  //currentUserName = 'BoolMaster';
+
+  currentUserName: string;
 
   prodType: '';
   prodTitle: '';
@@ -41,6 +43,13 @@ export class UserDashboardComponent implements OnInit {
   constructor(private httpClient: HttpClient, private userDataService: UserDataService) { }
 
   ngOnInit(): void {
+
+    //gets current user 
+    this.currentUser = this.userDataService.userInformation;
+
+    //sets currentUsername to the name of current user
+    this.currentUserName = this.currentUser.userName;
+
     //does only work with a given username, not able to retrieve any username
     this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
       console.log(userData);
