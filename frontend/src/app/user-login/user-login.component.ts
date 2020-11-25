@@ -46,6 +46,7 @@ export class UserLoginComponent implements OnInit {
 
       this.userDataService.setIsAdmin(res.user.isAdmin);
       this.userDataService.setIsLogged(true);
+      this.userDataService.setCurrentUserName(localStorage.getItem('userName'))
     },
       err => {
           window.alert('Wrong username or password'); 
@@ -67,6 +68,7 @@ export class UserLoginComponent implements OnInit {
     // Logging out definitely means that no admin is present, so set 'isAdmin' to FALSE
     this.userDataService.setIsAdmin(false);
     this.userDataService.setIsLogged(false);
+    this.userDataService.setCurrentUserName(localStorage.getItem('userName'));
   }
 
   /**
