@@ -24,6 +24,7 @@ export class UserDashboardComponent implements OnInit {
   currentProducts: ProductModel[] = [];
   boughtProducts: ProductModel[] = [];
   soldProducts: ProductModel[] = [];
+  
   //currentUserName = 'BoolMaster';
 
   currentUserName: string;
@@ -40,21 +41,20 @@ export class UserDashboardComponent implements OnInit {
   userToken: any;
   loggedIn: any;
   userId: any;
-  constructor(private httpClient: HttpClient, private userDataService: UserDataService) { }
+
+  //In constructor, calls userdataservice for Username observable
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService) { 
+    this.currentUserName = userDataService.getCurrentUserName();
+    userDataService.currentUserName$.subscribe(res => this.currentUserName = res);
+  }
 
   ngOnInit(): void {
 
-    //gets current user 
-    this.currentUser = this.userDataService.userInformation;
-
-    //sets currentUsername to the name of current user
-    this.currentUserName = this.currentUser.userName;
-
     //does only work with a given username, not able to retrieve any username
-    //this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
-    //  console.log(userData);
-    //  this.currentUser = userData;
-    //});
+    this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
+      console.log(userData);
+      this.currentUser = userData;
+    });
 
 
     // In order for the methods to work, looking in the backend, you also need to deliver the verifytoken

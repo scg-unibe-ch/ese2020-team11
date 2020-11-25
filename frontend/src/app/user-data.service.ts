@@ -13,6 +13,7 @@ export class UserDataService {
   
   private isAdmin: boolean;
   private isLogged: boolean;
+  private currentUserName: string;
 
   private isAdminSource = new Subject<boolean>();
   isAdmin$ = this.isAdminSource.asObservable();
@@ -20,12 +21,19 @@ export class UserDataService {
   private isLoggedSource = new Subject<boolean>();
   isLogged$ = this.isLoggedSource.asObservable();
 
+  private currentUserNameSource = new Subject<string>();
+  currentUserName$ = this.currentUserNameSource.asObservable();
+
   getIsAdmin(): boolean {
     return this.isAdmin;
   }
 
   getIsLogged(): boolean {
     return this.isLogged;
+  }
+
+  getCurrentUserName(): string {
+    return this.currentUserName;
   }
 
   setIsAdmin(isAdmin: boolean): void {
@@ -36,14 +44,23 @@ export class UserDataService {
     this.isLoggedSource.next(isLogged);
   }
 
+  setCurrentUserName(name: string): void{
+    this.currentUserNameSource.next(name);
+  }
+
   constructor(private httpClient: HttpClient) {
     this.isAdmin$.subscribe(res => this.isAdmin = res);
     this.isLogged$.subscribe(res => this.isLogged = res);
+    this.currentUserName$.subscribe(res => this.currentUserName = res);
 
     this.setIsAdmin(false);
-    this.setIsLogged(false);
-
+    this.setIsLogged(this.checkLocalStorage());
     this.getUserFromLocalStorage();
+
+    // Sets Current User to username in local storage. If no current user then getItem returns Null,
+    // which is not a problem since the userName is only needed when logged in, so the userName then 
+    // will not be null.
+    this.setCurrentUserName(localStorage.getItem('userName'));
   }
 
   private getUserFromLocalStorage(): void {
@@ -67,5 +84,14 @@ export class UserDataService {
       this.userInformation = userData;
       this.setIsAdmin(this.userInformation.isAdmin); 
     })
+  }
+
+  checkLocalStorage(): boolean {
+    if (localStorage.getItem('userToken') === null){
+      return false;
+    }
+    else {
+      return true;
+    }
   }
 }
