@@ -46,18 +46,7 @@ export class MarketPlaceComponent implements OnInit {
   this.buyerId = this.userDataService.userInformation.userId;
   this.buyerMoney = this.userDataService.userInformation.userBoolcoins;
 
-	if(this.wantedLocation != ''){
-		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedLocation/' + this.wantedLocation + '/' + this.wantedType).subscribe((searchData: any) => {
-		console.log(searchData);
-		this.searchData = searchData;
-		})
-	}
-	if(this.price_max != ''){
-		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedPriceRange/' + this.price_min + '/' + this.price_max + '/' + this.wantedType).subscribe((searchData: any) => {
-		console.log(searchData);
-		this.searchData = searchData;
-		})
-	}
+	
   }
 
   buyProdServ(product: ProductModel): void{
@@ -77,6 +66,30 @@ export class MarketPlaceComponent implements OnInit {
   }
 
   searchProd(): void {
-    
+	if(this.wantedLocation == '' && this.price_max == ''){
+		this.httpClient.get<ProductModel[]>(environment.endpointURL+'product/'+ this.wantedType).subscribe((searchData: any) => {
+		console.log(searchData);
+		this.searchData = searchData;
+		})
+	}
+	else if(this.wantedLocation != ''){
+		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedLocation/' + this.wantedLocation + '/' + this.wantedType).subscribe((searchData: any) => {
+		console.log(searchData);
+		this.searchData = searchData;
+		})
+	}
+	else if(this.price_max != ''){
+		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedPriceRange/' + this.price_min + '/' + this.price_max + '/' + this.wantedType).subscribe((searchData: any) => {
+		console.log(searchData);
+		this.searchData = searchData;
+		})
+	}
+	else if(this.price_min != 0){
+		this.httpClient.get<ProductModel[]>(environment.endpointURL + 'product/wantedPriceRange/' + this.price_min + '/' + '1000000' + '/' + this.wantedType).subscribe((searchData: any) => {
+		console.log(searchData);
+		this.searchData = searchData;
+		})
+	}
+	//window.alert('Test \n' + this.wantedType +'  '+ this.wantedLocation + ' ' + this.price_min +'-'+this.price_max +'');
   }
 }

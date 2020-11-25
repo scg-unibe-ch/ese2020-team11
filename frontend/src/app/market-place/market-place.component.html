@@ -107,9 +107,28 @@
 	            <p *ngIf="product.productLocation">
 	              Address: {{ product.productLocation }}
 	            </p>
+
+				
+	            <p *ngIf="product.deliveryPossible == true; then thenBlock else elseBlock"></p>
+	            <ng-template #thenBlock> Delivery: Delivery per Post or per Person </ng-template>
+	            <ng-template #elseBlock> Delivery: Only to Pick up at the Address </ng-template>
+	
+	            <p></p>
+	
+	            <p *ngIf="product.productToLend == true; then thenBlock2 else elseBlock2"></p>
+	            <ng-template #thenBlock2> To Lend: This is a Service to lend </ng-template>
+	            <ng-template #elseBlock2> To buy: This is a Service to buy once </ng-template>
+	
+	            <p></p>
+	
+	            <h2 *ngIf="product.productToLend == true; then thenBlock3 else elseBlock3"></h2>
+	            <ng-template #thenBlock3> <h2> Price per Hour: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button> </h2> </ng-template>
+	            <ng-template #elseBlock3> <h2> Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button> </h2> </ng-template>
+	
+						
 			</mat-card>
 		</div>
-		<div *ngIf="searchData.length === 0">No matching product found</div>
+		<div *ngIf="searchData.length === 0">No matching product/service found</div>
 		
 	</mat-tab>
   
