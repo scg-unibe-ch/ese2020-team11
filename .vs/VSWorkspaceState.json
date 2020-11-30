@@ -3,14 +3,14 @@
     "",
     "\\backend",
     "\\backend\\src",
-    "\\backend\\src\\models",
+    "\\backend\\src\\middlewares",
+    "\\backend\\src\\public",
+    "\\backend\\src\\services",
     "\\frontend",
     "\\frontend\\src",
     "\\frontend\\src\\app",
-    "\\frontend\\src\\app\\admin-approval",
-    "\\frontend\\src\\app\\auth",
-    "\\frontend\\src\\app\\models"
+    "\\frontend\\src\\app\\user-login"
   ],
-  "SelectedNode": "\\backend\\src\\models\\user.model.ts",
+  "SelectedNode": "\\backend\\src\\controllers\\userDashboard.controller.ts",
   "PreviewInSolutionExplorer": false
 }
