@@ -24,23 +24,20 @@ export class UserDashboardComponent implements OnInit {
   currentProducts: ProductModel[] = [];
   boughtProducts: ProductModel[] = [];
   soldProducts: ProductModel[] = [];
-  
-  //currentUserName = 'BoolMaster';
-
   currentUserName: string;
 
-  prodType: '';
-  prodTitle: '';
-  prodPrice: '';
-  prodDescription: '';
-  prodLocation: '';
-  prodToLend: 0;
-  prodAvailable: 1;
-  prodDeliveryPossible: 1;
-  prodIsApproved: 0;
-  userToken: any;
-  loggedIn: any;
-  userId: any;
+  productType = '';
+  productTitle = '';
+  productPrice = '';
+  productDescription = '';
+  productLocation = '';
+  productToLend = 0;
+  productAvailable = 1;
+  productDeliveryPossible = 1;
+  productIsApproved = 0;
+  currentUserToken = '';
+  loggedIn = false;
+  userId= 0;
 
   //In constructor, calls userdataservice for Username observable
   constructor(private httpClient: HttpClient, private userDataService: UserDataService) { 
@@ -55,28 +52,47 @@ export class UserDashboardComponent implements OnInit {
       console.log(userData);
       this.currentUser = userData;
     });
-
+    
 
     // In order for the methods to work, looking in the backend, you also need to deliver the verifytoken
     // Which you porbably can get from the localstorage (see user-login)
 
-    /* methods do not work because username not being retrievable
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' +  this.currentUser.userId + '/' + 0, ).subscribe((productData: any) => {
+     //methods do not work because username not being retrievable
+    /*
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' +this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this.currentProducts = productData;
     });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId,).subscribe((productData: any) => {
       console.log(productData);
       this. boughtProducts= productData;
     });
     this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this.soldProducts = productData;
-    });*/
-
+    });
+    */
   }
   // method to add a product to his user and put it on the  marketplace
-  addProductToUser() { }
-
-  
+  addProductToUser(): void {
+    if ((this.productTitle === '') || (this.productDescription === '')) {
+      window.alert('Please fill in all the required Information');
+    }
+    else {
+      this.httpClient.post('/post/' + this.currentUser.userId,  {
+        userId: this.currentUser.userId,
+        productType: this.productType,
+        productTitle: this.productTitle,
+        productPrice: this.productPrice,
+        productDescription: this.productDescription,
+        productLocation: this.productLocation,
+        productToLend: this.productToLend,
+        productAvailable: this.productAvailable,
+        deliveryPossible: this.productDeliveryPossible,
+        isApproved: this.productIsApproved,
+      }).subscribe((res: any) => {
+        window.alert('You have added a product.');
+      });
+    }
+  }
 }
