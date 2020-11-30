@@ -74,6 +74,9 @@ export class UserDashboardComponent implements OnInit {
     if ((this.productTitle === '') || (this.productPrice === '') || (this.productLocation === '')){
       window.alert('Please fill in all the Required Information. (Marked with a Star)')
     }
+    else if (isNaN(Number(this.productPrice))) {
+      window.alert('Only numbers are allowed in price');
+    }
     else {
       this.httpClient.post(environment.endpointURL + 'dashboard/post/' + this.currentUser.userId, {
         userId: this.currentUser.userId,
