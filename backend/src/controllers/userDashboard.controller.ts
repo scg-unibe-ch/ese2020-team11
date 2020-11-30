@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 
 
 // returns the products or services of a user which are for sell
-dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend',
+dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend', verifyToken,
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
@@ -22,7 +22,7 @@ dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend',
 
 
 // returns products and services of a user which are sold
-dashboardController.get('/getDashboard/sold/:logedUserId',
+dashboardController.get('/getDashboard/sold/:logedUserId', verifyToken,
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
@@ -35,7 +35,7 @@ dashboardController.get('/getDashboard/sold/:logedUserId',
 
 
 // returns products and services which a user has bought
-dashboardController.get('/getDashboard/bought/:logedUserId',
+dashboardController.get('/getDashboard/bought/:logedUserId', verifyToken,
     (req: Request, res: Response) => {
         BoughtProduct.findAll({
             where: {
@@ -49,7 +49,7 @@ dashboardController.get('/getDashboard/bought/:logedUserId',
 
 
 // add a product
-dashboardController.post('/post/:userId', (req: Request, res: Response) => {
+dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Response) => {
     Product.create(req.body)
         .then(inserted => res.send(inserted))
         .catch(err => res.status(500).send(err));
@@ -57,7 +57,7 @@ dashboardController.post('/post/:userId', (req: Request, res: Response) => {
 
 
 // deletes a given post of a user
-dashboardController.delete('/delete/:logedUserId/:productId',  (req: Request, res: Response) => {
+dashboardController.delete('/delete/:logedUserId/:productId', verifyToken, (req: Request, res: Response) => {
     const id: number = +req.params.logedUserId;
     Product.findByPk(req.params.productId)
         .then(found => {
@@ -74,7 +74,7 @@ dashboardController.delete('/delete/:logedUserId/:productId',  (req: Request, re
 
 
 // updates a given post of a user
-dashboardController.put('/update/:logedUserId/:productId', (req: Request, res: Response) => {
+dashboardController.put('/update/:logedUserId/:productId', verifyToken, (req: Request, res: Response) => {
     const id: number = +req.params.logedUserId;
     Product.findByPk(req.params.productId)
         .then(found => {
