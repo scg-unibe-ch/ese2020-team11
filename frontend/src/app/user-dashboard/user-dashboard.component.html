@@ -22,7 +22,7 @@
     <mat-tab label="Products to sell">
       <div>
         <mat-form-field>
-          <input matInput placeholder="Product Name" [(ngModel)]="productTitle" name="productTitle">
+          <input matInput placeholder="Product Name" [(ngModel)]="productTitle" name="productTitle" required>   
         </mat-form-field>
         <div>
           <label>Product Type </label>
@@ -39,10 +39,10 @@
           <input matInput placeholder="Product Description" [(ngModel)]="productDescription" name="productDescription">
         </mat-form-field><br />
         <mat-form-field>
-          <input matInput placeholder="Product Price" [(ngModel)]="productPrice" name="productPrice">
+          <input matInput placeholder="Product Price" [(ngModel)]="productPrice" name="productPrice" pattern = "[0-9.]*" required>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Product Location" [(ngModel)]="productLocation" name="productLocation">
+          <input matInput placeholder="Product Location" [(ngModel)]="productLocation" name="productLocation" required>
         </mat-form-field>
         <br />
         <mat-checkbox [(ngModel)]="deliveryPossible" name="deliveryPossible">

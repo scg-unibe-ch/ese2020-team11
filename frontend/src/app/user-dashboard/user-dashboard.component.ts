@@ -31,7 +31,7 @@ export class UserDashboardComponent implements OnInit {
   productLocation = '';
   productToLend = false;
   productAvailable = true;
-  deliveryPossible = true;
+  deliveryPossible = false;
   productIsApproved = false;
   userToken: string;
   
@@ -71,22 +71,27 @@ export class UserDashboardComponent implements OnInit {
   }
   // method to add a product to his user and put it on the  marketplace
   addProductToUser(): void {
-    this.httpClient.post(environment.endpointURL + 'dashboard/post/' + this.currentUser.userId, {
-      userId: this.currentUser.userId,
-      productType: this.productType,
-      productTitle: this.productTitle,
-      productPrice: this.productPrice,
-      productDescription: this.productDescription,
-      productLocation: this.productLocation,
-      productToLend: this.productToLend,
-      productAvailable: this.productAvailable,
-      deliveryPossible: this.deliveryPossible,
-      isApproved: this.productIsApproved,
-    }).subscribe((res: any) => { 
-      window.alert('Your addvertisment is now going to be verified, this takes a day');
-      this.ProductsDataService.getApproveProductsList();
-      this.ProductsDataService.getApproveServicesList();
-    });
+    if ((this.productTitle === '') || (this.productPrice === '') || (this.productLocation === '')){
+      window.alert('Please fill in all the Required Information. (Marked with a Star)')
+    }
+    else {
+      this.httpClient.post(environment.endpointURL + 'dashboard/post/' + this.currentUser.userId, {
+        userId: this.currentUser.userId,
+        productType: this.productType,
+        productTitle: this.productTitle,
+        productPrice: this.productPrice,
+        productDescription: this.productDescription,
+        productLocation: this.productLocation,
+        productToLend: this.productToLend,
+        productAvailable: this.productAvailable,
+        deliveryPossible: this.deliveryPossible,
+        isApproved: this.productIsApproved,
+      }).subscribe((res: any) => { 
+        window.alert('Your addvertisment is now going to be verified, this takes a day');
+        this.ProductsDataService.getApproveProductsList();
+        this.ProductsDataService.getApproveServicesList();
+      });
+    }
    }
 
   
