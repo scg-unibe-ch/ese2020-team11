@@ -73,6 +73,10 @@ export class UserDashboardComponent implements OnInit {
     });
     */
   }
+  OnChange($event) {
+    console.log($event);
+    //MatCheckboxChange {checked,MatCheckbox}
+  }
   // method to add a product to his user and put it on the  marketplace
   addProductToUser(): void {
     if ((this.productTitle === '') || (this.productDescription === '')) {
