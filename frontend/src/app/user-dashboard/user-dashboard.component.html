@@ -6,7 +6,7 @@
           <h2>Username: {{currentUserName}}</h2>
         </div>
         <div>
-          Email: {{currentUser.userMail}} Password:
+          Email: {{currentUser.userMail}}
         </div><br />
         <div>
           Firstname:{{currentUser.userFirstName}} , Lastname: {{currentUser.userLastName}}
@@ -16,44 +16,75 @@
           <p>Street:{{currentUser.userStreet}} Number:{{currentUser.userStreetNumber}}</p>
           <p>City:{{currentUser.userCity}} Zip Code:{{currentUser.userPinCode}}</p>
           <p>Country:{{currentUser.userCountry}}</p>
+          <p>Current Balance: {{currentUser.userBoolcoins}}</p>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="Products to sell">
       <div>
         <mat-form-field>
-          <input matInput placeholder="Product Name" name="productTitle">
+          <input matInput placeholder="Product Name" [(ngModel)]="productTitle" name="productTitle" required>   
         </mat-form-field>
         <div>
           <label>Product Type </label>
           <div class="custom-control custom-radio">
-            <input id="Prosuct" type="radio" class="custom-control-input" value="male" name="productType">
+            <input id="Product" type="radio" class="custom-control-input" value="product" name="productType" [(ngModel)]="productType">
             <label class="custom-control-label" for="product">Product </label>
           </div>
         </div>
         <div class="custom-control custom-radio">
-          <input id="Service" type="radio" class="custom-control-input" value="service" name="productType">
+          <input id="Service" type="radio" class="custom-control-input" value="service" name="productType" [(ngModel)]="productType"> 
           <label class="custom-control-label" for="service">Service </label>
         </div>
         <mat-form-field>
-          <input matInput placeholder="Product Description" name="productDescription">
+          <input matInput placeholder="Product Description" [(ngModel)]="productDescription" name="productDescription">
         </mat-form-field><br />
         <mat-form-field>
-          <input matInput placeholder="Product Price" name="productPrice">
+          <input matInput placeholder="Product Price" [(ngModel)]="productPrice" name="productPrice" pattern = "[0-9.]*" required>
         </mat-form-field>
         <mat-form-field>
-          <input matInput placeholder="Product Location" name="productLocation">
+          <input matInput placeholder="Product Location" [(ngModel)]="productLocation" name="productLocation" required>
         </mat-form-field>
-        <button mat-flat-button color="primary" (click)="addProductToUser()">New product to share</button>
+        <br />
+        <mat-checkbox [(ngModel)]="deliveryPossible" name="deliveryPossible">
+          delivery Possible
+        </mat-checkbox>
+        <br />
+        <br />
+        <button mat-flat-button color="primary" (click)="addProductToUser()">Add product</button>
       </div>
+      <br />
+
+      <h2>Current Products/Services you sell:</h2>
       <div *ngFor="let product of currentProducts">
-        <h2>
-          {{product.productTitle}}
-        </h2>
-        <p>
-          Description: {{product.productDescription}}
-        </p>
+        <mat-card>
+          Type of addvertisment:
+          <br />
+          Title:
+          <mat-form-field>
+            <input matInput placeholder= "{{product.productTitle}}" [(ngModel)]="productTitle" name="productTitle" required>    
+          </mat-form-field>
+          <br />
+          Description:
+          <mat-form-field *ngIf="product.productDescription">
+            <input matInput placeholder= "{{product.productDescription}}" [(ngModel)]="productDescription" name="productDescription">    
+          </mat-form-field>
+          <br />
+          Location:
+          <mat-form-field *ngIf="product.productLocation">
+            <input matInput placeholder= "{{product.productLocation}}" [(ngModel)]="productLocation" name="productLocation">    
+          </mat-form-field>
+          <br />
+          Delivery possible:
+          <br />
+          Price:
+          <mat-form-field>
+            <input matInput placeholder="{{product.productPrice}}" [(ngModel)]="productPrice" name="productPrice" pattern = "[0-9.]*" required>
+          </mat-form-field>
+          <button mat-flat-button color="primary" (click)="buyProdServ(product)">Change</button> <button mat-flat-button color="warn" (click)="deleteProduct(product)">Delete</button>
+        </mat-card>
       </div>
+      <div *ngIf="currentProducts.length === 0">You have not made any addvertisements.</div>
 </mat-tab>
     <mat-tab label="Bought products">
       <div *ngFor="let product of boughtProducts">
@@ -69,6 +100,7 @@
         </p>
       </div>
     </mat-tab>
+
     <mat-tab label="Sold products">
       <div *ngFor="let product of soldProducts">
         <h2>
