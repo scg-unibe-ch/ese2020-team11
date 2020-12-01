@@ -51,14 +51,9 @@ export class UserDashboardComponent implements OnInit {
       this.currentUser = userData;
     });
 
-    // In order for the methods to work, looking in the backend, you also need to deliver the verifytoken
-    // Which you porbably can get from the localstorage (see user-login)
+    this.getSellingList();
 
-    /* methods do not work because username not being retrievable
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' +  this.currentUser.userId + '/' + 0, ).subscribe((productData: any) => {
-      console.log(productData);
-      this.currentProducts = productData;
-    });
+   /*
     this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this. boughtProducts= productData;
@@ -69,6 +64,7 @@ export class UserDashboardComponent implements OnInit {
     });*/
 
   }
+
   // method to add a product to his user and put it on the  marketplace
   addProductToUser(): void {
     if ((this.productTitle === '') || (this.productPrice === '') || (this.productLocation === '')){
@@ -97,5 +93,21 @@ export class UserDashboardComponent implements OnInit {
     }
    }
 
+   // Does not work (stuck in infinite accordingly to postman)
+   deleteProduct(product: ProductModel): void {
+    this.httpClient.delete(environment.endpointURL + 'dashboard/delete/' + this.currentUser.userId + '/' + product.productId, {
+    }).subscribe(() => {this.getSellingList()});
+   }
+
+   updateProduct(product: ProductModel): void{
+   }
+
+   // Only works if you hardcode the userId
+   getSellingList(): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/2').subscribe((currentProductData: any) => {
+      console.log(currentProductData);
+      this.currentProducts = currentProductData;
+    });
+   }
   
 }
