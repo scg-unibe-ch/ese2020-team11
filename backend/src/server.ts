@@ -14,6 +14,7 @@ import { User } from './models/user.model';
 import { Product } from './models/product.model';
 import cors from 'cors';
 import { BoughtProduct } from './models/boughtProduct.model';
+import { UserFavorites } from './models/userFavorites.model';
 
 
 export class Server {
@@ -31,6 +32,10 @@ export class Server {
         TodoList.createAssociations();
         User.initialize(this.sequelize);
         Product.initialize(this.sequelize);
+        UserFavorites.initialize(this.sequelize);
+        User.createAssociations();
+        Product.createAssociations();
+        UserFavorites.createAssociations();
         BoughtProduct.initialize(this.sequelize);
 
         this.sequelize.sync().then(() => {                           // create connection to the database

@@ -1,5 +1,12 @@
 import { TodoItem, TodoItemAttributes, TodoItemCreationAttributes } from './todoitem.model';
-import { Optional, Model, Sequelize, DataTypes } from 'sequelize';
+import {
+    Optional, Model, HasManyGetAssociationsMixin, HasManyAddAssociationMixin,
+    HasManyHasAssociationMixin, Association, Sequelize, DataTypes
+} from 'sequelize';
+import { Product } from './product.model';
+import { UserFavorites } from './userFavorites.model';
+
+
 
 export interface UserAttributes {
     userId: number;
@@ -101,5 +108,16 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
             }
         );
     }
-
+    public static createAssociations() {
+        User.hasMany(UserFavorites, { foreignKey: 'userId' });
+        // User.belongsToMany(Product, { through: 'UserFavorites', foreignKey: 'userId' });
+    }
+    /*
+    public static createAssociations() {
+        User.hasMany(UserFavorites, {
+            as: 'userFavorites',
+            foreignKey: 'userId'
+        });
+    }
+    */
 }

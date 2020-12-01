@@ -3,28 +3,38 @@ import { LoginResponse, LoginRequest } from '../models/login.model';
 import { UserService } from '../services/user.service';
 import { Sequelize } from 'sequelize';
 
-export function checkRegistration(user: UserAttributes): Promise<UserAttributes> {
-    if (user.userName == null || User.findOne({
-        where: {
-            userName: user.userName
-        }
-    })) {
-        return Promise.reject({message: 'invalid user name'});
-    } else if (user.userMail == null || User.findOne({
-        where: {
-            userMail: user.userMail
-        }
-    })) {
-        return Promise.reject({ message: 'invalid user mail' });
-    } else if (!this.UserService.passwordRequiermentCheck(user.password)) {
+
+export function checkRegistration(username: string) {
+        User.findOne({
+            where: {
+                userName: username
+            }
+        }).then(found => {
+            if (found != null) {
+                return true;
+            } else {
+                return false;
+            }
+    });
+}
+    /* userExists = false;
+
+    User.findOne({
+        where: { userName: user.userName }
+    }).then(userExists = true);
+
+    if (userExists) {
         return Promise.reject();
-    } else if (user.userFirstName == null) {
-        return Promise.reject({ message: 'invalid first name' });
-    } else if (user.userLastName == null) {
-        return Promise.reject({ message: 'invalid last name' });
     } else {
         return Promise.resolve(user);
     }
-}
+*/
+
+
+/*    {
+        ;
+    } else {
+        return Promise.resolve(user);
+    }*/
 
 
