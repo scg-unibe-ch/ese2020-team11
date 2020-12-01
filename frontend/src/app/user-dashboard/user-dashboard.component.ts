@@ -33,7 +33,7 @@ export class UserDashboardComponent implements OnInit {
   productAvailable = true;
   deliveryPossible = false;
   productIsApproved = false;
-  userToken: string;
+  userToken = '';
   
   
 
@@ -51,11 +51,8 @@ export class UserDashboardComponent implements OnInit {
       this.currentUser = userData;
     });
 
-    // In order for the methods to work, looking in the backend, you also need to deliver the verifytoken
-    // Which you porbably can get from the localstorage (see user-login)
-
-    /* methods do not work because username not being retrievable
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' +  this.currentUser.userId + '/' + 0, ).subscribe((productData: any) => {
+    // methods do not work 
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this.currentProducts = productData;
     });
@@ -63,10 +60,10 @@ export class UserDashboardComponent implements OnInit {
       console.log(productData);
       this. boughtProducts= productData;
     });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ this.currentUser.userId).subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/' + this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this.soldProducts = productData;
-    });*/
+    });
 
   }
   // method to add a product to his user and put it on the  marketplace

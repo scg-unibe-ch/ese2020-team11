@@ -9,7 +9,7 @@ const { Op } = require('sequelize');
 
 
 // returns the products or services of a user which are for sell
-dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend', verifyToken,
+dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend',
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
@@ -22,7 +22,7 @@ dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend', verifyToke
 
 
 // returns products and services of a user which are sold
-dashboardController.get('/getDashboard/sold/:logedUserId', verifyToken,
+dashboardController.get('/getDashboard/sold/:logedUserId',
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
@@ -35,7 +35,7 @@ dashboardController.get('/getDashboard/sold/:logedUserId', verifyToken,
 
 
 // returns products and services which a user has bought
-dashboardController.get('/getDashboard/bought/:logedUserId', verifyToken,
+dashboardController.get('/getDashboard/bought/:logedUserId',
     (req: Request, res: Response) => {
         BoughtProduct.findAll({
             where: {

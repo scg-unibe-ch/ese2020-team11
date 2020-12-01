@@ -1,6 +1,8 @@
 import { Component, OnInit, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-registration',
@@ -22,16 +24,19 @@ export class UserRegistrationComponent implements OnInit {
 	street = '';
 	number = '';
 	zip = 0;
-	city = '';
-
+  city = '';
+  country = '';
   userToken: string;
   loggedIn = false;
 
 
   constructor(private httpClient: HttpClient) { }
 
+ 
+
   ngOnInit(): void {
     this.checkUserStatus();
+    
   }
 
   checkUserStatus(): void {
@@ -63,7 +68,7 @@ export class UserRegistrationComponent implements OnInit {
         userStreetNumber: this.number,
         userPinCode: this.zip,
         userCity: this.city,
-        userCountry: "string",
+        userCountry:this.country,
     }) .subscribe((res: any) => { 
       window.alert('You are now registered. Please go to the login section to log in');
     });

@@ -20,10 +20,11 @@
     <!--optional registration fields-->
     <!--Gender and phone number-->
     <label>Gender </label>
-    <div class="custom-control custom-radio" >
+    <div class="custom-control custom-radio">
       <input id="male" type="radio" class="custom-control-input" value="male" name="gender" [(ngModel)]="gender">
-    <label class="custom-control-label" for="male">Male </label></div>
-    <div class= "custom-control custom-radio" >
+      <label class="custom-control-label" for="male">Male </label>
+    </div>
+    <div class="custom-control custom-radio">
       <input id="female" type="radio" class="custom-control-input" value="female" name="gender" [(ngModel)]="gender">
       <label class="custom-control-label" for="female">Female </label>
     </div>
@@ -45,17 +46,25 @@
       <input matInput placeholder="Zip-code" [(ngModel)]="zip" name="zip">
     </mat-form-field>
 
-      <mat-form-field>
-        <input matInput placeholder="City" [(ngModel)]="city" name="city">
-      </mat-form-field><br />
-      <mat-form-field>
-          <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password"
-                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./=?:;@\^_`{|}~]).{7,}" required>
-          <mat-hint align="end">Combination of capital and small letters, numbers, and special characters, at least 7 characters</mat-hint>
-      </mat-form-field><br />
+    <mat-form-field>
+      <input matInput placeholder="City" [(ngModel)]="city" name="city">
+    </mat-form-field><br />
+    <!-- should add the country-->
+    <mat-select-country appearance="outline"
+                        label="Country"
+                        [formControl]="countryFormControl"
+                        (onCountrySelected)="onCountrySelected($event)">
+    </mat-select-country><br />
 
-      <br /><br />
+    <mat-form-field>
+      <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password"
+             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!#$%&'()*+,-./=?:;@\^_`{|}~]).{7,}" required>
+      <mat-hint align="end">Combination of capital and small letters, numbers, and special characters, at least 7 characters</mat-hint>
+    </mat-form-field><br />
 
-      <button mat-flat-button color="primary" (click)="regist()">Registration</button>
+    <br /><br />
+
+
+    <button mat-flat-button color="primary" (click)="regist()">Registration</button>
   </div> 
 </mat-card>

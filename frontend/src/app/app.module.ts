@@ -20,6 +20,7 @@ import { UserRegistrationComponent } from './user-registration/user-registration
 import { MarketPlaceComponent } from './market-place/market-place.component';
 import { AdminApprovalComponent } from './admin-approval/admin-approval.component';
 import { UserDashboardComponent } from './user-dashboard/user-dashboard.component';
+import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
 import { from } from 'rxjs';
 
 
@@ -48,7 +49,8 @@ import { from } from 'rxjs';
     MatCardModule,
     MatTabsModule,
     MatToolbarModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSelectCountryModule.forRoot('de'),
   ],
   providers: [
     {
