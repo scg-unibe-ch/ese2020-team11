@@ -17,6 +17,7 @@ export class MarketPlaceComponent implements OnInit {
 	price_min = 0;
 	price_max = "";
 	wantedType = '';
+	deliveryOnly = false;
 
   buyerId: number;
   // Für vergleich ob genug geld vorhanden ist
