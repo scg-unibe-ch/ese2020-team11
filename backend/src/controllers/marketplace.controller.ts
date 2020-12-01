@@ -5,6 +5,8 @@ import { BoughtProduct } from '../models/boughtProduct.model';
 import { User } from '../models/user.model';
 import { ProductService } from '../services/product.service';
 import { verifyToken } from '../middlewares/checkAuth';
+import { verify } from 'crypto';
+import { UserFavorites } from '../models/userFavorites.model';
 
 const productController: Router = express.Router();
 const productService = new ProductService();
@@ -72,6 +74,34 @@ productController.get('/wantedDelivery/:productDelivery/:productType', (req: Req
 
 
 
+// set a product/service as a favorite
+productController.post('/addFavorite', verifyToken, (req: Request, res: Response) => {
+    UserFavorites.create(req.body)
+        .then(inserted => res.send(inserted))
+        .catch(err => res.status(500).send(err));
+});
+
+
+
+// remove a product/service as a favorite
+productController.delete('/removeFavorite/:productId/:userId', verifyToken, (req: Request, res: Response) => {
+    UserFavorites.findOne({
+        where: { [Op.and]: [{ userId: req.params.userId }, { productId: req.params.productId }] }
+    })
+        .then(found => {
+            if (found != null) {
+                    found.destroy().then(() => res.status(200).send());
+            } else {
+                res.sendStatus(404);
+            }
+        })
+        .catch(err => res.status(500).send(err));
+});
+
+
+
+
+
 // Buy methods
 
 // returns the wanted product
@@ -115,8 +145,18 @@ productController.put('/buy/productStatusUpdate/:productId', (req: Request, res:
 });
 
 
-// not working yet
+
+// save the to buy product into the bought database
+productController.post('/buy/saveProduct', (req: Request, res: Response) => {
+    BoughtProduct.create(req.body)
+        .then(inserted => res.send(inserted))
+        .catch(err => res.status(500).send(err));
+});
+
+
+// not working
 // copies the db products entries into boughtProducts
+/*
 productController.post('/buy/saveProduct/:buyerId/:productId', (req: Request, res: Response) => {
     const idNum: number = +req.params.buyerId;
     Product.findByPk(req.params.productId)
@@ -138,6 +178,7 @@ productController.post('/buy/saveProduct/:buyerId/:productId', (req: Request, re
             }
         }).catch(err => res.status(500).send(err));
 });
+*/
 
 
 // updates the boolcoins of a user

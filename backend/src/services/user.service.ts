@@ -10,9 +10,13 @@ export class UserService {
 
     public register(user: UserAttributes): Promise<UserAttributes> {
         const saltRounds = 12;
-        checkRegistration(user);
-        user.password = bcrypt.hashSync(user.password, saltRounds); // hashes the password, never store passwords as plaintext
-        return User.create(user).then(inserted => Promise.resolve(inserted)).catch(err => Promise.reject(err));
+        const userName: string = user.userName;
+        if (checkRegistration(userName) == null) {
+            user.password = bcrypt.hashSync(user.password, saltRounds); // hashes the password, never store passwords as plaintext
+            return User.create(user).then(inserted => Promise.resolve(inserted)).catch(err => Promise.reject(err));
+        } else {
+            return Promise.reject();
+        }
     }
 
     public login(loginRequestee: LoginRequest): Promise<User | LoginResponse> {
@@ -37,7 +41,7 @@ export class UserService {
 
     public getAll(): Promise<User[]> {
         return User.findAll();
-    }
+}
 
     public getUserByName(username: string): Promise<User> {
         return User.findOne({

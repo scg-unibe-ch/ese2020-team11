@@ -1,4 +1,9 @@
-import { Optional, Model, Sequelize, DataTypes } from 'sequelize';
+import {
+    Optional, Model, HasManyGetAssociationsMixin, HasManyAddAssociationMixin,
+    HasManyHasAssociationMixin, Association, Sequelize, DataTypes
+} from 'sequelize';
+import { User } from './user.model';
+import { UserFavorites } from './userFavorites.model';
 
 export interface ProductAttributes {
     productId: number;
@@ -104,5 +109,16 @@ export class Product extends Model<ProductAttributes, UserCreationAttributes> im
             tableName: 'products'
         });
     }
-
+    public static createAssociations() {
+        Product.hasMany(UserFavorites, { foreignKey: 'productId' });
+        // Product.belongsToMany(User, { through: 'UserFavorites', foreignKey:'productId' });
+    }
+    /*
+    public static createAssociations() {
+        Product.hasMany(UserFavorites, {
+            as: 'userFavorites',
+            foreignKey: 'productId'
+        });
+    }
+    */
 }
