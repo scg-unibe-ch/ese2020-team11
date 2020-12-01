@@ -9,11 +9,11 @@ const { Op } = require('sequelize');
 
 
 // returns the products or services of a user which are for sell
-dashboardController.get('/getDashboard/forSell/:logedUserId/:toLend',
+dashboardController.get('/getDashboard/forSell/:logedUserId',
     (req: Request, res: Response) => {
         Product.findAll({
             where: {
-                [Op.and]: [{ userId: req.params.logedUserId }, { productToLend: req.params.toLend }, { productAvailable: true}]
+                [Op.and]: [{ userId: req.params.logedUserId }, { productAvailable: true}]
             }
         })
             .then(list => res.status(200).send(list))
@@ -57,7 +57,7 @@ dashboardController.post('/post/:userId', verifyToken, (req: Request, res: Respo
 
 
 // deletes a given post of a user
-dashboardController.delete('/delete/:logedUserId/:productId', verifyToken, (req: Request, res: Response) => {
+dashboardController.delete('/delete/:logedUserId/:productId',  (req: Request, res: Response) => {
     const id: number = +req.params.logedUserId;
     Product.findByPk(req.params.productId)
         .then(found => {
@@ -74,7 +74,7 @@ dashboardController.delete('/delete/:logedUserId/:productId', verifyToken, (req:
 
 
 // updates a given post of a user
-dashboardController.put('/update/:logedUserId/:productId', verifyToken, (req: Request, res: Response) => {
+dashboardController.put('/update/:logedUserId/:productId', (req: Request, res: Response) => {
     const id: number = +req.params.logedUserId;
     Product.findByPk(req.params.productId)
         .then(found => {

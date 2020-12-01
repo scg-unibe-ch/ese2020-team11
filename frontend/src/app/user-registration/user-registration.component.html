@@ -50,11 +50,11 @@
       <input matInput placeholder="City" [(ngModel)]="city" name="city">
     </mat-form-field><br />
     <!-- should add the country-->
-    <mat-select-country appearance="outline"
-                        label="Country"
-                        [formControl]="countryFormControl"
-                        (onCountrySelected)="onCountrySelected($event)">
-    </mat-select-country><br />
+    <!--<mat-select-country appearance="outline"
+                      label="Country"
+                      [formControl]="countryFormControl"
+                      (onCountrySelected)="onCountrySelected($event)">
+  </mat-select-country><br />-->
 
     <mat-form-field>
       <input matInput placeholder="Password" [(ngModel)]="password" name="password" type="password"

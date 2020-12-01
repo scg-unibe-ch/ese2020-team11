@@ -33,7 +33,7 @@ export class UserDashboardComponent implements OnInit {
   productAvailable = true;
   deliveryPossible = false;
   productIsApproved = false;
-  userToken = '';
+  userToken: string;
   
   
 
@@ -51,21 +51,20 @@ export class UserDashboardComponent implements OnInit {
       this.currentUser = userData;
     });
 
-    // methods do not work 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.currentUser.userId).subscribe((productData: any) => {
-      console.log(productData);
-      this.currentProducts = productData;
-    });
+    this.getSellingList();
+
+   /*
     this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this. boughtProducts= productData;
     });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/' + this.currentUser.userId).subscribe((productData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ this.currentUser.userId).subscribe((productData: any) => {
       console.log(productData);
       this.soldProducts = productData;
-    });
+    });*/
 
   }
+
   // method to add a product to his user and put it on the  marketplace
   addProductToUser(): void {
     if ((this.productTitle === '') || (this.productPrice === '') || (this.productLocation === '')){
@@ -94,5 +93,21 @@ export class UserDashboardComponent implements OnInit {
     }
    }
 
+   // Does not work (stuck in infinite accordingly to postman)
+   deleteProduct(product: ProductModel): void {
+    this.httpClient.delete(environment.endpointURL + 'dashboard/delete/' + this.currentUser.userId + '/' + product.productId, {
+    }).subscribe(() => {this.getSellingList()});
+   }
+
+   updateProduct(product: ProductModel): void{
+   }
+
+   // Only works if you hardcode the userId
+   getSellingList(): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/2').subscribe((currentProductData: any) => {
+      console.log(currentProductData);
+      this.currentProducts = currentProductData;
+    });
+   }
   
 }
