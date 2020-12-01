@@ -87,6 +87,7 @@
 		<mat-form-field>
 			<input matInput placeholder="to" [(ngModel)]="price_max" name="price_max">
 		</mat-form-field>
+		<p>Product Type</p>
 	    <div class="custom-control custom-radio" >
 	      <input id="product" type="radio" class="custom-control-input" value="product" name="wantedType" [(ngModel)]="wantedType">
 	    <label class="custom-control-label" for="product">product </label></div>
@@ -95,8 +96,20 @@
 	      <label class="custom-control-label" for="service">service </label>
 	    </div>
 		<br />
+		<p>Delivery Option</p>
+		<div class="custom-control custom-radio" >
+	      <input id="delivery" type="radio" class="custom-control-input2" value= "true" name="delivery" [(ngModel)]="deliveryOnly">
+	    <label class="custom-control-label" for="delivery">Delivery only</label></div>
+		
+		<!-->
+		<div class="custom-control custom-radio" >
+	      <input id="pickUp" type="radio" class="custom-control-input2" value= "false"  name="delivery" [(ngModel)]="deliveryOnly">
+	    <label class="custom-control-label" for="pickUp">Delivery or Pick Up</label></div>  
+		<!-->
+	    
+		<br />
 		<div *ngFor="let product of searchData">
-			<mat-card>
+			<mat-card *ngIf="product.productTitle.toLowerCase().includes(search.toLowerCase()) && (deliveryOnly == false  || product.deliveryPossible == true)">
 				<h2>
 	                {{ product.productTitle }}
 	            </h2>
