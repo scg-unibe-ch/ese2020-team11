@@ -51,7 +51,10 @@ export class UserDashboardComponent implements OnInit {
       this.currentUser = userData;
     });
 
-    this.getSellingList();
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/2').subscribe((currentProductData: any) => {
+      console.log(currentProductData);
+      this.currentProducts = currentProductData;
+    });
 
    /*
     this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
@@ -104,7 +107,7 @@ export class UserDashboardComponent implements OnInit {
 
    // Only works if you hardcode the userId
    getSellingList(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/2').subscribe((currentProductData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.userDataService.userInformation.userId).subscribe((currentProductData: any) => {
       console.log(currentProductData);
       this.currentProducts = currentProductData;
     });
