@@ -54,35 +54,16 @@
         <button mat-flat-button color="primary" (click)="addProductToUser()">Add product</button>
       </div>
       <br />
-
       <h2>Current Products/Services you sell:</h2>
       <div *ngFor="let product of currentProducts">
         <mat-card>
-          Type of addvertisment:
-          <br />
-          Title:
-          <mat-form-field>
-            <input matInput placeholder= "{{product.productTitle}}" [(ngModel)]="productTitle" name="productTitle" required>    
-          </mat-form-field>
-          <br />
-          Description:
-          <mat-form-field *ngIf="product.productDescription">
-            <input matInput placeholder= "{{product.productDescription}}" [(ngModel)]="productDescription" name="productDescription">    
-          </mat-form-field>
-          <br />
-          Location:
-          <mat-form-field *ngIf="product.productLocation">
-            <input matInput placeholder= "{{product.productLocation}}" [(ngModel)]="productLocation" name="productLocation">    
-          </mat-form-field>
-          <br />
-          Delivery possible:
-          <br />
-          Price:
-          <mat-form-field>
-            <input matInput placeholder="{{product.productPrice}}" [(ngModel)]="productPrice" name="productPrice" pattern = "[0-9.]*" required>
-          </mat-form-field>
-          <button mat-flat-button color="primary" (click)="buyProdServ(product)">Change</button> <button mat-flat-button color="warn" (click)="deleteProduct(product)">Delete</button>
-        </mat-card>
+          <h2>
+            {{product.productTitle}}
+          </h2>
+          <p>
+            Description: {{product.productDescription}}   <button mat-flat-button color="warn" (click)="deleteProduct(product)">Delete</button>
+          </p>
+        </mat-card>  
       </div>
       <div *ngIf="currentProducts.length === 0">You have not made any addvertisements.</div>
 </mat-tab>
@@ -99,8 +80,8 @@
           Address: {{product.productLocation}}
         </p>
       </div>
+      <div *ngIf="boughtProducts.length === 0">You have not made any purchase.</div>
     </mat-tab>
-
     <mat-tab label="Sold products">
       <div *ngFor="let product of soldProducts">
         <h2>
@@ -110,6 +91,7 @@
           Description: {{product.productDescription}}
         </p>
       </div>
+      <div *ngIf="soldProducts.length === 0">You have not sold any Items.</div>
     </mat-tab>
   </mat-tab-group>
 </mat-card>
