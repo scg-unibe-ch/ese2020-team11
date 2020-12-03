@@ -77,7 +77,7 @@ export class UserDataService {
     this.setCurrentUserName(localStorage.getItem('userName'));
   }
 
-  private getUserFromLocalStorage(): void {
+   getUserFromLocalStorage(): void {
     console.log('Checking for user data in local storage:');
     const userName = localStorage.getItem('userName');
 
@@ -108,5 +108,9 @@ export class UserDataService {
     else {
       return true;
     }
+  }
+
+  getUserData(): void {
+
   }
 }

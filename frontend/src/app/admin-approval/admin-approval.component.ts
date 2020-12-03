@@ -6,6 +6,7 @@ import { ProductModel } from '../models/product.model'
 
 
 
+
 @Component({
   selector: 'app-admin-approval',
   templateUrl: './admin-approval.component.html',
@@ -22,7 +23,7 @@ export class AdminApprovalComponent implements OnInit {
 
     productsDataService.ApproveProducts$.subscribe(res => this.productsData = res);
     productsDataService.ApproveServices$.subscribe(res => this.servicesData = res);
-   }
+  }
 
   ngOnInit(): void {
 

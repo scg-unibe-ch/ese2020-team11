@@ -61,7 +61,7 @@
             {{product.productTitle}}
           </h2>
           <p>
-            Description: {{product.productDescription}}
+            Description: {{product.productDescription}}   <button mat-flat-button color="warn" (click)="deleteProduct(product)">Delete</button>
           </p>
         </mat-card>  
       </div>
@@ -80,6 +80,7 @@
           Address: {{product.productLocation}}
         </p>
       </div>
+      <div *ngIf="boughtProducts.length === 0">You have not made any purchase.</div>
     </mat-tab>
     <mat-tab label="Sold products">
       <div *ngFor="let product of soldProducts">
@@ -90,6 +91,7 @@
           Description: {{product.productDescription}}
         </p>
       </div>
+      <div *ngIf="soldProducts.length === 0">You have not sold any Items.</div>
     </mat-tab>
   </mat-tab-group>
 </mat-card>

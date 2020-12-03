@@ -4,6 +4,8 @@ import { environment } from '../environments/environment';
 import { ProductModel } from './models/product.model';
 import { Subject } from 'rxjs';
 import { UserModel } from './models/user.model';
+import { ThrowStmt } from '@angular/compiler';
+import { UserDataService } from './user-data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +26,10 @@ export class ProductsDataService {
   // Both lists for Products and Services which need to be approved
   public ApproveProducts: ProductModel[];
   public ApproveServices: ProductModel[];
+
+  public sellingList: ProductModel[];
+  public boughtList: ProductModel[];
+  public soldList: ProductModel[];
   
 
   private MProductsSource = new Subject<ProductModel[]>();
@@ -31,11 +37,19 @@ export class ProductsDataService {
   private ApproveProductsSource = new Subject<ProductModel[]>();
   private ApproveServicesSource = new Subject<ProductModel[]>();
 
+  private sellingListSource = new Subject<ProductModel[]>();
+  private boughtListSource = new Subject<ProductModel[]>();
+  private soldListSource = new Subject<ProductModel[]>();
+
 
   MProducts$ = this.MProductsSource.asObservable();
   MServices$ = this.MServicesSource.asObservable();
   ApproveProducts$ = this.ApproveProductsSource.asObservable();
   ApproveServices$ = this.ApproveServicesSource.asObservable();
+
+  sellingList$ = this.sellingListSource.asObservable();
+  boughtList$ = this.boughtListSource.asObservable();
+  soldList$ = this.soldListSource.asObservable();
 
 
   getMProducts(): ProductModel[] {
@@ -54,7 +68,19 @@ export class ProductsDataService {
     return this.ApproveServices;
   }
 
+  getSellingList(): ProductModel[] {
+    return this.sellingList;
+  }
 
+  getBoughtList(): ProductModel[] {
+    return this.boughtList;
+  }
+
+  getSoldList(): ProductModel[] {
+    return this.soldList;
+  }
+
+  
   setMProducts(MProducts: ProductModel[]): void {
     this.MProductsSource.next(MProducts)
   }
@@ -71,18 +97,37 @@ export class ProductsDataService {
     this.ApproveServicesSource.next(ApproveServices)
   }
 
+  SetSellingList(sellList: ProductModel[]): void {
+    this.sellingListSource.next(sellList);
+  }
 
-  constructor(private httpClient: HttpClient ) {
+  SetBoughtList(boughtList: ProductModel[]): void {
+    this.boughtListSource.next(boughtList);
+  }
+
+  SetSoldList(soldList: ProductModel[]): void {
+    this.soldListSource.next(soldList);
+  }
+
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService ) {
     this.MProducts$.subscribe(res => this.MProducts = res);
     this.MServices$.subscribe(res => this.MServices = res);
     this.ApproveProducts$.subscribe(res => this.ApproveProducts = res);
     this.ApproveServices$.subscribe(res => this.ApproveServices = res);
+
+    this.sellingList$.subscribe(res => this.sellingList = res);
+    this.boughtList$.subscribe(res => this.boughtList = res);
+    this.soldList$.subscribe(res => this.soldList = res);
 
     this.setMProducts([]);
     this.setMServices([]);
     this.SetApproveProducts([]);
     this.SetApproveServices([]);
     
+    this.SetSellingList([]);
+    this.SetBoughtList([]);
+    this.SetSoldList([]);
+
     this.getMProductList();
     this.getMServiceList();
     this.getApproveProductsList();
@@ -116,6 +161,27 @@ export class ProductsDataService {
     this.httpClient.get<ProductModel[]>(environment.endpointURL + 'admin/getProducts/service/').subscribe((serviceData: any) => {
       console.log(serviceData);
       this.SetApproveServices(serviceData);
+    });
+  }
+
+  getSellingListR(userId): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + userId).subscribe((currentProductData: any) => {
+      console.log(currentProductData);
+      this.SetSellingList(currentProductData);
+    });
+  }
+
+  getBoughtListR(userId): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + userId).subscribe((productData: any) => {
+      console.log(productData);
+      this.SetBoughtList(productData);
+    });
+  }
+
+  getSoldListR(userId): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ userId).subscribe((productData: any) => {
+      console.log(productData);
+      this.SetSoldList(productData);
     });
   }
 
@@ -182,11 +248,15 @@ export class ProductsDataService {
     
      // (-) Wert für käufer 
      this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempBuyer.userId + '/' + this.moneyAmountBuyer, {
-     }).subscribe();
+     }).subscribe(() => {this.userDataService.getUserFromLocalStorage()});
+                         // this.usetDataService..... nötig um NutzerDaten(Geld) des käufers im DashBoard zu Aktuallisieren
 
      // + Wert für verkäufer
      this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempSeller.userId + '/' + this.moneyAmountSeller, {
      }).subscribe();
+
+     this.getBoughtListR(this.tempBuyer.userId);
+     this.getSoldListR(this.tempSeller.userId);
 
      return true;
     }

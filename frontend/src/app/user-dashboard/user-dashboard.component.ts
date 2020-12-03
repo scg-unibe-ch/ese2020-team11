@@ -43,38 +43,21 @@ export class UserDashboardComponent implements OnInit {
     userDataService.currentUserName$.subscribe(res => this.currentUserName = res);
     this.userToken = localStorage.getItem('userToken');
 
+    ProductsDataService.sellingList$.subscribe(res => this.currentProducts = res);
 
     userDataService.nutzerDaten$.subscribe(res => {
       this.currentUser = res;
-      this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.currentUser.userId).subscribe((currentProductData: any) => {
-        console.log(currentProductData);
-        this.currentProducts = currentProductData;
-      });
+
+      this.ProductsDataService.getSellingListR(this.currentUser.userId);
+     
+      this.ProductsDataService.getBoughtListR(this.currentUser.userId);
+
+      this.ProductsDataService.getSoldListR(this.currentUser.userId);
     });
   }
 
   ngOnInit(): void {
-
-    //this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
-    //  console.log(userData);
-    //  this.currentUser = userData;
-    //});
-
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.currentUser.userId).subscribe((currentProductData: any) => {
-      console.log(currentProductData);
-      this.currentProducts = currentProductData;
-    });
-
-   /*
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
-      console.log(productData);
-      this. boughtProducts= productData;
-    });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ this.currentUser.userId).subscribe((productData: any) => {
-      console.log(productData);
-      this.soldProducts = productData;
-    });*/
-
+  
   }
 
   // method to add a product to his user and put it on the  marketplace
@@ -101,14 +84,14 @@ export class UserDashboardComponent implements OnInit {
         window.alert('Your addvertisment is now going to be verified, this may take some time');
         this.ProductsDataService.getApproveProductsList();
         this.ProductsDataService.getApproveServicesList();
+        this.ProductsDataService.getSellingListR(this.currentUser.userId);
       });
     }
    }
 
-   // Does not work (stuck in infinite accordingly to postman)
    deleteProduct(product: ProductModel): void {
     this.httpClient.delete(environment.endpointURL + 'dashboard/delete/' + this.currentUser.userId + '/' + product.productId, {
-    }).subscribe(() => {this.getSellingList()});
+    }).subscribe(() => {this.ProductsDataService.getSellingListR(this.currentUser.userId), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList() ,this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList()});
    }
 
    updateProduct(product: ProductModel): void{
