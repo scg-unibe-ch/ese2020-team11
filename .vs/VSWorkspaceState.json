@@ -8,6 +8,6 @@
     "\\backend\\src\\models",
     "\\backend\\src\\services"
   ],
-  "SelectedNode": "\\backend\\src\\models\\userFavorites.model.ts",
+  "SelectedNode": "\\backend\\src\\models\\user.model.ts",
   "PreviewInSolutionExplorer": false
 }

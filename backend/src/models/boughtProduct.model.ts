@@ -1,6 +1,7 @@
 import { Optional, Model, Sequelize, DataTypes } from 'sequelize';
 
 export interface BoughtProductAttributes {
+    boughtProductId: number;
     productId: number;
     userId: number;
     productType: string;
@@ -15,6 +16,7 @@ export interface BoughtProductAttributes {
 export interface UserCreationAttributes extends Optional<BoughtProductAttributes, 'productId'> { }
 
 export class BoughtProduct extends Model<BoughtProductAttributes, UserCreationAttributes> implements BoughtProductAttributes {
+    boughtProductId: number;
     productId!: number;
     userId!: number;
     productType!: string;
@@ -29,39 +31,51 @@ export class BoughtProduct extends Model<BoughtProductAttributes, UserCreationAt
     public static initialize(sequelize: Sequelize) {
         BoughtProduct.init(
             {
-                productId:
+                boughtProductId:
                 {
                     type: DataTypes.INTEGER,
                     autoIncrement: true,
                     primaryKey: true
                 },
 
+                productId:
+                {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
+                },
+
                 userId: {
                     type: DataTypes.INTEGER,
+                    allowNull: false
                 },
 
                 productType: {
                     type: DataTypes.STRING,
+                    allowNull: false
                 },
 
                 productTitle:
                 {
                     type: DataTypes.STRING,
+                    allowNull: false
                 },
 
                 productPrice:
                 {
                     type: DataTypes.DOUBLE,
+                    allowNull: false
                 },
 
                 productDescription:
                 {
                     type: DataTypes.STRING,
+                    allowNull: false
                 },
 
                 productLocation:
                 {
                     type: DataTypes.STRING,
+                    allowNull: false
                 },
 
                 productToLend:
