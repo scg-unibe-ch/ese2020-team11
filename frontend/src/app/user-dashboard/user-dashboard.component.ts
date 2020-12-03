@@ -42,16 +42,25 @@ export class UserDashboardComponent implements OnInit {
     this.currentUserName = userDataService.getCurrentUserName();
     userDataService.currentUserName$.subscribe(res => this.currentUserName = res);
     this.userToken = localStorage.getItem('userToken');
+
+
+    userDataService.nutzerDaten$.subscribe(res => {
+      this.currentUser = res;
+      this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.currentUser.userId).subscribe((currentProductData: any) => {
+        console.log(currentProductData);
+        this.currentProducts = currentProductData;
+      });
+    });
   }
 
   ngOnInit(): void {
 
-    this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
-      console.log(userData);
-      this.currentUser = userData;
-    });
+    //this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
+    //  console.log(userData);
+    //  this.currentUser = userData;
+    //});
 
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/2').subscribe((currentProductData: any) => {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.currentUser.userId).subscribe((currentProductData: any) => {
       console.log(currentProductData);
       this.currentProducts = currentProductData;
     });
@@ -89,7 +98,7 @@ export class UserDashboardComponent implements OnInit {
         deliveryPossible: this.deliveryPossible,
         isApproved: this.productIsApproved,
       }).subscribe((res: any) => { 
-        window.alert('Your addvertisment is now going to be verified, this takes a day');
+        window.alert('Your addvertisment is now going to be verified, this may take some time');
         this.ProductsDataService.getApproveProductsList();
         this.ProductsDataService.getApproveServicesList();
       });

@@ -133,7 +133,7 @@ export class ProductsDataService {
     }).subscribe(() => { this.getApproveProductsList(), this.getApproveServicesList() });
   }
 
-  buyProdServ(product: ProductModel, buyerId: number, buyerMoney: number): boolean {
+  buyProdServ(product: ProductModel, buyerId: number): boolean {
     // Rufe buy product product Id auf um in temporäre variable zu speichern und dann so den preis zu
     // entnehmen
     this.httpClient.get<ProductModel>(environment.endpointURL + 'product/buy/product/' + product.productId).subscribe((productData: any) => {
@@ -148,7 +148,7 @@ export class ProductsDataService {
     }); 
 
     // Wenn genug geld, dann ganzer if block (Kauf) ausführen, ansonten return false
-    if (this.tempProduct.productPrice < this.tempBuyer.userBoolcoins) {
+    if (this.tempProduct.productPrice <= this.tempBuyer.userBoolcoins) {
      
       // Gleiche für buy user user id um den verküfer id zu erhalten (um später dieser person den Preis
      // gut zu schreiben)
@@ -167,8 +167,8 @@ export class ProductsDataService {
      // liste alle rausfiltert die dem user entsprechen und dann in dieser liste abspeichern, dass diese
      // Liste dann im user dashboard, analaog zu allen anderen listen dynamische angezeigt wird.)
 
-     this.httpClient.post(environment.endpointURL + 'product/buy/saveProduct/' + buyerId + '/' + product.productId, {
-     }).subscribe();
+     //this.httpClient.post(environment.endpointURL + 'product/buy/saveProduct/', {
+     //}).subscribe();
 
 
      // Zum schluss dann 2 mal buy boolcoin update aufrufen, einmal mit user id des verkäufers und positiven
@@ -176,18 +176,21 @@ export class ProductsDataService {
 
      // Wert des Käufer guthaben:
      this.moneyAmountBuyer = this.tempBuyer.userBoolcoins - this.tempProduct.productPrice;
-     // (-) Wert für käufer
+    
+     // Wert des Verkäufer guthaben:
+     this.moneyAmountSeller = this.tempSeller.userBoolcoins + this.tempProduct.productPrice;
+    
+     // (-) Wert für käufer 
      this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempBuyer.userId + '/' + this.moneyAmountBuyer, {
      }).subscribe();
 
-     // Wert des Verkäufer guthaben:
-     this.moneyAmountSeller = this.tempSeller.userBoolcoins + this.tempProduct.productPrice;
      // + Wert für verkäufer
      this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempSeller.userId + '/' + this.moneyAmountSeller, {
      }).subscribe();
 
      return true;
     }
+
     else {
       return false;
     }

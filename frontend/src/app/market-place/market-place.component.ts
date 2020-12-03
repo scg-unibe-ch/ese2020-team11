@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { ProductModel } from '../models/product.model'
 import { UserDataService } from '../user-data.service';
 import { ProductsDataService } from '../product-data.service';
+import { UserModel } from '../models/user.model';
 
 @Component({
   selector: 'app-market-place',
@@ -19,9 +20,10 @@ export class MarketPlaceComponent implements OnInit {
 	wantedType = '';
 	deliveryOnly = false;
 
-  buyerId: number;
+  //buyerId: number;
   // Für vergleich ob genug geld vorhanden ist
-  buyerMoney: number;
+  //buyerMoney: number;
+  buyerData: UserModel
 
   isLogged = false;
 
@@ -31,6 +33,7 @@ export class MarketPlaceComponent implements OnInit {
 	searchData: ProductModel[] = [];  
   
   constructor(private httpClient: HttpClient, private userDataService: UserDataService, private productsDataService: ProductsDataService) { 
+    userDataService.nutzerDaten$.subscribe(res => this.buyerData = res)
     this.productsData = productsDataService.getMProducts();
     this.servicesData = productsDataService.getMServices();
 
@@ -43,20 +46,15 @@ export class MarketPlaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  this.buyerId = this.userDataService.userInformation.userId;
-  this.buyerMoney = this.userDataService.userInformation.userBoolcoins;
-
-	
   }
 
-  buyProdServ(product: ProductModel): void{
+  buyProd(product: ProductModel): void{
    if (!(this.isLogged)) {
      window.alert('Please Login or Register in order to buy something');
    }
 
    else {
-    if (this.productsDataService.buyProdServ(product, this.buyerId, this.buyerMoney)) {
+    if (this.productsDataService.buyProdServ(product, this.buyerData.userId)) {
       window.alert('Successfully bought');
     }
 
