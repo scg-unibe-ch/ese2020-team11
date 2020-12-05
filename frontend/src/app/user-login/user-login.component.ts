@@ -47,6 +47,7 @@ export class UserLoginComponent implements OnInit {
       this.userDataService.setIsAdmin(res.user.isAdmin);
       this.userDataService.setIsLogged(true);
       this.userDataService.setCurrentUserName(localStorage.getItem('userName'))
+      window.location.reload();
     },
       err => {
           window.alert('Wrong username or password'); 

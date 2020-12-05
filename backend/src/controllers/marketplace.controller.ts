@@ -75,7 +75,7 @@ productController.get('/wantedDelivery/:productDelivery/:productType', (req: Req
 
 
 // set a product/service as a favorite
-productController.post('/addFavorite', verifyToken, (req: Request, res: Response) => {
+productController.post('/addFavorite',  (req: Request, res: Response) => {
     UserFavorites.create(req.body)
         .then(inserted => res.send(inserted))
         .catch(err => res.status(500).send(err));

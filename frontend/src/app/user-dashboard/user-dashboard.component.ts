@@ -35,7 +35,7 @@ export class UserDashboardComponent implements OnInit {
   productIsApproved = false;
   userToken: string;
   
-  
+  public favoriteProd: ProductModel[] = [];
 
   //In constructor, calls userdataservice for Username observable
   constructor(private httpClient: HttpClient, private userDataService: UserDataService, private ProductsDataService: ProductsDataService) { 
@@ -44,6 +44,9 @@ export class UserDashboardComponent implements OnInit {
     this.userToken = localStorage.getItem('userToken');
 
     ProductsDataService.sellingList$.subscribe(res => this.currentProducts = res);
+    ProductsDataService.boughtList$.subscribe(res => this.boughtProducts = res);
+    ProductsDataService.soldList$.subscribe(res => this.soldProducts = res);
+    ProductsDataService.favProducts$.subscribe(res => this.favoriteProd = res);
 
     userDataService.nutzerDaten$.subscribe(res => {
       this.currentUser = res;
@@ -53,6 +56,8 @@ export class UserDashboardComponent implements OnInit {
       this.ProductsDataService.getBoughtListR(this.currentUser.userId);
 
       this.ProductsDataService.getSoldListR(this.currentUser.userId);
+
+      this.ProductsDataService.getFavList(this.currentUser.userId);
     });
   }
 
@@ -94,15 +99,11 @@ export class UserDashboardComponent implements OnInit {
     }).subscribe(() => {this.ProductsDataService.getSellingListR(this.currentUser.userId), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList() ,this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList()});
    }
 
-   updateProduct(product: ProductModel): void{
-   }
+   updateProduct(product: ProductModel): void {
+   }  
 
-   // Only works if you hardcode the userId
-   getSellingList(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + this.userDataService.userInformation.userId).subscribe((currentProductData: any) => {
-      console.log(currentProductData);
-      this.currentProducts = currentProductData;
-    });
+   removeFav(product: ProductModel): void {
+    this.httpClient.delete(environment.endpointURL + 'product/removeFavorite/' +  product.productId + '/' + this.currentUser.userId, {
+    }).subscribe();
    }
-  
 }

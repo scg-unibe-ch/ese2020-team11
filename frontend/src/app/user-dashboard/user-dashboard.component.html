@@ -60,8 +60,29 @@
           <h2>
             {{product.productTitle}}
           </h2>
+
+          <p *ngIf="product.productDescription">
+            Description: {{ product.productDescription }}
+          </p>
+
+          <p *ngIf="product.productLocation">
+            Address: {{ product.productLocation }}
+          </p>
+
+          <p *ngIf="product.deliveryPossible == true; then thenBlock else elseBlock"></p>
+            <ng-template #thenBlock> Delivery: Delivery per Post or per Person </ng-template>
+            <ng-template #elseBlock> Delivery: Only to Pick up at the Address </ng-template>
+
+          <p></p>
+
+          <p *ngIf="product.productToLend == true; then thenBlock1 else elseBlock1"></p>
+          <ng-template #thenBlock1> To Lend: This is a Product to lend </ng-template>
+          <ng-template #elseBlock1> To buy: This is a Product to buy once </ng-template>
+
+          <p></p>
+
           <p>
-            Description: {{product.productDescription}}   <button mat-flat-button color="warn" (click)="deleteProduct(product)">Delete</button>
+            Price: {{ product.productPrice | number: '1.2-2'}}CHF   <button mat-flat-button color="warn" (click)="deleteProduct(product)">Delete</button>
           </p>
         </mat-card>  
       </div>
@@ -69,29 +90,78 @@
 </mat-tab>
     <mat-tab label="Bought products">
       <div *ngFor="let product of boughtProducts">
-        <h2>
-          {{product.productTitle}}
-        </h2>
-        <p>
+        <mat-card>
+          <h2>
+            {{product.productTitle}}
+          </h2>
+
+          <p *ngIf="product.productDescription">
+            Description: {{ product.productDescription }}
+          </p>
+
+          <p *ngIf="product.productLocation">
+            Address: {{ product.productLocation }}
+          </p>
+
+          <p *ngIf="product.deliveryPossible == true; then thenBlock else elseBlock"></p>
+            <ng-template #thenBlock> Delivery: Delivery per Post or per Person </ng-template>
+            <ng-template #elseBlock> Delivery: Only to Pick up at the Address </ng-template>
+
+          <p></p>
+
+          <p *ngIf="product.productToLend == true; then thenBlock1 else elseBlock1"></p>
+          <ng-template #thenBlock1> To Lend: This is a Product to lend </ng-template>
+          <ng-template #elseBlock1> To buy: This is a Product to buy once </ng-template>
+
+          <p></p>
+
           <p>
-          Description: {{product.productDescription}}
-        </p>
-        <p>
-          Address: {{product.productLocation}}
-        </p>
+            Price: {{ product.productPrice | number: '1.2-2'}}CHF  
+          </p>
+      </mat-card>
       </div>
       <div *ngIf="boughtProducts.length === 0">You have not made any purchase.</div>
     </mat-tab>
     <mat-tab label="Sold products">
       <div *ngFor="let product of soldProducts">
+        <mat-card>
+          <h2>
+            {{product.productTitle}}
+          </h2>
+
+          <p *ngIf="product.productDescription">
+            Description: {{ product.productDescription }}
+          </p>
+
+          <p *ngIf="product.productLocation">
+            Address: {{ product.productLocation }}
+          </p>
+
+          <p *ngIf="product.deliveryPossible == true; then thenBlock else elseBlock"></p>
+            <ng-template #thenBlock> Delivery: Delivery per Post or per Person </ng-template>
+            <ng-template #elseBlock> Delivery: Only to Pick up at the Address </ng-template>
+
+          <p></p>
+
+          <p *ngIf="product.productToLend == true; then thenBlock1 else elseBlock1"></p>
+          <ng-template #thenBlock1> To Lend: This is a Product to lend </ng-template>
+          <ng-template #elseBlock1> To buy: This is a Product to buy once </ng-template>
+
+          <p></p>
+
+          <p>
+            Price: {{ product.productPrice | number: '1.2-2'}}CHF   
+          </p>
+      </mat-card>
+      </div>
+      <div *ngIf="soldProducts.length === 0">You have not sold any Items.</div>
+    </mat-tab>
+    <mat-tab label="Wish List"> 
+      <div *ngFor="let product of favoriteProd">
         <h2>
           {{product.productTitle}}
         </h2>
-        <p>
-          Description: {{product.productDescription}}
-        </p>
       </div>
-      <div *ngIf="soldProducts.length === 0">You have not sold any Items.</div>
     </mat-tab>
   </mat-tab-group>
 </mat-card>

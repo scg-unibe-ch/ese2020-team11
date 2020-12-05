@@ -109,8 +109,4 @@ export class UserDataService {
       return true;
     }
   }
-
-  getUserData(): void {
-
-  }
 }

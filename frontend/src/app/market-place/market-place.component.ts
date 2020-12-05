@@ -54,14 +54,8 @@ export class MarketPlaceComponent implements OnInit {
    }
 
    else {
-    if (this.productsDataService.buyProdServ(product, this.buyerData.userId)) {
-      window.alert('Successfully bought');
+    this.productsDataService.buyProdServ(product, this.buyerData.userId)
     }
-
-    else {
-      window.alert('Not enough Money to buy');
-    }
-   }
   }
 
   searchProd(): void {
@@ -90,5 +84,18 @@ export class MarketPlaceComponent implements OnInit {
 		})
 	}
 	//window.alert('Test \n' + this.wantedType +'  '+ this.wantedLocation + ' ' + this.price_min +'-'+this.price_max +'');
+  }
+
+  addToFav(product: ProductModel): void {
+    if (!(this.isLogged)) {
+      window.alert('Please Login in order to use this feature');
+    }
+    else {
+      this.httpClient.post(environment.endpointURL + 'product/addFavorite', {
+        userId: this.buyerData.userId,
+        productId: product.productId,
+      }).subscribe();
+      window.alert('Added to your Wishlist')
+    }
   }
 }
