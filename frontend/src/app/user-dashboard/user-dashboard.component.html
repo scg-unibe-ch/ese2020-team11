@@ -88,6 +88,38 @@
       </div>
       <div *ngIf="currentProducts.length === 0">You have not made any addvertisements.</div>
 </mat-tab>
+<mat-tab label="Change products">
+  <div *ngFor="let product of currentProducts">
+    <mat-card>
+      Title: 
+      <mat-form-field>
+        <input matInput placeholder="{{product.productTitle}}" [(ngModel)]="productTitle" name="productTitle" required>   
+      </mat-form-field><br />
+
+      Description: 
+      <mat-form-field>
+        <input matInput placeholder="{{product.productDescription}}" [(ngModel)]="productDescription" name="productDescription">
+      </mat-form-field><br />
+
+      Location:
+      <mat-form-field>
+        <input matInput placeholder="{{product.productLocation}}" [(ngModel)]="productLocation" name="productLocation" required>
+      </mat-form-field><br />
+
+      <mat-checkbox [(ngModel)]="deliveryPossible" name="deliveryPossible">
+        delivery Possible
+      </mat-checkbox><br />
+
+      Price:
+      <mat-form-field>
+        <input matInput placeholder="{{product.productPrice}}" [(ngModel)]="productPrice" name="productPrice" pattern = "[0-9.]*" required>
+      </mat-form-field>
+
+      <button mat-flat-button color="primary" (click)="updateProduct(product)">Update</button>
+    </mat-card>  
+  </div>
+  <div *ngIf="currentProducts.length === 0">You have not made any addvertisements.</div>
+</mat-tab>
     <mat-tab label="Bought products">
       <div *ngFor="let product of boughtProducts">
         <mat-card>

@@ -99,7 +99,16 @@ export class UserDashboardComponent implements OnInit {
     }).subscribe(() => {this.ProductsDataService.getSellingListR(this.currentUser.userId), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList() ,this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList()});
    }
 
+   // Does Not work
    updateProduct(product: ProductModel): void {
+     this.httpClient.put(environment.endpointURL + 'dashboard/update/' + this.currentUser.userId + '/' + product.productId, {
+      productTitle: product.productTitle,
+      productDescription: product.productDescription,
+      productLocation: product.productLocation,
+      deliveryPossible: product.deliveryPossible,
+      productPrice: product.productPrice,
+      isApproved: false,
+     }).subscribe(() => { this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList(), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList(), this.ProductsDataService.getSellingListR(this.currentUser.userId)});
    }  
 
    removeFav(product: ProductModel): void {
