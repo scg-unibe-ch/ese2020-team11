@@ -2,13 +2,18 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { MatSelectCountryModule } from '@angular-material-extensions/select-country';
+import { Country } from '@angular-material-extensions/select-country';
 import { HttpClientModule } from '@angular/common/http';
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-user-registration',
   templateUrl: './user-registration.component.html',
   styleUrls: ['./user-registration.component.css']
 })
+
+
+
 export class UserRegistrationComponent implements OnInit {
 
   eMail = '';
@@ -25,18 +30,35 @@ export class UserRegistrationComponent implements OnInit {
 	number = '';
 	zip = 0;
   city = '';
-  country = '';
+  country = 'select-country';
   userToken: string;
   loggedIn = false;
 
+  countryFormControl = new FormControl();
+  countryFormGroup: FormGroup;
 
-  constructor(private httpClient: HttpClient) { }
-
+  constructor(private httpClient: HttpClient, private formBuilder: FormBuilder) {
+    
+  }
  
-
   ngOnInit(): void {
     this.checkUserStatus();
-    
+
+    this.countryFormGroup = this.formBuilder.group({
+      country: []
+    });
+
+    this.countryFormGroup.get('country').valueChanges
+      .subscribe(country => console
+        .log('this.countryFormGroup.get("country").valueChanges', country));
+
+    this.countryFormControl.valueChanges
+      .subscribe(country => console
+        .log('this.countryFormControl.valueChanges', country));
+  }
+
+  onCountrySelected($event: Country) {
+    console.log($event);
   }
 
   checkUserStatus(): void {
@@ -68,7 +90,7 @@ export class UserRegistrationComponent implements OnInit {
         userStreetNumber: this.number,
         userPinCode: this.zip,
         userCity: this.city,
-        userCountry:this.country,
+        userCountry: this.onCountrySelected,
     }) .subscribe((res: any) => { 
       window.alert('You are now registered. Please go to the login section to log in');
     });
