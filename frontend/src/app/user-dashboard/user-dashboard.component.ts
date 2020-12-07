@@ -99,20 +99,28 @@ export class UserDashboardComponent implements OnInit {
     }).subscribe(() => {this.ProductsDataService.getSellingListR(this.currentUser.userId), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList() ,this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList()});
    }
 
-   // Does Not work
    updateProduct(product: ProductModel): void {
      this.httpClient.put(environment.endpointURL + 'dashboard/update/' + this.currentUser.userId + '/' + product.productId, {
       productTitle: product.productTitle,
+      productType: product.productType,
       productDescription: product.productDescription,
       productLocation: product.productLocation,
       deliveryPossible: product.deliveryPossible,
       productPrice: product.productPrice,
       isApproved: false,
-     }).subscribe(() => { this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList(), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList(), this.ProductsDataService.getSellingListR(this.currentUser.userId)});
+     }).subscribe((res: any) => { 
+       this.ProductsDataService.getApproveProductsList(), 
+       this.ProductsDataService.getApproveServicesList(), 
+       this.ProductsDataService.getMProductList(), 
+       this.ProductsDataService.getMServiceList(), 
+       this.ProductsDataService.getSellingListR(this.currentUser.userId)}),
+       window.alert('Your addvertisment is now going to be verified again, this may take some time')
    }  
 
    removeFav(product: ProductModel): void {
     this.httpClient.delete(environment.endpointURL + 'product/removeFavorite/' +  product.productId + '/' + this.currentUser.userId, {
-    }).subscribe();
+    }).subscribe(() => {
+      window.alert('Addvertisment removed from Wishlist')
+    });
    }
 }

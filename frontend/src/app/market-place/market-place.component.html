@@ -40,7 +40,7 @@
         <div *ngFor="let product of servicesData">
           <mat-card>
             <h2>
-                {{ product.productTitle }}
+                {{ product.productTitle }} <button mat-stroked-button (click)="addToFav(product)">add to Wishlist</button>
             </h2>
             
             <p *ngIf="product.productDescription">
@@ -98,7 +98,7 @@
 		<div *ngFor="let product of searchData">
 			<mat-card>
 				<h2>
-	                {{ product.productTitle }}
+	                {{ product.productTitle }} <button mat-stroked-button (click)="addToFav(product)">add to Wishlist</button>
 	            </h2>
 	            
 	            <p *ngIf="product.productDescription">
