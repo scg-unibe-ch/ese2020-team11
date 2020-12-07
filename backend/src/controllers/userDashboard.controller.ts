@@ -54,7 +54,7 @@ dashboardController.get('/getDashboard/bought/:logedUserId',
     (req: Request, res: Response) => {
         BoughtProduct.findAll({
             where: {
-                [Op.and]: [{ userId: req.params.logedUserId }, { productAvailable: false }]
+                [Op.and]: [{ userId: req.params.logedUserId }]
             }
         })
             .then(list => res.status(200).send(list))
@@ -64,7 +64,7 @@ dashboardController.get('/getDashboard/bought/:logedUserId',
 
 
 // returns the id of products and services which a user has saved as favorite
-dashboardController.get('/getDashboard/favorites/:logedUserId', verifyToken,
+dashboardController.get('/getDashboard/favorites/:logedUserId',
     (req: Request, res: Response) => {
         UserFavorites.findAll({
             where: { userId: req.params.logedUserId }
@@ -74,7 +74,7 @@ dashboardController.get('/getDashboard/favorites/:logedUserId', verifyToken,
     });
 
 // returns a product/service by its id
-dashboardController.get('/getDashboard/favoriteProduct/:productId', verifyToken,
+dashboardController.get('/getDashboard/favoriteProduct/:productId',
     (req: Request, res: Response) => {
         Product.findByPk(req.params.productId)
             .then(prod => res.status(200).send(prod))

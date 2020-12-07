@@ -4,6 +4,8 @@ import { environment } from '../environments/environment';
 import { ProductModel } from './models/product.model';
 import { Subject } from 'rxjs';
 import { UserModel } from './models/user.model';
+import { UserDataService } from './user-data.service';
+import { UserFavorites } from './models/userFavorites.model'
 
 @Injectable({
   providedIn: 'root'
@@ -24,19 +26,39 @@ export class ProductsDataService {
   // Both lists for Products and Services which need to be approved
   public ApproveProducts: ProductModel[];
   public ApproveServices: ProductModel[];
+
+  public sellingList: ProductModel[];
+  public boughtList: ProductModel[];
+  public soldList: ProductModel[];
   
+  // List of Favorites Products Id
+  public favProductList: UserFavorites[];
+  // List of Favorites Products List
+  public favProducts: ProductModel[];
 
   private MProductsSource = new Subject<ProductModel[]>();
   private MServicesSource = new Subject<ProductModel[]>();
   private ApproveProductsSource = new Subject<ProductModel[]>();
   private ApproveServicesSource = new Subject<ProductModel[]>();
 
+  private sellingListSource = new Subject<ProductModel[]>();
+  private boughtListSource = new Subject<ProductModel[]>();
+  private soldListSource = new Subject<ProductModel[]>();
+
+  //private favProductListSource = new Subject<UserFavorites[]>();
+  private favProductsSoruce = new Subject<ProductModel[]>();
 
   MProducts$ = this.MProductsSource.asObservable();
   MServices$ = this.MServicesSource.asObservable();
   ApproveProducts$ = this.ApproveProductsSource.asObservable();
   ApproveServices$ = this.ApproveServicesSource.asObservable();
 
+  sellingList$ = this.sellingListSource.asObservable();
+  boughtList$ = this.boughtListSource.asObservable();
+  soldList$ = this.soldListSource.asObservable();
+
+  //favProductList$ = this.favProductListSource.asObservable();
+  favProducts$ = this.favProductsSoruce.asObservable();
 
   getMProducts(): ProductModel[] {
     return this.MProducts;
@@ -54,7 +76,26 @@ export class ProductsDataService {
     return this.ApproveServices;
   }
 
+  getSellingList(): ProductModel[] {
+    return this.sellingList;
+  }
 
+  getBoughtList(): ProductModel[] {
+    return this.boughtList;
+  }
+
+  getSoldList(): ProductModel[] {
+    return this.soldList;
+  }
+
+  //getFavProductList(): UserFavorites[] {
+  //  return this.favProductList;
+  //}
+
+  getFavProducts(): ProductModel[] {
+    return this.favProducts;
+  }
+  
   setMProducts(MProducts: ProductModel[]): void {
     this.MProductsSource.next(MProducts)
   }
@@ -71,18 +112,51 @@ export class ProductsDataService {
     this.ApproveServicesSource.next(ApproveServices)
   }
 
+  SetSellingList(sellList: ProductModel[]): void {
+    this.sellingListSource.next(sellList);
+  }
 
-  constructor(private httpClient: HttpClient ) {
+  SetBoughtList(boughtList: ProductModel[]): void {
+    this.boughtListSource.next(boughtList);
+  }
+
+  SetSoldList(soldList: ProductModel[]): void {
+    this.soldListSource.next(soldList);
+  }
+
+  //SetFavProductList(favList: UserFavorites[]): void {
+  //  this.favProductListSource.next(favList);
+  //}
+
+  SetFavProducts(favProd: ProductModel[]): void {
+    this.favProductsSoruce.next(favProd);
+  }
+
+  constructor(private httpClient: HttpClient, private userDataService: UserDataService ) {
     this.MProducts$.subscribe(res => this.MProducts = res);
     this.MServices$.subscribe(res => this.MServices = res);
     this.ApproveProducts$.subscribe(res => this.ApproveProducts = res);
     this.ApproveServices$.subscribe(res => this.ApproveServices = res);
+
+    this.sellingList$.subscribe(res => this.sellingList = res);
+    this.boughtList$.subscribe(res => this.boughtList = res);
+    this.soldList$.subscribe(res => this.soldList = res);
+
+    //this.favProductList$.subscribe(res => this.favProductList = res);
+    this.favProducts$.subscribe(res => this.favProducts = res);
 
     this.setMProducts([]);
     this.setMServices([]);
     this.SetApproveProducts([]);
     this.SetApproveServices([]);
     
+    this.SetSellingList([]);
+    this.SetBoughtList([]);
+    this.SetSoldList([]);
+
+    //this.SetFavProductList([]);
+    this.SetFavProducts([]);
+
     this.getMProductList();
     this.getMServiceList();
     this.getApproveProductsList();
@@ -119,6 +193,27 @@ export class ProductsDataService {
     });
   }
 
+  getSellingListR(userId): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/' + userId).subscribe((currentProductData: any) => {
+      console.log(currentProductData);
+      this.SetSellingList(currentProductData);
+    });
+  }
+
+  getBoughtListR(userId): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + userId).subscribe((boughtProductData: any) => {
+      console.log(boughtProductData);
+      this.SetBoughtList(boughtProductData);
+    });
+  }
+
+  getSoldListR(userId): void {
+    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ userId).subscribe((soldProductData: any) => {
+      console.log(soldProductData);
+      this.SetSoldList(soldProductData);
+    });
+  }
+
   // Approves Product and Service and updates the ApproveProdList and ApproveServiceList
   // Not sure if it is better to have two sepperate approve methods for Products and Service or
   // have one but reload both list every time.
@@ -133,63 +228,96 @@ export class ProductsDataService {
     }).subscribe(() => { this.getApproveProductsList(), this.getApproveServicesList() });
   }
 
-  buyProdServ(product: ProductModel, buyerId: number, buyerMoney: number): boolean {
+  buyProdServ(product: ProductModel, buyerId: number) {
     // Rufe buy product product Id auf um in temporäre variable zu speichern und dann so den preis zu
     // entnehmen
     this.httpClient.get<ProductModel>(environment.endpointURL + 'product/buy/product/' + product.productId).subscribe((productData: any) => {
       console.log(productData);
       this.tempProduct = productData;
-    });
 
-    // Speichern der nutzerdaten des Käufers
-    this.httpClient.get<UserModel>(environment.endpointURL + 'product/buy/user/' + buyerId).subscribe((userData: any) => {
-      console.log(userData);
-      this.tempBuyer = userData;
-    }); 
+      // Speichern der nutzerdaten des Käufers
+      this.httpClient.get<UserModel>(environment.endpointURL + 'product/buy/user/' + buyerId).subscribe((userData: any) => {
+        console.log(userData);
+        this.tempBuyer = userData;
 
-    // Wenn genug geld, dann ganzer if block (Kauf) ausführen, ansonten return false
-    if (this.tempProduct.productPrice < this.tempBuyer.userBoolcoins) {
+        // Wenn genug geld, dann ganzer if block (Kauf) ausführen, ansonten return false
+        if (this.tempProduct.productPrice <= this.tempBuyer.userBoolcoins) {
      
-      // Gleiche für buy user user id um den verküfer id zu erhalten (um später dieser person den Preis
-     // gut zu schreiben)
-     this.httpClient.get<UserModel>(environment.endpointURL + 'product/buy/user/' + this.tempProduct.userId).subscribe((userData: any) => {
-       console.log(userData);
-       this.tempSeller = userData;
-     }); 
+          // Gleiche für buy user user id um den verküfer id zu erhalten (um später dieser person den Preis
+          // gut zu schreiben)
+          this.httpClient.get<UserModel>(environment.endpointURL + 'product/buy/user/' + this.tempProduct.userId).subscribe((userData: any) => {
+            console.log(userData);
+            this.tempSeller = userData;
+      
 
-     // Dann buy productsstatusupdate um das produkt auf nicht mehr verfügbar zu setzen (muss dann die
-     // liste wieder updaten (Sowohl MProuctList als auch MServiceList))
-     this.httpClient.put(environment.endpointURL + 'product/buy/productStatusUpdate/' + product.productId, {
-     }).subscribe(() => { this.getMProductList(), this.getMServiceList()});
+            // Dann buy productsstatusupdate um das produkt auf nicht mehr verfügbar zu setzen (muss dann die
+            // liste wieder updaten (Sowohl MProuctList als auch MServiceList))
+            this.httpClient.put(environment.endpointURL + 'product/buy/productStatusUpdate/' + product.productId, {
+            }).subscribe(() => { this.getMProductList(), this.getMServiceList()});
 
-     // Dann kopieren des produkts/service in die kaufte list (nicht nötig zu speichern, evtl doch für
-     // user dashboard) (Müsste dann methode geben die den aktuellen usser nimmt und in der gekauften
-     // liste alle rausfiltert die dem user entsprechen und dann in dieser liste abspeichern, dass diese
-     // Liste dann im user dashboard, analaog zu allen anderen listen dynamische angezeigt wird.)
+            // Dann kopieren des produkts/service in die kaufte list (nicht nötig zu speichern, evtl doch für
+            // user dashboard) (Müsste dann methode geben die den aktuellen usser nimmt und in der gekauften
+            // liste alle rausfiltert die dem user entsprechen und dann in dieser liste abspeichern, dass diese
+            // Liste dann im user dashboard, analaog zu allen anderen listen dynamische angezeigt wird.)
 
-     this.httpClient.post(environment.endpointURL + 'product/buy/saveProduct/' + buyerId + '/' + product.productId, {
-     }).subscribe();
+            this.httpClient.post(environment.endpointURL + 'product/buy/saveProduct/', {
+              productId: this.tempProduct.productId,
+              userId: this.tempBuyer.userId,
+              productType: this.tempProduct.productType,
+              productTitle: this.tempProduct.productTitle,
+              productPrice: this.tempProduct.productPrice,
+              productDescription: this.tempProduct.productDescription,
+              productLocation: this.tempProduct.productLocation, 
+              productToLend: this.tempProduct.productToLend,
+              deliveryPossibel: this.tempProduct.deliveryPossible, 
+            }).subscribe();
 
 
-     // Zum schluss dann 2 mal buy boolcoin update aufrufen, einmal mit user id des verkäufers und positiven
-     // Wert und beim zweitenmal die id des käufers und negativen wert. 
+            // Zum schluss dann 2 mal buy boolcoin update aufrufen, einmal mit user id des verkäufers und positiven
+            // Wert und beim zweitenmal die id des käufers und negativen wert. 
 
-     // Wert des Käufer guthaben:
-     this.moneyAmountBuyer = this.tempBuyer.userBoolcoins - this.tempProduct.productPrice;
-     // (-) Wert für käufer
-     this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempBuyer.userId + '/' + this.moneyAmountBuyer, {
-     }).subscribe();
+            // Wert des Käufer guthaben:
+            this.moneyAmountBuyer = this.tempBuyer.userBoolcoins - this.tempProduct.productPrice;
+    
+            // Wert des Verkäufer guthaben:
+            this.moneyAmountSeller = this.tempSeller.userBoolcoins + this.tempProduct.productPrice;
+    
+            // (-) Wert für käufer 
+            this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempBuyer.userId + '/' + this.moneyAmountBuyer, {
+            }).subscribe(() => {this.userDataService.getUserFromLocalStorage()});
+            // this.usetDataService..... nötig um NutzerDaten(Geld) des käufers im DashBoard zu Aktuallisieren
 
-     // Wert des Verkäufer guthaben:
-     this.moneyAmountSeller = this.tempSeller.userBoolcoins + this.tempProduct.productPrice;
-     // + Wert für verkäufer
-     this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempSeller.userId + '/' + this.moneyAmountSeller, {
-     }).subscribe();
+            // + Wert für verkäufer
+            this.httpClient.put(environment.endpointURL + 'product/buy/boolcoinUpdate/' + this.tempSeller.userId + '/' + this.moneyAmountSeller, {
+            }).subscribe();
 
-     return true;
-    }
-    else {
-      return false;
-    }
+            this.getBoughtListR(this.tempBuyer.userId);
+            this.getSoldListR(this.tempSeller.userId);
+
+            window.alert('Successfully bought');
+          });
+        }
+
+        else {
+          window.alert('Not enough Money to buy');
+        }
+      });
+    });
+  }
+
+  getFavList(userId: number): void {
+    this.httpClient.get<UserFavorites>(environment.endpointURL + 'dasboard/getDashboard/favorites/' + userId).subscribe((prodNumbers: any) => {
+      console.log(prodNumbers);
+      //this.SetFavProductList(prodNumbers);
+      this.favProductList = prodNumbers;
+
+      // Not workig, don't know how to get the List of Products out of a List of ProductsId
+      for (let i = 0; i < this.favProductList.length; i++ ) {
+        this.httpClient.get<ProductModel>(environment.endpointURL + 'dashboard/getDashboard/favoriteProduct' + this.favProductList[i].productId).subscribe((prod: any) => {
+          console.log(prod);
+          this.favProducts.push(prod);
+        });
+      }
+    });
   }
 }

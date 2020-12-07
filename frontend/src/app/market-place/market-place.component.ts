@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { ProductModel } from '../models/product.model'
 import { UserDataService } from '../user-data.service';
 import { ProductsDataService } from '../product-data.service';
+import { UserModel } from '../models/user.model';
 
 @Component({
   selector: 'app-market-place',
@@ -18,9 +19,10 @@ export class MarketPlaceComponent implements OnInit {
 	price_max = "";
 	wantedType = '';
 
-  buyerId: number;
+  //buyerId: number;
   // Für vergleich ob genug geld vorhanden ist
-  buyerMoney: number;
+  //buyerMoney: number;
+  buyerData: UserModel
 
   isLogged = false;
 
@@ -30,6 +32,7 @@ export class MarketPlaceComponent implements OnInit {
 	searchData: ProductModel[] = [];  
   
   constructor(private httpClient: HttpClient, private userDataService: UserDataService, private productsDataService: ProductsDataService) { 
+    userDataService.nutzerDaten$.subscribe(res => this.buyerData = res)
     this.productsData = productsDataService.getMProducts();
     this.servicesData = productsDataService.getMServices();
 
@@ -42,27 +45,16 @@ export class MarketPlaceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-  this.buyerId = this.userDataService.userInformation.userId;
-  this.buyerMoney = this.userDataService.userInformation.userBoolcoins;
-
-	
   }
 
-  buyProdServ(product: ProductModel): void{
+  buyProd(product: ProductModel): void{
    if (!(this.isLogged)) {
      window.alert('Please Login or Register in order to buy something');
    }
 
    else {
-    if (this.productsDataService.buyProdServ(product, this.buyerId, this.buyerMoney)) {
-      window.alert('Successfully bought');
+    this.productsDataService.buyProdServ(product, this.buyerData.userId)
     }
-
-    else {
-      window.alert('Not enough Money to buy');
-    }
-   }
   }
 
   searchProd(): void {
@@ -91,5 +83,18 @@ export class MarketPlaceComponent implements OnInit {
 		})
 	}
 	//window.alert('Test \n' + this.wantedType +'  '+ this.wantedLocation + ' ' + this.price_min +'-'+this.price_max +'');
+  }
+
+  addToFav(product: ProductModel): void {
+    if (!(this.isLogged)) {
+      window.alert('Please Login in order to use this feature');
+    }
+    else {
+      this.httpClient.post(environment.endpointURL + 'product/addFavorite', {
+        userId: this.buyerData.userId,
+        productId: product.productId,
+      }).subscribe();
+      window.alert('Added to your Wishlist')
+    }
   }
 }

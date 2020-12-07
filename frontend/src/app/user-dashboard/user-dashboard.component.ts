@@ -35,34 +35,34 @@ export class UserDashboardComponent implements OnInit {
   productIsApproved = false;
   userToken: string;
   
-  
+  public favoriteProd: ProductModel[] = [];
 
   //In constructor, calls userdataservice for Username observable
   constructor(private httpClient: HttpClient, private userDataService: UserDataService, private ProductsDataService: ProductsDataService) { 
     this.currentUserName = userDataService.getCurrentUserName();
     userDataService.currentUserName$.subscribe(res => this.currentUserName = res);
     this.userToken = localStorage.getItem('userToken');
+
+    ProductsDataService.sellingList$.subscribe(res => this.currentProducts = res);
+    ProductsDataService.boughtList$.subscribe(res => this.boughtProducts = res);
+    ProductsDataService.soldList$.subscribe(res => this.soldProducts = res);
+    ProductsDataService.favProducts$.subscribe(res => this.favoriteProd = res);
+
+    userDataService.nutzerDaten$.subscribe(res => {
+      this.currentUser = res;
+
+      this.ProductsDataService.getSellingListR(this.currentUser.userId);
+     
+      this.ProductsDataService.getBoughtListR(this.currentUser.userId);
+
+      this.ProductsDataService.getSoldListR(this.currentUser.userId);
+
+      this.ProductsDataService.getFavList(this.currentUser.userId);
+    });
   }
 
   ngOnInit(): void {
-
-    this.httpClient.get<UserModel>(environment.endpointURL + 'user/username/' + this.currentUserName).subscribe((userData: any) => {
-      console.log(userData);
-      this.currentUser = userData;
-    });
-
-    this.getSellingList();
-
-   /*
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/bought/' + this.currentUser.userId).subscribe((productData: any) => {
-      console.log(productData);
-      this. boughtProducts= productData;
-    });
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/sold/'+ this.currentUser.userId).subscribe((productData: any) => {
-      console.log(productData);
-      this.soldProducts = productData;
-    });*/
-
+  
   }
 
   // method to add a product to his user and put it on the  marketplace
@@ -86,28 +86,33 @@ export class UserDashboardComponent implements OnInit {
         deliveryPossible: this.deliveryPossible,
         isApproved: this.productIsApproved,
       }).subscribe((res: any) => { 
-        window.alert('Your addvertisment is now going to be verified, this takes a day');
+        window.alert('Your addvertisment is now going to be verified, this may take some time');
         this.ProductsDataService.getApproveProductsList();
         this.ProductsDataService.getApproveServicesList();
+        this.ProductsDataService.getSellingListR(this.currentUser.userId);
       });
     }
    }
 
-   // Does not work (stuck in infinite accordingly to postman)
    deleteProduct(product: ProductModel): void {
     this.httpClient.delete(environment.endpointURL + 'dashboard/delete/' + this.currentUser.userId + '/' + product.productId, {
-    }).subscribe(() => {this.getSellingList()});
+    }).subscribe(() => {this.ProductsDataService.getSellingListR(this.currentUser.userId), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList() ,this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList()});
    }
 
-   updateProduct(product: ProductModel): void{
-   }
+   // Does Not work
+   updateProduct(product: ProductModel): void {
+     this.httpClient.put(environment.endpointURL + 'dashboard/update/' + this.currentUser.userId + '/' + product.productId, {
+      productTitle: product.productTitle,
+      productDescription: product.productDescription,
+      productLocation: product.productLocation,
+      deliveryPossible: product.deliveryPossible,
+      productPrice: product.productPrice,
+      isApproved: false,
+     }).subscribe(() => { this.ProductsDataService.getApproveProductsList(), this.ProductsDataService.getApproveServicesList(), this.ProductsDataService.getMProductList(), this.ProductsDataService.getMServiceList(), this.ProductsDataService.getSellingListR(this.currentUser.userId)});
+   }  
 
-   // Only works if you hardcode the userId
-   getSellingList(): void {
-    this.httpClient.get<ProductModel[]>(environment.endpointURL + 'dashboard/getDashboard/forSell/2').subscribe((currentProductData: any) => {
-      console.log(currentProductData);
-      this.currentProducts = currentProductData;
-    });
+   removeFav(product: ProductModel): void {
+    this.httpClient.delete(environment.endpointURL + 'product/removeFavorite/' +  product.productId + '/' + this.currentUser.userId, {
+    }).subscribe();
    }
-  
 }

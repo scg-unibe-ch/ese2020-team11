@@ -5,7 +5,7 @@
         <div *ngFor="let product of productsData">
           <mat-card> 
             <h2>
-               {{ product.productTitle }}
+               {{ product.productTitle }} <button mat-stroked-button (click)="addToFav(product)">add to Wishlist</button>
             </h2>
           
             <p *ngIf="product.productDescription">
@@ -21,14 +21,14 @@
 
             <p></p>
 
-            <p *ngIf="product.productToLend == true; then thenBlock2 else elseBlock2"></p>
-            <ng-template #thenBlock2> To Lend: This is a Service to lend </ng-template>
-            <ng-template #elseBlock2> To buy: This is a Service to buy once </ng-template>
+            <p *ngIf="product.productToLend == true; then thenBlock1 else elseBlock1"></p>
+            <ng-template #thenBlock1> To Lend: This is a Product to lend </ng-template>
+            <ng-template #elseBlock1> To buy: This is a Product to buy once </ng-template>
 
             <p></p>
 
             <h2>
-              Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button>
+              Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProd(product)">Buy</button>
             </h2>
 
           </mat-card>
@@ -64,7 +64,7 @@
 
             <h2 *ngIf="product.productToLend == true; then thenBlock3 else elseBlock3"></h2>
             <ng-template #thenBlock3> <h2> Price per Hour: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button> </h2> </ng-template>
-            <ng-template #elseBlock3> <h2> Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button> </h2> </ng-template>
+            <ng-template #elseBlock3> <h2> Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProd(product)">Buy</button> </h2> </ng-template>
 
           </mat-card>
         </div>
@@ -122,8 +122,8 @@
 	            <p></p>
 	
 	            <h2 *ngIf="product.productToLend == true; then thenBlock3 else elseBlock3"></h2>
-	            <ng-template #thenBlock3> <h2> Price per Hour: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button> </h2> </ng-template>
-	            <ng-template #elseBlock3> <h2> Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProdServ(product)">Buy</button> </h2> </ng-template>
+	            <ng-template #thenBlock3> <h2> Price per Hour: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProd(product)">Buy</button> </h2> </ng-template>
+	            <ng-template #elseBlock3> <h2> Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProd(product)">Buy</button> </h2> </ng-template>
 	
 						
 			</mat-card>

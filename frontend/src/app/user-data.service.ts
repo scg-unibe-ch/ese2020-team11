@@ -10,10 +10,14 @@ import { Subject, Observable } from 'rxjs';
 export class UserDataService {
   
   public userInformation: UserModel;
+  public nutzerDaten: UserModel;
   
   private isAdmin: boolean;
   private isLogged: boolean;
   private currentUserName: string;
+
+  private nutzerDatenSource = new Subject<UserModel>();
+  nutzerDaten$ = this.nutzerDatenSource.asObservable();
 
   private isAdminSource = new Subject<boolean>();
   isAdmin$ = this.isAdminSource.asObservable();
@@ -23,6 +27,11 @@ export class UserDataService {
 
   private currentUserNameSource = new Subject<string>();
   currentUserName$ = this.currentUserNameSource.asObservable();
+
+
+  getNutzerDaten(): UserModel {
+    return this.nutzerDaten;
+  }
 
   getIsAdmin(): boolean {
     return this.isAdmin;
@@ -34,6 +43,10 @@ export class UserDataService {
 
   getCurrentUserName(): string {
     return this.currentUserName;
+  }
+
+  setNutzerDaten(nutzer: UserModel): void {
+    this.nutzerDatenSource.next(nutzer);
   }
 
   setIsAdmin(isAdmin: boolean): void {
@@ -49,6 +62,7 @@ export class UserDataService {
   }
 
   constructor(private httpClient: HttpClient) {
+    this.nutzerDaten$.subscribe(res => this.nutzerDaten = res);
     this.isAdmin$.subscribe(res => this.isAdmin = res);
     this.isLogged$.subscribe(res => this.isLogged = res);
     this.currentUserName$.subscribe(res => this.currentUserName = res);
@@ -63,7 +77,7 @@ export class UserDataService {
     this.setCurrentUserName(localStorage.getItem('userName'));
   }
 
-  private getUserFromLocalStorage(): void {
+   getUserFromLocalStorage(): void {
     console.log('Checking for user data in local storage:');
     const userName = localStorage.getItem('userName');
 
@@ -83,6 +97,7 @@ export class UserDataService {
       // Save the 'userData' in a Variable
       this.userInformation = userData;
       this.setIsAdmin(this.userInformation.isAdmin); 
+      this.setNutzerDaten(this.userInformation);
     })
   }
 
