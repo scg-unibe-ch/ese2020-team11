@@ -93,26 +93,39 @@
     <mat-card>
       Title: 
       <mat-form-field>
-        <input matInput placeholder="{{product.productTitle}}" [(ngModel)]="productTitle" name="productTitle" required>   
+        <input matInput [(ngModel)]="product.productTitle" name="productTitle" required>   
       </mat-form-field><br />
+
+      <div>
+        <label>Product Type </label>
+        <div class="custom-control custom-radio">
+          <input id="Product" type="radio" class="custom-control-input" value="product" name="productType" [(ngModel)]="product.productType">
+          <label class="custom-control-label" for="product">Product </label>
+        </div>
+      </div>
+      <div class="custom-control custom-radio">
+        <input id="Service" type="radio" class="custom-control-input" value="service" name="productType" [(ngModel)]="product.productType"> 
+        <label class="custom-control-label" for="service">Service </label>
+      </div>
 
       Description: 
       <mat-form-field>
-        <input matInput placeholder="{{product.productDescription}}" [(ngModel)]="productDescription" name="productDescription">
+        <input matInput [(ngModel)]="product.productDescription" name="productDescription">
       </mat-form-field><br />
 
       Location:
       <mat-form-field>
-        <input matInput placeholder="{{product.productLocation}}" [(ngModel)]="productLocation" name="productLocation" required>
+        <input matInput [(ngModel)]="product.productLocation" name="productLocation" required>
       </mat-form-field><br />
 
-      <mat-checkbox [(ngModel)]="deliveryPossible" name="deliveryPossible">
+      <mat-checkbox [(ngModel)]="product.deliveryPossible" name="deliveryPossible">
         delivery Possible
       </mat-checkbox><br />
 
+
       Price:
       <mat-form-field>
-        <input matInput placeholder="{{product.productPrice}}" [(ngModel)]="productPrice" name="productPrice" pattern = "[0-9.]*" required>
+        <input matInput [(ngModel)]="product.productPrice" name="productPrice" pattern = "[0-9.]*" required>
       </mat-form-field>
 
       <button mat-flat-button color="primary" (click)="updateProduct(product)">Update</button>
