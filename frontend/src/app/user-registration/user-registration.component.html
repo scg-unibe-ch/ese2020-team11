@@ -51,10 +51,7 @@
     </mat-form-field><br />
 
     <!--country add-->
-    <mat-select-country appearance="outline"
-                        label="Country"
-                        [formControl]="countryFormControl">
-      <input matInput placeholder="country"  (onCountrySelected)="onCountrySelected($event)" name="country">
+    <mat-select-country appearance="outline"  (onCountrySelected)="onCountrySelected($event)" label="Country">
     </mat-select-country><br />
    
 

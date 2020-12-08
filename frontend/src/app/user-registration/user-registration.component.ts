@@ -12,8 +12,6 @@ import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
   styleUrls: ['./user-registration.component.css']
 })
 
-
-
 export class UserRegistrationComponent implements OnInit {
 
   eMail = '';
@@ -30,20 +28,20 @@ export class UserRegistrationComponent implements OnInit {
 	number = '';
 	zip = 0;
   city = '';
-  country = 'select-country';
+  country = '';
   userToken: string;
   loggedIn = false;
 
   countryFormControl = new FormControl();
   countryFormGroup: FormGroup;
 
-  constructor(private httpClient: HttpClient, private formBuilder: FormBuilder) {
+  constructor(private httpClient: HttpClient,/* private formBuilder: FormBuilder*/) {
     
   }
  
   ngOnInit(): void {
     this.checkUserStatus();
-
+    /*
     this.countryFormGroup = this.formBuilder.group({
       country: []
     });
@@ -54,12 +52,10 @@ export class UserRegistrationComponent implements OnInit {
 
     this.countryFormControl.valueChanges
       .subscribe(country => console
-        .log('this.countryFormControl.valueChanges', country));
+        .log('this.countryFormControl.valueChanges', country));*/
   }
 
-  onCountrySelected($event: Country) {
-    console.log($event);
-  }
+  
 
   checkUserStatus(): void {
     // Get user data from local storage
@@ -90,10 +86,15 @@ export class UserRegistrationComponent implements OnInit {
         userStreetNumber: this.number,
         userPinCode: this.zip,
         userCity: this.city,
-        userCountry: this.onCountrySelected,
+        userCountry: this.country,
     }) .subscribe((res: any) => { 
       window.alert('You are now registered. Please go to the login section to log in');
     });
+    }
   }
-}
+  onCountrySelected($event: Country) {
+    console.log($event.name);
+    this.country = $event.name;
+  
+  }
 }
