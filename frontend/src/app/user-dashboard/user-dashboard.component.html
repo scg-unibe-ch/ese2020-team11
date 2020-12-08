@@ -13,9 +13,9 @@
         </div><br />
         <div>
           <h3>Adress</h3>
-          <p>Street:{{currentUser.userStreet}} Number:{{currentUser.userStreetNumber}}</p>
-          <p>City:{{currentUser.userCity}} Zip Code:{{currentUser.userPinCode}}</p>
-          <p>Country:{{currentUser.userCountry}}</p>
+          <p *ngIf="currentUser.userStreet != ''">Street:{{currentUser.userStreet}} Number:{{currentUser.userStreetNumber}}</p>
+          <p *ngIf="currentUser.userPinCode != 0">City:{{currentUser.userCity}} Zip Code:{{currentUser.userPinCode}}</p>
+          <p *ngIf="currentUser.userCountry != ''">Country:{{currentUser.userCountry}}</p>
           <p>Current Balance: {{currentUser.userBoolcoins}}</p>
         </div>
       </div>
@@ -86,7 +86,7 @@
           </p>
         </mat-card>  
       </div>
-      <div *ngIf="currentProducts.length === 0">You have not made any addvertisements.</div>
+      <div *ngIf="currentProducts.length === 0">You have not made any advertisements.</div>
 </mat-tab>
 <mat-tab label="Change products">
   <div *ngFor="let product of currentProducts">
@@ -131,7 +131,7 @@
       <button mat-flat-button color="primary" (click)="updateProduct(product)">Update</button>
     </mat-card>  
   </div>
-  <div *ngIf="currentProducts.length === 0">You have not made any addvertisements.</div>
+  <div *ngIf="currentProducts.length === 0">You have not made any advertisements.</div>
 </mat-tab>
     <mat-tab label="Bought products">
       <div *ngFor="let product of boughtProducts">
@@ -199,14 +199,41 @@
           </p>
       </mat-card>
       </div>
-      <div *ngIf="soldProducts.length === 0">You have not sold any Items.</div>
+      <div *ngIf="soldProducts.length === 0">You have not sold any advertisments.</div>
     </mat-tab>
     <mat-tab label="Wish List"> 
       <div *ngFor="let product of favoriteProd">
-        <h2>
-          {{product.productTitle}}
-        </h2>
+        <mat-card> 
+          <h2>
+             {{ product.productTitle }} <button mat-stroked-button (click)="removeFav(product)">remove from Wishlist</button>
+          </h2>
+        
+          <p *ngIf="product.productDescription">
+            Description: {{ product.productDescription }}
+          </p>
+          <p *ngIf="product.productLocation">
+            Address: {{ product.productLocation }}
+          </p>
+
+          <p *ngIf="product.deliveryPossible == true; then thenBlock else elseBlock"></p>
+          <ng-template #thenBlock> Delivery: Delivery per Post or per Person </ng-template>
+          <ng-template #elseBlock> Delivery: Only to Pick up at the Address </ng-template>
+
+          <p></p>
+
+          <p *ngIf="product.productToLend == true; then thenBlock1 else elseBlock1"></p>
+          <ng-template #thenBlock1> To Lend: This is a Product to lend </ng-template>
+          <ng-template #elseBlock1> To buy: This is a Product to buy once </ng-template>
+
+          <p></p>
+
+          <h2>
+            Price: {{ product.productPrice | number: '1.2-2'}}CHF <button mat-flat-button color="primary" (click)="buyProd(product)">Buy</button>
+          </h2>
+
+        </mat-card>
       </div>
+      <div *ngIf="favoriteProd.length === 0">You have not added any advertisments to your wishlist.</div>
     </mat-tab>
   </mat-tab-group>
 </mat-card>

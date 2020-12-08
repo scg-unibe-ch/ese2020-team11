@@ -36,6 +36,7 @@ export class UserDashboardComponent implements OnInit {
   userToken: string;
   
   public favoriteProd: ProductModel[] = [];
+  isLogged = false;
 
   //In constructor, calls userdataservice for Username observable
   constructor(private httpClient: HttpClient, private userDataService: UserDataService, private ProductsDataService: ProductsDataService) { 
@@ -47,6 +48,8 @@ export class UserDashboardComponent implements OnInit {
     ProductsDataService.boughtList$.subscribe(res => this.boughtProducts = res);
     ProductsDataService.soldList$.subscribe(res => this.soldProducts = res);
     ProductsDataService.favProducts$.subscribe(res => this.favoriteProd = res);
+
+    userDataService.isLogged$.subscribe(res => this.isLogged = res);
 
     userDataService.nutzerDaten$.subscribe(res => {
       this.currentUser = res;
@@ -86,7 +89,7 @@ export class UserDashboardComponent implements OnInit {
         deliveryPossible: this.deliveryPossible,
         isApproved: this.productIsApproved,
       }).subscribe((res: any) => { 
-        window.alert('Your addvertisment is now going to be verified, this may take some time');
+        window.alert('Your advertisment is now going to be verified, this may take some time');
         this.ProductsDataService.getApproveProductsList();
         this.ProductsDataService.getApproveServicesList();
         this.ProductsDataService.getSellingListR(this.currentUser.userId);
@@ -114,13 +117,23 @@ export class UserDashboardComponent implements OnInit {
        this.ProductsDataService.getMProductList(), 
        this.ProductsDataService.getMServiceList(), 
        this.ProductsDataService.getSellingListR(this.currentUser.userId)}),
-       window.alert('Your addvertisment is now going to be verified again, this may take some time')
+       window.alert('Your advertisment is now going to be verified again, this may take some time')
    }  
 
    removeFav(product: ProductModel): void {
     this.httpClient.delete(environment.endpointURL + 'product/removeFavorite/' +  product.productId + '/' + this.currentUser.userId, {
     }).subscribe(() => {
-      window.alert('Addvertisment removed from Wishlist')
+      window.alert('Advertisment removed from Wishlist')
     });
+   }
+
+   buyProd(product: ProductModel): void{
+    if (!(this.isLogged)) {
+      window.alert('Please Login or Register in order to buy something');
+    }
+ 
+    else {
+     this.ProductsDataService.buyProdServ(product, this.currentUser.userId)
+     }
    }
 }

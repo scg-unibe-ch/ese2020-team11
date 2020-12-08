@@ -23,6 +23,7 @@
     <app-user-dashboard></app-user-dashboard>
   </mat-tab>
 
+  <!--
   <mat-tab label="Todo List Example">
     <mat-card>
       <mat-form-field>
@@ -35,6 +36,7 @@
                    (update)="onListUpdate($event)"
                    (delete)="onListDelete($event)"></app-todo-list>
   </mat-tab>
+-->
 
   <mat-tab *ngIf='isAdmin' label="Admin Approval">
     <app-admin-approval></app-admin-approval>
